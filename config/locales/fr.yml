@@ -1,0 +1,18 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+fr:
+  welcome: "Bienvenue dans ce jeu"
+  intro: "Ce jeu est un serious game. Son but est de vous aider à découvrir la mage de la génétique et de la sélection."
+  home: "Page principale"
+  signin: "Se connecter"
+  signout: "Se déconnecter"
+  forgotpassword: "Mot de passe oublié?"
+
+
+  activerecord:
+    attributes:
+      user:
+        password: "Mot de passe"
+        email: "Mail"
+        remember_me: "Se souvenir de moi"

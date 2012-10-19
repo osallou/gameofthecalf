@@ -1,0 +1,13 @@
+<div class="intro">
+<div class="row pagination-centered">
+<div id="welcome" class="span3 pull-right hero-unit">
+<h2><%= t :welcome %></h2>
+<p class="lead"><%= t :intro %></p>
+<% if user_signed_in? %>
+  <%= button_to t("play"), :controller => "game", :action => "play", :class => 'btn btn-large btn-primary' %>
+<% else %>
+  <%= button_to t("signin"), new_user_session_path, :class => 'btn btn-large btn-primary' %>
+<% end %>
+</div>
+</div>
+</div>

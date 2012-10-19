@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GameOfTheCalf</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div class="navbar">
+  <div class="navbar-inner">
+    <a class="brand" href="#">Game of the Calf</a>
+    <ul class="nav">
+      <li><a href="/"><%= t :home %></a></li>
+    </ul>
+    <ul class="nav pull-right">
+    <% if user_signed_in? %>
+      <% if current_user.isadmin %>
+        <li><a href="/admin/"><%= t :admin %></a></li>
+      <% end %>
+      <li><a href="#"><%= current_user.email %></a></li>
+      <li><%= link_to t("signout"), destroy_user_session_path, :method => :delete %></li>
+    <% else %>
+      <li><%= link_to t("signin"), new_user_session_path %></li>
+    <% end %>
+      <li><%= link_to image_tag('/assets/flags/en.png'), :controller => '/game', :action => 'locale', :id => 'en' %></li>
+      <li><%= link_to image_tag('/assets/flags/fr.png'), :controller => '/game', :action => 'locale', :id => 'fr' %></li>
+    </ul>
+  </div>
+</div>
+<% if notice %>
+<div class="notice"><%= notice %></div>
+<% end %>
+<% if alert %>
+<div class="alert"><%= alert %></div>
+<% end %>
+
+
+<%= yield %>
+<div class="navbar navbar-fixed-bottom">
+<div class="span12">
+Powered by <span>The GenOuest Platform</span> and <span>Agro Campus Rennes</span>
+</div>
+</div>
+</body>
+</html>

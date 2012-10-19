@@ -1,0 +1,30 @@
+== Welcome to Game of the Calf
+
+
+== TODO
+
+- add migration to add locale to User
+- if not signed-in create session for anonymous and set locale in session
+- check locale in user or session if not signed-in
+
+== Configuration
+
+Administrators are set in config/settings.yml
+
+== Authorizations
+
+Admin can manage :all
+Professor can create :users, :groups
+Professor can manage his :users,:groups
+Professor can assign his :users to a :group
+
+
+== License
+
+=== Main page background
+
+Cow family by Sunfox (http://www.photoree.com/photos/permalink/7155966-24816568@N00) under Creative Commons 2.0 (by-sa)
+
+=== Language icons
+
+Icons from http://drupal.org/project/languageicons, under GNU GPL v2
