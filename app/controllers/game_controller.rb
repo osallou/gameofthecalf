@@ -1,13 +1,20 @@
 class GameController < ApplicationController
 
-  before_filter :authenticate_user!
+  #before_filter :authenticate_user!
 
+  # Welcome page, main entry
   def welcome
   end
 
+  # Credits of the application
   def credits
   end
 
+  # Manage users and groups
+  def admin
+  end
+
+  # Sets up locale for current user or session
   def locale
     locale = params[:id]
     raise 'unsupported locale' unless Settings.languages.include?(locale)
