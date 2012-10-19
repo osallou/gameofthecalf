@@ -24,8 +24,9 @@
     <% else %>
       <li><%= link_to t("signin"), new_user_session_path %></li>
     <% end %>
-      <li><%= link_to image_tag('/assets/flags/en.png'), :controller => '/game', :action => 'locale', :id => 'en' %></li>
-      <li><%= link_to image_tag('/assets/flags/fr.png'), :controller => '/game', :action => 'locale', :id => 'fr' %></li>
+    <% Settings.languages.each do |lang| %>
+      <li><%= link_to image_tag('/assets/flags/'+lang+'.png'), :controller => '/game', :action => 'locale', :id => lang %></li>
+    <% end %>
     </ul>
   </div>
 </div>

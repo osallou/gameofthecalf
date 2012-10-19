@@ -5,7 +5,7 @@ class GameController < ApplicationController
 
   def locale
     locale = params[:id]
-    raise 'unsupported locale' unless ['fr', 'en' ].include?(locale)
+    raise 'unsupported locale' unless Settings.languages.include?(locale)
     if current_user
       current_user.locale = locale
       current_user.save
