@@ -3,6 +3,8 @@ GameOfTheCalf::Application.routes.draw do
 
   match 'game/locale/:id' => 'game#locale'
 
+  match 'game/play' => 'game#play'
+
   match 'credits' => 'game#credits'
   # The priority is based upon order of creation:
   # first created -> highest priority.

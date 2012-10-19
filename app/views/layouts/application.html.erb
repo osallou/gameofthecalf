@@ -17,7 +17,7 @@
     </ul>
     <ul class="nav pull-right">
     <% if user_signed_in? %>
-      <% if current_user.isadmin %>
+      <% if User.admin?(current_user) %>
         <li><a href="/admin/"><%= t :admin %></a></li>
       <% end %>
       <li><a href="#"><%= current_user.email %></a></li>

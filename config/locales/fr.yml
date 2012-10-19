@@ -6,6 +6,8 @@ fr:
   intro: "Ce jeu est un serious game. Son but est de vous aider à découvrir la mage de la génétique et de la sélection."
   home: "Page principale"
   credits: "Crédits"
+  admin: "Administration"
+  play: "Jouer"
   madeby: "Cette application a été développée par :"
   signin: "Se connecter"
   signout: "Se déconnecter"

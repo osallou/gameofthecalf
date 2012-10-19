@@ -9,9 +9,9 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :locale
   # attr_accessible :title, :body
 
-  def admin?
-    return false unless current_user
-    Settings.admin.include?(current_user.email)
+  def self.admin?(user)
+    return false unless user
+    Settings.admin.include?(user.email)
   end
 
   # Roles  
