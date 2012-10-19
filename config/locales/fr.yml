@@ -5,6 +5,7 @@ fr:
   welcome: "Bienvenue dans ce jeu"
   intro: "Ce jeu est un serious game. Son but est de vous aider à découvrir la mage de la génétique et de la sélection."
   home: "Page principale"
+  credits: "Crédits"
   signin: "Se connecter"
   signout: "Se déconnecter"
   forgotpassword: "Mot de passe oublié?"

@@ -5,6 +5,7 @@ en:
   welcome: "Welcome to this game"
   intro: "This game is a serious game. It aims at helping you discover the magic of genetics and selection."
   home: "Home"
+  credits: "Credits"
   signin: "Sign in"
   signout: "Sign out"
   forgotpassword: "Forgot your password?"

@@ -2,6 +2,8 @@ GameOfTheCalf::Application.routes.draw do
   devise_for :users
 
   match 'game/locale/:id' => 'game#locale'
+
+  match 'credits' => 'game#credits'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -3,6 +3,9 @@ class GameController < ApplicationController
   def welcome
   end
 
+  def credits
+  end
+
   def locale
     locale = params[:id]
     raise 'unsupported locale' unless Settings.languages.include?(locale)
