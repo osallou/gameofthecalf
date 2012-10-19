@@ -4,8 +4,8 @@
 == TODO
 
 - add migration to add locale to User
-- if not signed-in create session for anonymous and set locale in session
-- check locale in user or session if not signed-in
+- add professor link to User
+- add group link to User
 
 == Configuration
 
