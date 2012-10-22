@@ -11,6 +11,12 @@
 
 Administrators are set in config/settings.yml
 
+=== Create a user from console
+
+  user = User.new(:email => 'xxx@yyy.zz', :password => 'XXX', :password_confirmation => 'XXX')
+  user.confirm!
+  user.save
+
 == Authorizations
 
 Admin can manage :all
