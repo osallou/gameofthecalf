@@ -14,6 +14,9 @@ fr:
   forgotpassword: "Mot de passe oublié?"
   usertype0: "Etudiant"
   usertype1: "Professeur"
+  accountcreated: "Votre compte a été créé"
+  yourusername: "Votre identifiant est"
+  yourpassword: "Votre mot de passe est"
 
 
 

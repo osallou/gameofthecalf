@@ -14,3 +14,6 @@ en:
   forgotpassword: "Forgot your password?"
   usertype0: "Student"
   usertype1: "Professor"
+  accountcreated: "Your account has been created"
+  yourusername: "Your username is"
+  yourpassword: "Your password is"
