@@ -20,13 +20,12 @@
       <% if User.admin?(current_user) %>
         <li><a href="/admin/"><%= t :admin %></a></li>
       <% end %>
-      <li><a href="#"><%= current_user.email %></a></li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" id="dLabel"><%= current_user.email %><b class="caret"></b></a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         <li><a tabindex="-1" href="<%= edit_user_registration_path %>">My account</a></li>
         <% if current_user.usertype == User::PROFESSOR %>
         <li><a tabindex="-1" href="<%= groups_path %>">Manage groups</a></li>
-        <li><a tabindex="-1" href="<%= users_path %>">Manage users</a></li>
+        <li><a tabindex="-1" href="<%= new_user_registration_path %>">Manage users</a></li>
         <% end %>
       </ul>
       </li>

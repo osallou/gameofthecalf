@@ -12,6 +12,13 @@ class Ability
      can [:update, :destroy], Group do |group|
           user.group_id == group.id
      end
+     can :create, User
+     can :read, :all
+     can [:update, :destroy], User do |student|
+          student_group = Group.find(user.group_id)
+          student_group !=nil && user.email == student_group.email
+     end
+
    end
     # Define abilities for the passed in user here. For example:
     #

@@ -6,9 +6,8 @@ in development
 
 == TODO
 
-- add migration to add locale to User
-- add professor link to User
-- add group link to User
+Add views/controller to manage group creation/update... according to role (admin or prof)
+Add views/controller to manage users creation/update... according to role (admin or prof)
 
 == Configuration
 
