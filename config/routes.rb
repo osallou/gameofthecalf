@@ -1,10 +1,11 @@
 GameOfTheCalf::Application.routes.draw do
   resources :groups
 
-  resources :users
-
   devise_for :users
 
+  resources :users
+
+  match 'users/create' => 'users#create', :via => :post, :as => :create_user
 
   match 'game/locale/:id' => 'game#locale'
 
