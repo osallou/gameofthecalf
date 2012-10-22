@@ -17,6 +17,11 @@
   </tr>
 <% end %>
 </table>
+<div class="digg_pagination">
+    <div clas="page_info">
+    </div>
+    <%= will_paginate @users, :container => false %>
+  </div>
 
 <br />
 

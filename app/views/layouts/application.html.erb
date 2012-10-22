@@ -25,7 +25,7 @@
         <li><a tabindex="-1" href="<%= edit_user_registration_path %>">My account</a></li>
         <% if current_user.usertype == User::PROFESSOR %>
         <li><a tabindex="-1" href="<%= groups_path %>">Manage groups</a></li>
-        <li><a tabindex="-1" href="<%= new_user_registration_path %>">Manage users</a></li>
+        <li><a tabindex="-1" href="<%= users_path %>">Manage users</a></li>
         <% end %>
       </ul>
       </li>

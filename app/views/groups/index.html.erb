@@ -1,6 +1,6 @@
 <h1>Listing groups</h1>
 
-<table>
+<table class="table table-bordered">
   <tr>
     <th>Name</th>
     <th>Description</th>
@@ -10,16 +10,20 @@
   </tr>
 
 <% @groups.each do |group| %>
-  <tr>
+  <tr class="info">
     <td><%= group.name %></td>
     <td><%= group.description %></td>
-    <td><%= link_to 'Show', group %></td>
-    <td><%= link_to 'Edit', edit_group_path(group) %></td>
-    <td><%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Show', group, :class => "btn" %></td>
+    <td><%= link_to 'Edit', edit_group_path(group), :class => "btn" %></td>
+    <td><%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn" %></td>
   </tr>
 <% end %>
 </table>
-
+<div class="digg_pagination">
+    <div clas="page_info">
+    </div>
+    <%= will_paginate @groups, :container => false %>
+  </div>
 <br />
 
-<%= link_to 'New Group', new_group_path %>
+<%= link_to 'New Group', new_group_path, :class => "btn" %>

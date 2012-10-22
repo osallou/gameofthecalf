@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.where(:email => current_user.email)
+    @groups = Group.where(:email => current_user.email).paginate(:page => params[:page], :per_page => 20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -58,6 +58,8 @@ class GroupsController < ApplicationController
     @group = Group.new(params[:group])
     authorize! :create, @group
 
+    @group.email = current_user.email unless User.admin?(current_user)
+
     respond_to do |format|
       if @group.save
         format.html { redirect_to @group, notice: 'Group was successfully created.' }
@@ -74,6 +76,7 @@ class GroupsController < ApplicationController
   def update
     @group = Group.find(params[:id])
     authorize! :update, @group
+    params[:group][:email] = current_user.email unless User.admin?(current_user)
     respond_to do |format|
       if @group.update_attributes(params[:group])
         format.html { redirect_to @group, notice: 'Group was successfully updated.' }

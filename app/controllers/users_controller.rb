@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = User.paginate(:page => params[:page], :per_page => 20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -44,9 +44,12 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(params[:user])
-
+    @user.usertype = User::STUDENT unless User.admin?(current_user)
+    @user.password = SecureRandom.hex(16)
+    @user.password_confirmation =  @user.password
+    @user.confirm!
     respond_to do |format|
-      if @user.save
+      if @user.save(:validate => false)
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render json: @user, status: :created, location: @user }
       else
@@ -60,7 +63,7 @@ class UsersController < ApplicationController
   # PUT /users/1.json
   def update
     @user = User.find(params[:id])
-
+    params[:user][:usertype] = User::STUDENT unless User.admin?(current_user)
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to @user, notice: 'User was successfully updated.' }

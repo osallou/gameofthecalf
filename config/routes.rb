@@ -1,9 +1,10 @@
 GameOfTheCalf::Application.routes.draw do
   resources :groups
 
+  resources :users
+
   devise_for :users
 
-  resources :users
 
   match 'game/locale/:id' => 'game#locale'
 
