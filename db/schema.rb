@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(:version => 20121022085723) do
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
     t.string   "locale",                 :default => "en"
-    t.string   "usertype",               :default => "2"
+    t.integer  "usertype",               :default => 2
     t.integer  "group_id"
   end
 
