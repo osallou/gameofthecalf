@@ -1,5 +1,8 @@
 == Welcome to Game of the Calf
 
+== STATUS
+
+in development
 
 == TODO
 
