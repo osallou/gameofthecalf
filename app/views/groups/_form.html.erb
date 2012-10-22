@@ -22,7 +22,11 @@
   <% if User.admin?(current_user) %>
   <div class="field">
     <%= f.label :email %><br />
-    <%= f.text_field :email %>
+    <select name="group[email]">
+    <%= @professors.each do |professor| %>
+      <option value="<%= professor.email %>"><%= professor.email %></option>
+    <% end %>
+    </select>
   </div>
   <% end %>
   <div class="actions">

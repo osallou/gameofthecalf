@@ -28,7 +28,7 @@ class GroupsController < ApplicationController
   # GET /groups/new.json
   def new
     @group = Group.new
-
+    @professors = User.where(:usertype => User::PROFESSOR)
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @group }
@@ -38,6 +38,7 @@ class GroupsController < ApplicationController
   # GET /group/1/edit
   def edit
     @group = Group.find(params[:id])
+    @professors = User.where(:usertype => User::PROFESSOR)
   end
 
   # POST /groups
