@@ -21,12 +21,16 @@
   </div>
   <% if User.admin?(current_user) %>
   <div class="field">
+    <% if User.admin?(current_user) %>
     <%= f.label :email %><br />
     <select name="group[email]">
     <%= @professors.each do |professor| %>
       <option value="<%= professor.email %>"><%= professor.email %></option>
     <% end %>
     </select>
+    <% else %>
+      <%= f.hidden_field :email %>
+    <% end %>
   </div>
   <% end %>
   <div class="actions">

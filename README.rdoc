@@ -6,8 +6,12 @@ in development
 
 == TODO
 
+Add pagination to groups and users management page
+
 Add views/controller to manage group creation/update... according to role (admin or prof)
 Add views/controller to manage users creation/update... according to role (admin or prof)
+
+In group/user controller, check fields owned by admin only
 
 == Configuration
 

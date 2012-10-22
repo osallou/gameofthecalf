@@ -12,3 +12,5 @@ en:
   signin: "Sign in"
   signout: "Sign out"
   forgotpassword: "Forgot your password?"
+  usertype0: "Student"
+  usertype1: "Professor"

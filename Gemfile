@@ -10,6 +10,10 @@ gem 'devise-i18n-views'
 gem 'cancan'
 gem 'activeadmin'
 
+gem 'will_paginate', '~> 3.0.0'
+
+gem 'simple_form'
+
 gem 'rails_config'
 
 

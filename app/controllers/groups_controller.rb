@@ -17,6 +17,7 @@ class GroupsController < ApplicationController
   # GET /groups/1.json
   def show
     @group = Group.find(params[:id])
+    authorize! :read, @group
 
     respond_to do |format|
       format.html # show.html.erb
@@ -27,8 +28,13 @@ class GroupsController < ApplicationController
   # GET /groups/new
   # GET /groups/new.json
   def new
+    authorize! :create, Group
     @group = Group.new
-    @professors = User.where(:usertype => User::PROFESSOR)
+    @group.email =  current_user.email
+    @professors = nil
+    if User.admin?(current_user)
+      @professors = User.where(:usertype => User::PROFESSOR)
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @group }
@@ -38,13 +44,19 @@ class GroupsController < ApplicationController
   # GET /group/1/edit
   def edit
     @group = Group.find(params[:id])
-    @professors = User.where(:usertype => User::PROFESSOR)
+    authorize! :update, @group
+    @professors = nil
+    if User.admin?(current_user)
+      @professors = User.where(:usertype => User::PROFESSOR)
+    end
+
   end
 
   # POST /groups
   # POST /groups.json
   def create
     @group = Group.new(params[:group])
+    authorize! :create, @group
 
     respond_to do |format|
       if @group.save
@@ -60,11 +72,11 @@ class GroupsController < ApplicationController
   # PUT /groups/1
   # PUT /groups/1.json
   def update
-    @group = Note.find(params[:id])
-
+    @group = Group.find(params[:id])
+    authorize! :update, @group
     respond_to do |format|
       if @group.update_attributes(params[:group])
-        format.html { redirect_to @group, notice: 'Note was successfully updated.' }
+        format.html { redirect_to @group, notice: 'Group was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -76,7 +88,8 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
-    @group = Note.find(params[:id])
+    @group = Group.find(params[:id])
+    authorize! :destroy, @group
     @group.destroy
 
     respond_to do |format|

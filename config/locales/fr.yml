@@ -12,6 +12,9 @@ fr:
   signin: "Se connecter"
   signout: "Se déconnecter"
   forgotpassword: "Mot de passe oublié?"
+  usertype0: "Etudiant"
+  usertype1: "Professeur"
+
 
 
   activerecord:

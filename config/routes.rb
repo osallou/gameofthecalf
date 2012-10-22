@@ -3,6 +3,8 @@ GameOfTheCalf::Application.routes.draw do
 
   devise_for :users
 
+  resources :users
+
   match 'game/locale/:id' => 'game#locale'
 
   match 'game/play' => 'game#play', :via => :get

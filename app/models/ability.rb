@@ -4,17 +4,15 @@ class Ability
   def initialize(user)
    user ||= User.new
 
-   if user.admin?
+   if User.admin?(user)
      can :manage, :all
    elsif user.usertype == User::PROFESSOR
      can :create, Group
-     can :read, :all
-     can [:update, :destroy], Group do |group|
+     can [:read, :update, :destroy], Group do |group|
           user.group_id == group.id
      end
      can :create, User
-     can :read, :all
-     can [:update, :destroy], User do |student|
+     can [:read, :update, :destroy], User do |student|
           student_group = Group.find(user.group_id)
           student_group !=nil && user.email == student_group.email
      end
