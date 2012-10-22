@@ -13,7 +13,7 @@ Administrators are set in config/settings.yml
 
 === Create a user from console
 
-  user = User.new(:email => 'xxx@yyy.zz', :password => 'XXX', :password_confirmation => 'XXX')
+  user = User.new(:email => 'xxx@yyy.zz', :password => 'XXX', :password_confirmation => 'XXX', :usertype => User::PROFESSOR)
   user.confirm!
   user.save
 
