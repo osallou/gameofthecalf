@@ -1,9 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  name: MyString
-  description: MyText
+testgroup1:
+  name: samplegroup1
+  description: a group for test
+  email: prof1@no-reply.org
 
-two:
-  name: MyString
-  description: MyText
+testgroup2:
+  name: samplegroup2
+  description: a group for test
+  email: prof2@no-reply.org

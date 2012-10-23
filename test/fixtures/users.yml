@@ -4,8 +4,30 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
+#one: {}
 # column: value
 #
-two: {}
+#two: {}
 #  column: value
+admin:
+    email: <%= Settings.admin[0] %>
+    usertype: <%= User::PROFESSOR %>
+    created_at: <%= Time.now.to_s(:db) %>
+    updated_at: <%= Time.now.to_s(:db) %>
+
+professor1:
+    email: prof1@no-reply.org
+    usertype: <%= User::PROFESSOR %>
+
+professor2:
+    email: prof2@no-reply.org
+    usertype: <%= User::PROFESSOR %>
+    created_at: <%= Time.now.to_s(:db) %>
+    updated_at: <%= Time.now.to_s(:db) %>
+
+student:
+    email: student@no-reply.org
+    usertype: <%= User::STUDENT %>
+    group: testgroup1
+    created_at: <%= Time.now.to_s(:db) %>
+    updated_at: <%= Time.now.to_s(:db) %>
