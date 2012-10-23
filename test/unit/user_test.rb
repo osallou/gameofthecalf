@@ -5,6 +5,12 @@ class UserTest < ActiveSupport::TestCase
   #   assert true
   # end
   
+  test "user_is_admin" do
+    user = User.where(:email => Settings.admin[0]).first
+    assert !user.nil?
+    assert User.admin?(user)
+  end
+  
   test "admin can create prof" do
     assert false
   end

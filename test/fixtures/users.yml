@@ -14,16 +14,19 @@ admin:
     usertype: <%= User::PROFESSOR %>
     created_at: <%= Time.now.to_s(:db) %>
     updated_at: <%= Time.now.to_s(:db) %>
+    confirmed_at: <%= Time.now.to_s(:db) %>
 
 professor1:
     email: prof1@no-reply.org
     usertype: <%= User::PROFESSOR %>
+    confirmed_at: <%= Time.now.to_s(:db) %>
 
 professor2:
     email: prof2@no-reply.org
     usertype: <%= User::PROFESSOR %>
     created_at: <%= Time.now.to_s(:db) %>
     updated_at: <%= Time.now.to_s(:db) %>
+    confirmed_at: <%= Time.now.to_s(:db) %>
 
 student:
     email: student@no-reply.org
@@ -31,3 +34,4 @@ student:
     group: testgroup1
     created_at: <%= Time.now.to_s(:db) %>
     updated_at: <%= Time.now.to_s(:db) %>
+    confirmed_at: <%= Time.now.to_s(:db) %>
