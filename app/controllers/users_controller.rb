@@ -50,6 +50,9 @@ class UsersController < ApplicationController
     @user.usertype = User::STUDENT unless User.admin?(current_user)
     @user.password = SecureRandom.hex(16)
     @user.password_confirmation =  @user.password
+    
+    can? :create, @user
+    
     @user.confirm!
     respond_to do |format|
       if @user.save(:validate => false)

@@ -27,15 +27,23 @@ class UserTest < ActiveSupport::TestCase
   end
   
   test "prof can create groups" do
-    assert false
+    user = User.where(:email => "prof1@no-reply.org").first
+    ability = Ability.new(user)
+    assert ability.can?(:create, Group.new)
   end  
   
   test "prof can create students" do
-    assert false
+    user = User.where(:email => "prof1@no-reply.org").first
+    ability = Ability.new(user)
+    student = User.new(:email => 'test', :usertype => User::STUDENT)
+    assert ability.can?(:create, student)
   end
   
   test "prof cannot create prof" do
-    assert false
+    user = User.where(:email => "prof1@no-reply.org").first
+    ability = Ability.new(user)
+    prof = User.new(:email => 'test', :usertype => User::PROFESSOR)
+    assert ability.cannot?(:create, prof)
   end
   
   test "student cannot create student" do

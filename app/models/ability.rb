@@ -11,7 +11,8 @@ class Ability
      can [:read, :update, :destroy], Group do |group|
           user.group_id == group.id
      end
-     can :create, User
+     can :create, User, :usertype =>  User::STUDENT
+
      can [:read, :update, :destroy], User do |student|
           student_group = Group.find(user.group_id)
           student_group !=nil && user.email == student_group.email
