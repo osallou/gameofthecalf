@@ -33,7 +33,6 @@ class GroupsController < ApplicationController
   # GET /groups/new
   # GET /groups/new.json
   def new
-    authorize! :create, Group
     @group = Group.new
     @group.email =  current_user.email
     @professors = nil
@@ -49,6 +48,7 @@ class GroupsController < ApplicationController
   # GET /group/1/edit
   def edit
     @group = Group.find(params[:id])
+    
     authorize! :update, @group
     @professors = nil
     if User.admin?(current_user)

@@ -51,7 +51,7 @@ class UsersController < ApplicationController
     @user.password = SecureRandom.hex(16)
     @user.password_confirmation =  @user.password
     
-    can? :create, @user
+    authorize! :create, @user
     
     @user.confirm!
     respond_to do |format|
@@ -70,6 +70,9 @@ class UsersController < ApplicationController
   # PUT /users/1.json
   def update
     @user = User.find(params[:id])
+    
+    authorize! :update, @user
+    
     params[:user][:usertype] = User::STUDENT unless User.admin?(current_user)
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -86,6 +89,9 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     @user = User.find(params[:id])
+    
+    authorize! :destroy, @user
+    
     @user.destroy
 
     respond_to do |format|

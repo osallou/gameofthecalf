@@ -47,11 +47,22 @@ class UserTest < ActiveSupport::TestCase
   end
   
   test "student cannot create student" do
-    assert false
+    user = User.where(:email => "student@no-reply.org").first
+    ability = Ability.new(user)
+    student = User.new(:email => 'test', :usertype => User::STUDENT)
+    assert ability.cannot?(:create, student)
   end
   
-  test "prof can change a student group" do
-    assert false
+  test "prof can update own student only" do
+    student = User.where(:email => "student@no-reply.org").first
+  
+    prof1 = User.where(:email => "prof1@no-reply.org").first
+    ability = Ability.new(prof1)
+    assert ability.can?(:update, student)
+    
+    prof2 = User.where(:email => "prof2@no-reply.org").first
+    ability = Ability.new(prof2)
+    assert ability.cannot?(:update, student)
   end
   
   
