@@ -65,5 +65,17 @@ class UserTest < ActiveSupport::TestCase
     assert ability.cannot?(:update, student)
   end
   
+  test "prof can update own group only" do
+    group = Group.where(:name => "samplegroup1").first
+  
+    prof1 = User.where(:email => "prof1@no-reply.org").first
+    ability = Ability.new(prof1)
+    assert ability.can?(:update, group)
+    
+    prof2 = User.where(:email => "prof2@no-reply.org").first
+    ability = Ability.new(prof2)
+    assert ability.cannot?(:update, group)
+  end
+  
   
 end

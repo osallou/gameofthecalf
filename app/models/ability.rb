@@ -8,8 +8,8 @@ class Ability
      can :manage, :all
    elsif user.usertype == User::PROFESSOR
      can :create, Group
-     can [:read, :update, :destroy], Group do |group|
-          user.group_id == group.id
+     can [:read, :update, :destroy], Group  do |group|
+          user.email == group.email
      end
      can :create, User, :usertype =>  User::STUDENT
 
