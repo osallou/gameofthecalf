@@ -1,6 +1,6 @@
 <h1>Listing users</h1>
 
-<%= form_for(:user, :html => { :class => "navbar-search"}, :method => "post") do |f| %>
+<%= form_for(:user, :html => { :class => "navbar-search"}, :method => "get") do |f| %>
   <%= f.text_field :search, :class => 'search-query' %>
   <%= f.submit 'Search', :class => 'btn'  %>
 <% end %>

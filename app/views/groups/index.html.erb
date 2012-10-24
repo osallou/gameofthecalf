@@ -1,4 +1,8 @@
 <h1>Listing groups</h1>
+<%= form_for(:group, :html => { :class => "navbar-search"}, :method => "get") do |f| %>
+  <%= f.text_field :search, :class => 'search-query' %>
+  <%= f.submit 'Search', :class => 'btn'  %>
+<% end %>
 
 <table class="table table-bordered">
   <tr>

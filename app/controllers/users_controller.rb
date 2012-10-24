@@ -5,8 +5,8 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    if params[:search]
-      @users = User.all(:conditions => ['lower(email) LIKE ? ', "%#{params[:search]}%"]).paginate(:page => params[:page], :per_page => 20)
+    if params[:user] && params[:user][:search]
+      @users = User.paginate(:page => params[:page], :per_page => 20, :conditions => ['lower(email) LIKE ? ', "%#{params[:user][:search]}%"])
     else
       @users = User.paginate(:page => params[:page], :per_page => 20)
     end

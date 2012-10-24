@@ -5,7 +5,12 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.where(:email => current_user.email).paginate(:page => params[:page], :per_page => 20)
+    if params[:group] && params[:group][:search]
+      @groups = Group.where(:email => current_user.email).paginate(:page => params[:page], :per_page => 20, :conditions => ['lower(name) LIKE ? ', "%#{params[:group][:search]}%"])
+    else
+      @groups = Group.where(:email => current_user.email).paginate(:page => params[:page], :per_page => 20)
+    end
+
 
     respond_to do |format|
       format.html # index.html.erb
