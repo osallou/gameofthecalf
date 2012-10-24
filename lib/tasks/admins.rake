@@ -19,14 +19,14 @@ namespace :gameadmin do
     end
   end
 
-  desc "Creates an admin"
+  desc "Creates a professor"
   task :create  => :environment do
     login = ENV["LOGIN"]
     password = ENV["PASSWORD"]
     if !login || !password
       puts "Login or password is empty, please specify those with LOGIN= or PASSWORD="
     else
-      if User.where(:email => admin).nil?
+      if User.where(:email => login).nil?
         user = User.new(:email => login)
         user.usertype = User::PROFESSOR
         user.password = password
