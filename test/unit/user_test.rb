@@ -11,8 +11,19 @@ class UserTest < ActiveSupport::TestCase
     assert User.admin?(user)
   end
   
-  test "admin can create prof" do
-    assert false
+  test "admin can manage all" do
+    user = User.where(:email => Settings.admin[0]).first
+    ability = Ability.new(user)
+    otheruser = User.where(:email => "prof1@no-reply.org").first
+    othergroup = Group.where(:name => "samplegroup1").first
+    assert ability.can?(:create, Group)
+    assert ability.can?(:create, User)
+    assert ability.can?(:read, othergroup)
+    assert ability.can?(:read, otheruser)
+    assert ability.can?(:update, othergroup)
+    assert ability.can?(:update, otheruser)
+    assert ability.can?(:destroy, othergroup)
+    assert ability.can?(:destroy, otheruser)
   end
   
   test "prof can create groups" do

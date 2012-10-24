@@ -19,6 +19,8 @@ admin:
 professor1:
     email: prof1@no-reply.org
     usertype: <%= User::PROFESSOR %>
+    created_at: <%= Time.now.to_s(:db) %>
+    updated_at: <%= Time.now.to_s(:db) %>
     confirmed_at: <%= Time.now.to_s(:db) %>
 
 professor2:
