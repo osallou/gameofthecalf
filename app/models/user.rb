@@ -1,3 +1,4 @@
+# Base class for all users
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -13,13 +14,17 @@ class User < ActiveRecord::Base
 
   belongs_to :group
 
+  # Checks if user is a site administrator.
+  # Administrators are defined in Settings.
   def self.admin?(user)
     return false unless user
     Settings.admin.include?(user.email)
   end
 
-  # Roles  
+  # Administrator role
   ADMIN=0
+  # Professor role, can create students and groups
   PROFESSOR=1
+  # Student role, i.e. player
   STUDENT=2
 end
