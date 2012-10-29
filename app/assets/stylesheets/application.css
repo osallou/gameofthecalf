@@ -34,8 +34,8 @@
   background-color: #FAFAFA;
 }
 
-.gamesession:hover {
-    background-color: #81F781;
+.gamesession {
+    margin: 10px;
 }
 
 
