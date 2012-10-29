@@ -24,8 +24,6 @@ GameOfTheCalf::Application.routes.draw do
 
   match 'game/locale/:id' => 'game#locale'
 
-  match 'game/play' => 'game#play', :via => :get
-
   match 'credits' => 'game#credits'
 
   match 'game/admin' => 'game#admin', :via => :get

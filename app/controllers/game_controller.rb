@@ -12,11 +12,6 @@ class GameController < ApplicationController
   def credits
   end
   
-  # Propose new game or load previous sessions
-  def play
-   @games = Game.order("created_at")
-  end
-
   # Manage users and groups
   def admin
   end

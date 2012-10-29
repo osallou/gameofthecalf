@@ -20,6 +20,16 @@
   background-size: 100% auto;
 }
 
+.cow {
+  width: 400px;
+  height: 353px;
+  background-image: url('cow.png');
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  margin: 15px;
+
+}
+
 .footer {
   background-color: #FAFAFA;
 }

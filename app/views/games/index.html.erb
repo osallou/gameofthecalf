@@ -1,0 +1,16 @@
+<div class="cow span4 pull-right hero-unit">
+</div>
+<div class="row">
+  <div class="offset1"><%= button_to t("new_game"), new_game_path, :class => 'btn btn-large btn-primary', :method => :get %></div>
+</div>
+<% if ! @games.empty? %>
+<div class="row">
+  <div class="span2 offset1"><%= t("previous_game") %>:</div>
+</div>
+  <% @games.each do |game| %>
+<div class="row">
+  <div class="offset2 span2"><%= link_to game.created_at, game_path(@game), :class => 'gamesession', :method => :get %></div>
+</div>
+  <% end %>
+
+<% end %>

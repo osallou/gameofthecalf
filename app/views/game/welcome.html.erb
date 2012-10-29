@@ -4,7 +4,7 @@
 <h2><%= t :welcome %></h2>
 <p class="lead"><%= t :intro %></p>
 <% if user_signed_in? %>
-  <%= button_to t("play"), game_play_path, :class => 'btn btn-large btn-primary', :method => :get %>
+  <%= button_to t("play"), games_path, :class => 'btn btn-large btn-primary', :method => :get %>
 <% else %>
   <%= button_to t("signin"), new_user_session_path, :class => 'btn btn-large btn-primary' %>
 <% end %>
