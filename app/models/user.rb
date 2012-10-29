@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
 
   belongs_to :group
+  
+  has_many :games
 
   # Checks if user is a site administrator.
   # Administrators are defined in Settings.

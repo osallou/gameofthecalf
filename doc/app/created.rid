@@ -1,0 +1,17 @@
+Mon, 29 Oct 2012 06:50:20 -0400
+doc/README_FOR_APP	Tue, 23 Oct 2012 06:48:38 -0400
+app/mailers/user_mailer.rb	Mon, 29 Oct 2012 04:30:14 -0400
+app/helpers/application_helper.rb	Tue, 23 Oct 2012 06:48:38 -0400
+app/helpers/groups_helper.rb	Tue, 23 Oct 2012 06:48:38 -0400
+app/admin/users.rb	Tue, 23 Oct 2012 07:30:15 -0400
+app/admin/groups.rb	Tue, 23 Oct 2012 07:30:15 -0400
+app/admin/dashboard.rb	Tue, 23 Oct 2012 07:30:15 -0400
+app/models/ability.rb	Mon, 29 Oct 2012 06:42:34 -0400
+app/models/admin_user.rb	Tue, 23 Oct 2012 07:30:15 -0400
+app/models/group.rb	Mon, 29 Oct 2012 04:28:41 -0400
+app/models/user.rb	Mon, 29 Oct 2012 06:43:50 -0400
+app/models/game.rb	Mon, 29 Oct 2012 06:49:01 -0400
+app/controllers/game_controller.rb	Mon, 29 Oct 2012 04:31:45 -0400
+app/controllers/application_controller.rb	Tue, 23 Oct 2012 07:30:15 -0400
+app/controllers/groups_controller.rb	Mon, 29 Oct 2012 04:30:51 -0400
+app/controllers/users_controller.rb	Mon, 29 Oct 2012 04:30:34 -0400

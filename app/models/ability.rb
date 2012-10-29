@@ -1,24 +1,28 @@
+# Defines abilities according to user type.
 class Ability
   include CanCan::Ability
 
+  # Initialize abilities for a user.
   def initialize(user)
-   user ||= User.new
+    user ||= User.new
 
-   if User.admin?(user)
-     can :manage, :all
-   elsif user.usertype == User::PROFESSOR
-     can :create, Group
-     can [:read, :update, :destroy], Group  do |group|
+    if User.admin?(user)
+      can :manage, :all
+    elsif user.usertype == User::PROFESSOR
+      can :create, Group
+      can [:read, :update, :destroy], Group  do |group|
           user.email == group.email
-     end
-     can :create, User, :usertype =>  User::STUDENT
+      end
+      can :create, User, :usertype =>  User::STUDENT
 
-     can [:read, :update, :destroy], User do |student|
+      can [:read, :update, :destroy], User do |student|
           student_group = Group.find(student.group_id)
           student_group !=nil && user.email == student_group.email
-     end
-
-   end
+      end
+     
+    end
+   
+    can :create, Game
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)

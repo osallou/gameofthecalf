@@ -1,3 +1,5 @@
+# Base controller for the game.
+# It manages main pages and game.
 class GameController < ApplicationController
 
   #before_filter :authenticate_user!
