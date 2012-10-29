@@ -24,6 +24,10 @@
   background-color: #FAFAFA;
 }
 
+.gamesession:hover {
+    background-color: #81F781;
+}
+
 
 #welcome {
   margin-top: 10%;
