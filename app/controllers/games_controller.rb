@@ -20,7 +20,7 @@ class GamesController < ApplicationController
     game = Game.new(:user_id => current_user.id)
     game.save!
     @levels = []
-    level = Level.new(:game_id => game.id, :status => Game::STATUS_NEW, :level => 1)
+    level = Level.new(:game_id => game.id, :status => Level::STATUS_NEW, :level => 1)
     level.save!
     @levels << level
     respond_to do |format|

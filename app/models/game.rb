@@ -11,9 +11,4 @@ class Game < ActiveRecord::Base
 
   has_many :levels
 
-  # New level status
-  STATUS_NEW = 0
-  # Completed level status
-  STATUS_COMPLETED = 1
-  
 end

@@ -17,5 +17,7 @@ en:
   accountcreated: "Your account has been created"
   yourusername: "Your username is"
   yourpassword: "Your password is"
-  new_game: "New game"
-  previous_game: "Load previous game"
+  game:
+    new_game: "New game"
+    previous_game: "Load previous game"
+    next_level: "Next level"

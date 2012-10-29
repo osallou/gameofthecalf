@@ -1,5 +1,14 @@
+<% levels_complete = true %>
+<% nblevels = 0 %>
 <div class="row">
 <% @levels.each do |level| %>
+  <% nblevels += 1 %>
+  <% if level.status != Level::STATUS_COMPLETED %>
+  <% levels_complete = false %>
+  <% end %>
   <div class="span2 offset1"><button class="btn btn-info">Level <%= level.level %></button></div>
+<% end %>
+<% if levels_complete && nblevels< Settings.max_levels %>
+  <div class="span2 offset1"><%= button_to t("game.next_level"), games_path, :class => 'btn btn-large btn-primary', :method => :post %></div>
 <% end %>
 </div>
