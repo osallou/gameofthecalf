@@ -1,3 +1,5 @@
 admin:  [ "olivier.sallou@irisa.fr" ]
 
 languages: [ "en", "fr" ]
+
+max_levels: 8
