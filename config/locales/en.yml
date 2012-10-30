@@ -21,4 +21,5 @@ en:
   game:
     new_game: "New game"
     previous_game: "Load previous game"
-    next_level: "Next level"
+    next_level: "Next generation"
+    level: "Generation"

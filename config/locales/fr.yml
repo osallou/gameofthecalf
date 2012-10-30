@@ -21,7 +21,8 @@ fr:
   game:
     new_game: "Nouvelle partie"
     previous_game: "Charger une partie précédente"
-    next_level: "Niveau suivant"
+    next_level: "Génération suivante"
+    level: "Génération"
 
 
 
