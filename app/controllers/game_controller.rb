@@ -16,6 +16,10 @@ class GameController < ApplicationController
   def admin
   end
 
+  # Tutorial of the game
+  def tutorial
+  end
+
   # Sets up locale for current user or session
   def locale
     locale = params[:id]

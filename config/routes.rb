@@ -29,6 +29,8 @@ GameOfTheCalf::Application.routes.draw do
 
   match 'credits' => 'game#credits'
 
+  match 'tutorial' => 'game#tutorial'
+
   match 'game/admin' => 'game#admin', :via => :get
 
   # The priority is based upon order of creation:
