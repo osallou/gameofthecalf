@@ -1,18 +1,15 @@
 <div class="row">
-  <div class="offset1 span6">
-  <ul class="gamelist">
-    <li><%= button_to t("game.new_game"), games_path, :class => 'btn btn-large btn-primary', :method => :post %></li>
-
-<% if ! @games.empty? %>
-  <li><%= t("game.previous_game") %></li>
-  <br/>
-  <ul class="gamelist">
-  <% @games.each do |game| %>
-  <li><%= button_to game.created_at, game_path(game), :class => 'btn btn-large btn-success', :method => :get %> <%= link_to raw('<i class="icon-trash icon-white"></i>'), game, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger' %></li>
-  <% end %>
-  </ul>
-<% end %>
-  </ul>
+  <div class="offset1 span7">
+  <div class="row">
+    <%= button_to t("game.new_game"), games_path, :class => 'btn btn-large btn-primary', :method => :post %>
   </div>
-  <div class="optional offset1 span4"><%= image_tag("cow.png") %></div>
+<% if ! @games.empty? %>
+  <div class="row"><%= t("game.previous_game") %></div>
+  <br/>
+  <% @games.each do |game| %>
+  <div class="row offset1"><div class="span4"><%= button_to game.created_at, game_path(game), :class => 'btn btn-large btn-success', :method => :get %></div><div class="span1"><%= link_to raw('<i class="icon-trash"></i>'), game, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger' %></div></div>
+  <% end %>
+<% end %>
+  </div>
+  <div class="optional offset1 span3"><%= image_tag("cow.png") %></div>
 </div>
