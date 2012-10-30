@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 
   belongs_to :group
   
-  has_many :games
+  has_many :games, :dependent => :destroy
 
   # Checks if user is a site administrator.
   # Administrators are defined in Settings.

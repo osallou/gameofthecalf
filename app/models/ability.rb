@@ -21,8 +21,14 @@ class Ability
       end
      
     end
-   
-    can :create, Game
+  
+    if user.usertype == User::PROFESSOR || user.usertype == User::STUDENT 
+      can :create, Game
+      can [:read, :update, :destroy], Game  do |game|
+          game.user_id == user.id
+      end
+
+    end
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)

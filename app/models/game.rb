@@ -9,6 +9,6 @@ class Game < ActiveRecord::Base
   
   belongs_to :user
 
-  has_many :levels
+  has_many :levels, :dependent => :destroy
 
 end

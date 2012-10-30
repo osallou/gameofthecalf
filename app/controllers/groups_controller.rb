@@ -99,7 +99,9 @@ class GroupsController < ApplicationController
   def destroy
     @group = Group.find(params[:id])
     authorize! :destroy, @group
+
     @group.destroy
+
 
     respond_to do |format|
       format.html { redirect_to groups_url }

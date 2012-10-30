@@ -29,6 +29,22 @@ class GamesController < ApplicationController
     end
   end
 
+  # DELETE /games/1
+  # DELETE /games/1.json
+  def destroy
+    @game = Game.find(params[:id])
+
+    authorize! :destroy, @game
+
+    @game.destroy
+
+    respond_to do |format|
+      format.html { redirect_to games_url }
+      format.json { head :no_content }
+    end
+  end
+
+
   # GET /games/1
   # GET /games/1.json
   def show
