@@ -8,7 +8,7 @@
   <br/>
   <ul class="gamelist">
   <% @games.each do |game| %>
-  <li><%= button_to game.created_at, game_path(game), :class => 'btn btn-large btn-success', :method => :get %></li>
+  <li><%= button_to game.created_at, game_path(game), :class => 'btn btn-large btn-success', :method => :get %> <%= link_to raw('<i class="icon-trash icon-white"></i>'), game, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger' %></li>
   <% end %>
   </ul>
 <% end %>
