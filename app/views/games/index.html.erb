@@ -1,15 +1,17 @@
-<div class="row">
+<div class="bg1">
+<div class="row well">
   <div class="offset1 span7">
   <div class="row">
     <%= button_to t("game.new_game"), games_path, :class => 'btn btn-large btn-primary', :method => :post %>
   </div>
 <% if ! @games.empty? %>
-  <div class="row"><%= t("game.previous_game") %></div>
+  <div class="row"><h3><%= t("game.previous_game") %></h3></div>
   <br/>
   <% @games.each do |game| %>
   <div class="row offset1"><div class="span4"><%= button_to game.created_at, game_path(game), :class => 'btn btn-large btn-success', :method => :get %></div><div class="span1"><%= link_to raw('<i class="icon-trash"></i>'), game, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger' %></div></div>
   <% end %>
 <% end %>
   </div>
-  <div class="optional offset1 span3"><%= image_tag("cow.png") %></div>
+<!--  <div class="optional offset1 span3"><%= image_tag("cow.png") %></div> -->
+</div>
 </div>

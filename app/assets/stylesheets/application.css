@@ -16,6 +16,14 @@
   content: none;
 }
 
+.bg1 {
+  width: 100%;
+  min-height: 600px;
+  background-image: url('bg1.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+}
+
 .intro { 
   height: 100%;
   min-height: 600px;
