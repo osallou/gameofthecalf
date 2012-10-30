@@ -8,7 +8,7 @@
   <% end %>
   <div class="span2 offset1"><button class="btn btn-info">Level <%= level.level %></button></div>
 <% end %>
-<% if levels_complete && nblevels< Settings.max_levels %>
+<% if levels_complete && nblevels< @game.level %>
   <div class="span2 offset1"><%= button_to t("game.next_level"), games_path, :class => 'btn btn-large btn-primary', :method => :post %></div>
 <% end %>
 </div>
