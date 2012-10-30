@@ -1,14 +1,18 @@
 <div class="row">
-  <div class="offset1"><%= button_to t("game.new_game"), games_path, :class => 'btn btn-large btn-primary', :method => :post %></div>
-</div>
-<% if ! @games.empty? %>
-<div class="row">
-  <div class="span4 offset1"><%= t("game.previous_game") %>:</div>
-</div>
-  <% @games.each do |game| %>
-<div class="row gamesession">
-  <div class="offset2 span4"><%= button_to game.created_at, game_path(game), :class => 'btn btn-large btn-success', :method => :get %></div>
-</div>
-  <% end %>
+  <div class="offset1 span6">
+  <ul class="gamelist">
+    <li><%= button_to t("game.new_game"), games_path, :class => 'btn btn-large btn-primary', :method => :post %></li>
 
+<% if ! @games.empty? %>
+  <li><%= t("game.previous_game") %></li>
+  <br/>
+  <ul class="gamelist">
+  <% @games.each do |game| %>
+  <li><%= button_to game.created_at, game_path(game), :class => 'btn btn-large btn-success', :method => :get %></li>
+  <% end %>
+  </ul>
 <% end %>
+  </ul>
+  </div>
+  <div class="optional offset1 span4"><%= image_tag("cow.png") %></div>
+</div>

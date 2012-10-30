@@ -38,6 +38,10 @@
     margin: 10px;
 }
 
+.gamelist {
+  list-style-type: none;
+}
+
 
 #welcome {
   margin-top: 10%;
@@ -48,5 +52,9 @@
 @media screen and (max-width: 640px) {
     .intro {
         background-image: none;
+    }
+
+    .optional {
+        display: none;
     }
 }
