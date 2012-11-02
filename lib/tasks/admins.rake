@@ -26,7 +26,7 @@ namespace :gameadmin do
     if !login || !password
       puts "Login or password is empty, please specify those with LOGIN= or PASSWORD="
     else
-      if User.where(:email => login).nil?
+      if User.where(:email => login).nil? || User.where(:email => login).empty?
         user = User.new(:email => login)
         user.usertype = User::PROFESSOR
         user.password = password
@@ -36,7 +36,7 @@ namespace :gameadmin do
           puts "Error while creating user: "+user.errors
         end
       else
-        puts "User #{login} altrady exists in the database"
+        puts "User #{login} already exists in the database"
       end
     end
   end
