@@ -215,6 +215,7 @@ DEPENDENCIES
   devise-i18n-views
   jdbc-sqlite3
   jquery-rails
+  less-rails
   pg
   rails (= 3.2.8)
   rails_config
@@ -222,6 +223,7 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   simple_form
   sqlite3
+  therubyracer
   twitter-bootstrap-rails
   uglifier (>= 1.0.3)
   will_paginate (~> 3.0.0)
