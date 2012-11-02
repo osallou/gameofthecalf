@@ -1,4 +1,4 @@
-admin:  [ "olivier.sallou@irisa.fr" ]
+admin:  [ "admin", "olivier.sallou@irisa.fr" ]
 
 languages: [ "en", "fr" ]
 
