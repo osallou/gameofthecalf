@@ -13,6 +13,21 @@
   <%= @group.email %>
 </p>
 
+<b>Students</b>
+
+<table class="table table-bordered">
+  <tr>
+    <th>Identifier</th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr class="info">
+    <td><%= user.email %></td>
+  </tr>
+<% end %>
+</table>
+
+
 
 <%= link_to 'Edit', edit_group_path(@group) %> |
 <%= link_to 'Back', groups_path %>

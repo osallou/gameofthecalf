@@ -16,8 +16,14 @@ fr:
   usertype0: "Etudiant"
   usertype1: "Professeur"
   accountcreated: "Votre compte a été créé"
+  accountscreated: "Comptes créés"
   yourusername: "Votre identifiant est"
   yourpassword: "Votre mot de passe est"
+  myaccount: "Mon compte"
+  manage: "Gérer"
+  groups: "classes"
+  users: "utilisateurs"
+
   game:
     new_game: "Nouvelle partie"
     previous_game: "Charger une partie précédente"

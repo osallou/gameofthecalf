@@ -23,6 +23,11 @@ GameOfTheCalf::Application.routes.draw do
 
   resources :users
 
+  devise_for :groups
+  as :group do
+    post 'groups/:id/generateusers' => 'groups#generateusers', :as => 'generate_users'
+  end
+
   match 'users/create' => 'users#create', :via => :post, :as => :create_user
 
   match 'game/locale/:id' => 'game#locale'
@@ -32,6 +37,7 @@ GameOfTheCalf::Application.routes.draw do
   match 'tutorial' => 'game#tutorial'
 
   match 'game/admin' => 'game#admin', :via => :get
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

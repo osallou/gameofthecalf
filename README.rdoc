@@ -1,11 +1,18 @@
 == Welcome to Game of the Calf
 
+== INSTALLATION
+
+create preferably an RVM gemset
+rvm create gemset gameofthecalf
+rvm use @gameofthecalf
+bundle install
+rake db:migrate
+
 == STATUS
 
 in development
 
 == TODO
-
 
 
 == Configuration

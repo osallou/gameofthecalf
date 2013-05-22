@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+<h2>Group <%= @group.name %></h2>
+<table class="table table-bordered">
+  <tr>
+    <th>Login</th>
+    <th>Password</th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr class="info">
+    <td><%= user.email %></td>
+    <td><%= user.password %></td>
+  </tr>
+<% end %>
+</table>
+  </body>
+</html>

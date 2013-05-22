@@ -46,4 +46,21 @@
 <% end %>
 
 </div>
+<div class="span6">
+<% if User.professor?(current_user) && @group != nil  %>
+  <%= form_for @group, :url => { :action => "generateusers" }, :method => "post" do |f| %>
+
+  <div class="form-inputs">
+    <%= label_tag(:quantity, "Generate students") %>
+    <%= text_field_tag :quantity %>
+  </div>
+
+  <div class="form-actions">
+    <%= submit_tag("Generate") %>
+   <span>This will delete and replace existing students and cattles</span>
+  </div>
+  <% end %>
+<% end %>
+
+</div>
 </div>

@@ -3,3 +3,6 @@ admin:  [ "admin@gameofthecalf.fr", "olivier.sallou@irisa.fr" ]
 languages: [ "en", "fr" ]
 
 max_levels: 8
+
+
+binaries: "/home/osallou/Development/NOSAVE/gameofthecalf-bin"

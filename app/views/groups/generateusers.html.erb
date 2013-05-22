@@ -1,0 +1,18 @@
+<h2><%= @quantity %> accounts created</h2>
+
+<table class="table table-bordered">
+  <tr>
+    <th>Login</th>
+    <th>Password</th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr class="info">
+    <td><%= user.email %></td>
+    <td><%= user.password %></td>
+  </tr>
+<% end %>
+</table>
+
+
+

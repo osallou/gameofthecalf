@@ -25,6 +25,15 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     authorize! :read, @group
 
+    users_in_group = User.where(:group_id => @group[:id])
+
+    @group[:users] = []
+    users_in_group.each do |user|
+        @group[:users] << { :id => user[:id], :email => user[:email] }
+    end
+
+    @users = User.where(:group_id => @group[:id])
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @group }
@@ -100,14 +109,49 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     authorize! :destroy, @group
 
-    @group.destroy
+    # Delete all users in group
+    users_in_group = User.where(:group_id => @group[:id])
+    users_in_group.each do |user|
+        user.destroy
+    end
 
+    @group.destroy
 
     respond_to do |format|
       format.html { redirect_to groups_url }
       format.json { head :no_content }
     end
   end
+
+
+  # POST /groups/1/generateusers/10
+  # POST /groups/1/generateusers/10.json
+  # Generate a umberof fake accounts
+  def generateusers
+    @group = Group.find(params[:id])
+    authorize! :create, @group
+    @quantity = params[:quantity]
+    @users = Array.new
+    uuid = UUID.new
+    (1..@quantity.to_i).each do |n|
+        user = User.new()
+        user.usertype = User::STUDENT
+        user.password = SecureRandom.hex(16)
+        user.password_confirmation =  user.password
+        user.email = 'student-'+uuid.generate+'@fake.org'
+        user.group_id = @group[:id]
+        user.confirm!
+        user.save(:validate => false)
+        @users << user
+    end
+
+    respond_to do |format|
+        UserMailer.users_created_email(@group, @users).deliver
+        format.html 
+        format.json { render json: {}.to_json }
+    end
+  end
+
 
 
 end

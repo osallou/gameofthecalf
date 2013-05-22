@@ -23,10 +23,10 @@
       <% end %>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" id="dLabel"><%= current_user.email %><b class="caret"></b></a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        <li><a tabindex="-1" href="<%= edit_user_registration_path %>">My account</a></li>
+        <li><a tabindex="-1" href="<%= edit_user_registration_path %>"><%= t :myaccount%></a></li>
         <% if current_user.usertype == User::PROFESSOR %>
-        <li><a tabindex="-1" href="<%= groups_path %>">Manage groups</a></li>
-        <li><a tabindex="-1" href="<%= users_path %>">Manage users</a></li>
+        <li><a tabindex="-1" href="<%= groups_path %>"><%= t :manage%> <%= t :groups %></a></li>
+        <li><a tabindex="-1" href="<%= users_path %>"><%= t :manage%> <%= t :users %></a></li>
         <% end %>
       </ul>
       </li>

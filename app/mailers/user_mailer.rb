@@ -8,4 +8,10 @@ class UserMailer < ActionMailer::Base
     mail(:to => user.email, :subject => t('accountcreated'))
   end
 
+  def users_created_email(group, users)
+    @users =  users
+    @group = group
+    mail(:to => group.email, :subject => t('accountscreated'))
+  end
+
 end

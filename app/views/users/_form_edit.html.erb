@@ -1,0 +1,17 @@
+<%= simple_form_for(@user, :url => user_path(@user)) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :email %>
+    <% if User.admin?(current_user) %>
+      <%= f.input :usertype, :collection => [ 0,1], label_method: lambda { |obj| t("usertype#{obj}") } %>
+    <% else %>
+      <%= f.hidden_field :usertype %>
+    <% end %>
+    <%= f.association :group %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

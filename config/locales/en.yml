@@ -16,8 +16,13 @@ en:
   usertype0: "Student"
   usertype1: "Professor"
   accountcreated: "Your account has been created"
+  accountscreated: "Accounts created"
   yourusername: "Your username is"
   yourpassword: "Your password is"
+  myaccount: "My account"
+  manage: "Manage"
+  groups: "classrooms"
+  users: "users"
   game:
     new_game: "New game"
     previous_game: "Load previous game"
