@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130528142141) do
+ActiveRecord::Schema.define(:version => 20130530115624) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -29,9 +29,10 @@ ActiveRecord::Schema.define(:version => 20130528142141) do
   add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
 
   create_table "games", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.integer  "user_id"
+    t.integer  "cattle",     :default => 0
   end
 
   create_table "groups", :force => true do |t|

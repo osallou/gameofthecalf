@@ -4,6 +4,9 @@ languages: [ "en", "fr" ]
 
 max_levels: 8
 
+default_bulls: 5
+default_cows: 50
+
 
 binaries: "/home/osallou/Development/NOSAVE/gameofthecalf-bin/bullmate/trunk/"
 

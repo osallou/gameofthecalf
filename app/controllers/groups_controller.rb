@@ -130,10 +130,17 @@ class GroupsController < ApplicationController
   def generateusers
     @group = Group.find(params[:id])
     authorize! :create, @group
+
+    # Delete all users in group
+    users_in_group = User.where(:group_id => @group[:id])
+    users_in_group.each do |user|
+        user.destroy
+    end
+
     @quantity = params[:quantity]
     @users = Array.new
     # TODO Call Game.generate_new_cattle
-    Game.generate_new_cattle @quantity,@group[:bull],@group[:cows]
+    Game.generate_new_cattle(@quantity,'group'+@group[:id].to_s,@group[:bulls],@group[:cows])
     uuid = UUID.new
     (1..@quantity.to_i).each do |n|
         user = User.new()
@@ -144,8 +151,12 @@ class GroupsController < ApplicationController
         user.group_id = @group[:id]
         user.confirm!
         user.save(:validate => false)
-        # TODO create a new game and a first level with generate cattle
-        # and link to user
+        # Add a game to the user, associate one of the cattles to the user
+        game = Game.new(:user_id => user.id, :cattle => n)
+        game.save!
+        # Create first level e.g. first generation
+        level = Level.new(:game_id => game.id, :status => Level::STATUS_NEW, :level => 1)
+        level.save!
         @users << user
     end
 
