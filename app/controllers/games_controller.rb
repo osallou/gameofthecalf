@@ -6,6 +6,7 @@ class GamesController < ApplicationController
   # Propose new game or load previous sessions
   def index
    @games = Game.where(:user_id => current_user.id).order("created_at")
+   @user = currebt_user
    respond_to do |format|
      format.html # index.html.erb
      format.json { render json: @games }
@@ -21,6 +22,9 @@ class GamesController < ApplicationController
     @game.save!
     @levels = []
     level = Level.new(:game_id => @game.id, :status => Level::STATUS_NEW, :level => 1)
+    # TODO Call Game.generate_new_cattle for 1 cattle
+    # associate cattle to level
+
     level.save!
     @levels << level
     respond_to do |format|

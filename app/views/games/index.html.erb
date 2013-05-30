@@ -1,9 +1,11 @@
 <div class="bg1">
 <div class="row well">
   <div class="offset1 span7">
+  <% if @user.group_id == nil %>
   <div class="row">
     <%= button_to t("game.new_game"), games_path, :class => 'btn btn-large btn-primary', :method => :post %>
   </div>
+  <% end %>
 <% if ! @games.empty? %>
   <div class="row"><h3><%= t("game.previous_game") %></h3></div>
   <br/>

@@ -132,6 +132,8 @@ class GroupsController < ApplicationController
     authorize! :create, @group
     @quantity = params[:quantity]
     @users = Array.new
+    # TODO Call Game.generate_new_cattle
+    Game.generate_new_cattle @quantity,@group[:bull],@group[:cows]
     uuid = UUID.new
     (1..@quantity.to_i).each do |n|
         user = User.new()
@@ -142,6 +144,8 @@ class GroupsController < ApplicationController
         user.group_id = @group[:id]
         user.confirm!
         user.save(:validate => false)
+        # TODO create a new game and a first level with generate cattle
+        # and link to user
         @users << user
     end
 

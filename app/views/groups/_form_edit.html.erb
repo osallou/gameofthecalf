@@ -26,6 +26,17 @@
     <%= f.number_field :levels %>
   </div>
 
+  <div class="field">
+    <%= f.label :bulls %><br />
+    <%= f.number_field :bulls %>
+  </div>
+
+  <div class="field">
+    <%= f.label :cows %><br />
+    <%= f.number_field :cows %>
+  </div>
+
+
   <% if User.admin?(current_user) %>
   <div class="field">
     <% if User.admin?(current_user) %>

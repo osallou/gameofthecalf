@@ -39,6 +39,11 @@ Professor can assign his :users to a :group
 
 Cow family by Sunfox (http://www.photoree.com/photos/permalink/7155966-24816568@N00) under Creative Commons 2.0 (by-sa)
 
+Description Logonna-Daoulas, Vaches Limousine.JPG
+Date    13 April 2008
+Source  Own work
+Author  Gilbert LE MOIGNE
+
 === Language icons
 
 Icons from http://drupal.org/project/languageicons, under GNU GPL v2

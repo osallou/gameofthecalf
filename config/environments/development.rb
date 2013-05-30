@@ -16,6 +16,14 @@ GameOfTheCalf::Application.configure do
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "mailtrap.io",
+    :port                 => 2525,
+    :user_name            => 'gameofthecalf-81d2e8866fc741f3',
+    :password             => 'f09c060964f63847',
+    :authentication       => 'plain'}
+
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 

@@ -5,4 +5,6 @@ languages: [ "en", "fr" ]
 max_levels: 8
 
 
-binaries: "/home/osallou/Development/NOSAVE/gameofthecalf-bin"
+binaries: "/home/osallou/Development/NOSAVE/gameofthecalf-bin/bullmate/trunk/"
+
+workdir: "/home/osallou/Development/NOSAVE/gameofthecalf-data"
