@@ -206,7 +206,7 @@ function mate(bull,cow) {
 
 function unmate(bull,cow) {
   $("tr#"+cow+" .mated").html(''); 
-  $('#'+bull+' .bulldrop[data-cow="'+cow+'"]').remove();
+  $('#'+bull+' .bulldrop span[data-cow="'+cow+'"]').remove();
   bullmates = matingPlan[bull];
   matingPlan[bull] = Array();
   for(var i=0;i<bullmates;i++) {
@@ -222,9 +222,8 @@ function unmate(bull,cow) {
 
 function addCowToBull(bull,cow) {
     divelt = $("#"+bull+" .bulldrop");
-    divelt.append(cows_icon);
-    divelt.attr("data-cow",cow);
-    divelt.attr("title",cow);
+    cowelt = '<span data-cow="'+cow+'">'+cows_icon+'</span>';
+    divelt.append(cowelt);
     $("tr#"+cow+" .mated").html('<span class="label label-info">mated</span><button class="unmate btn btn-mini" data-bull="'+bull+'" data-cow="'+cow+'">Unmate</button>');
 }
 
