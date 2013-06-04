@@ -12,6 +12,10 @@
  *= require_tree .
  */
 
+.action {
+    margin: 10px;
+}
+
 .selected td {
     background-color: lightblue;
 }

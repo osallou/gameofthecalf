@@ -1,4 +1,5 @@
 <h2>Cattle</h2>
+<button id="reset" class="action btn btn-warning">Reset mating plan</button><button class="btn btn-primary action">Validate mating plan</button>
 
 <script>
 var game = <%= @game.id %>;
@@ -45,35 +46,90 @@ var selectedBull = null;
     loadCattle('cows', cows);
     $("table#cows").tablesorter();
 
+    $("#reset").click(function() {
+        $("tr").removeClass('selected');
+        matingPlan = {}
+        if(useStorage) {
+            matingPlan = localStorage.removeItem(game+"-"+level);
+        }
+    });
+
+    $("#mate").click(function() {
+        mate($("#mateModalBull").attr("data-id"),$("#mateModalCow").attr("data-id"));
+        $('#mateModal').modal('hide')
+    });
+
     if(useStorage) {
         loadMatingPlan();
     }
 
+    $(document).on("click",".unmate",function(e) { 
+        unmate($(this).attr('data-bull'), $(this).attr('data-cow'));
+        e.stopPropagation();
+    });
+
     $(document).on("click",".bulls",function() { 
-            if($(this).hasClass('bulls')) {
-                if(selectedBull==null || selectedBull != $(this).attr('id') ) {
-                    if(selectedBull!=null) {
-                        $("tr#"+selectedBull).removeClass('selected');
+            if(selectedBull==null || selectedBull != $(this).attr('id') ) {
+                if(selectedBull!=null) {
+                    $("tr#"+selectedBull).removeClass('selected');
+                }
+                $(this).addClass('selected');
+                selectedBull = $(this).attr('id');
+            }
+            else {
+                $(this).removeClass('selected');
+                selectedBull = null;
+            }
+           // Show mated cows
+            highlight_mated_cows(selectedBull);
+    });
+
+    $(document).on("click",".cows",function() { 
+           // Show mated cows
+            if($(this).hasClass('dead')) {
+                return;
+            }
+            var bull = null;
+            var cowid = $(this).attr('id');
+            $.each(matingPlan, function(key,value) {
+                for(var i=0;i<value.length;i++) {
+                    if(value[i]==cowid) {
+                        highlight_mated_bull(key);
+                        break;
                     }
-                    $(this).addClass('selected');
-                    selectedBull = $(this).attr('id');
                 }
-                else {
-                    $(this).removeClass('selected');
-                    selectedBull = null;
-                }
+            });
+            if(selectedBull!=null) {
+                confirmMating(selectedBull,cowid);
             }
     });
+
   });
 
+function highlight_mated_bull(bull) {
+    selectedBull = null;
+    $("tr#"+bull).addClass('selected');
+    highlight_mated_cows(bull);
+}
+
+function highlight_mated_cows(bull) {
+    $("tr.cows").removeClass('selected');
+    if(bull!=null) {
+        var cows = matingPlan[bull];
+        if(cows!=undefined) {
+            for(var i=0;i<cows.length;i++) {
+                $("#"+cows[i]).addClass('selected');
+            }
+        }
+    }
+}
 
 function handleDrop(e) {
   if (e.stopPropagation) {
     e.stopPropagation(); // stops the browser from redirecting.
   }
-  console.log($(e.target));
   if($(e.target).hasClass('bulldrop')) { 
-    mate($(e.target).attr('data-id'),e.dataTransfer.getData('text'));
+    confirmMating($(e.target).attr('data-id'),e.dataTransfer.getData('text'));
   }
   return false;
 }
@@ -81,18 +137,64 @@ function handleDrop(e) {
 function loadMatingPlan() {
     $.each(matingPlan, function(key,value) {
         for(var i=0;i<value.length;i++) {
-            addCowToBull($("#"+key+" .bulldrop"),value[i]);
+            addCowToBull(key,value[i]);
         }
     });
 }
+
+function is_mated(bull,cow) {
+  bullmates = matingPlan[bull];
+  console.log("is mated? "+bullmates+","+cow);
+  if(bullmates == undefined) {
+    return false;
+  }
+  for(var i=0;i<bullmates;i++) {
+    if(bullmates[i]==cow) {
+        return true;
+    }
+  }
+  return false;
+}
+
+
 function confirmMating(bull,cow) {
-    console.log("TODO");
+    var content="";
+    if(is_mated(bull,cow)) {
+        alert('Cow is already mated, please unmate it first');
+        return;
+    }
+    $("#mateModalBull").attr('data-id',bull);
+    for(var i=0;i<bulls.length;i++) {
+        if(bulls[i][1]==bull) {
+            content = "<div>P_W4M: "+bulls[i][3]+"</div>";
+            content += "<div>P_W7M: "+bulls[i][4]+"</div>";
+            content += "<div>G_W4M: "+bulls[i][5]+"</div>";
+            content += "<div>G_W7M: "+bulls[i][6]+"</div>";
+            content += "<div>G_W4Mm: "+bulls[i][7]+"</div>";
+            content += "<div>G_W7Mm: "+bulls[i][8]+"</div>";
+            break;
+        }
+    }
+    $("#mateModalBull").html(content);
+    $("#mateModalCow").attr('data-id',cow);
+    for(var i=0;i<cows.length;i++) {
+        if(cows[i][1]==cow) {
+            content = "<div>P_W4M: "+cows[i][3]+"</div>";
+            content += "<div>P_W7M: "+cows[i][4]+"</div>";
+            content += "<div>G_W4M: "+cows[i][5]+"</div>";
+            content += "<div>G_W7M: "+cows[i][6]+"</div>";
+            content += "<div>G_W4Mm: "+cows[i][7]+"</div>";
+            content += "<div>G_W7Mm: "+cows[i][8]+"</div>";
+            break;
+        }
+    }
+    $("#mateModalCow").html(content);
+    $("#mateModal").modal();
 }
 
 function mate(bull,cow) {
     // Mate bull and cow
-    var divelt = $("#"+bull+" .bulldrop");
-    addCowToBull(divelt,cow);
+    addCowToBull(bull,cow);
     if(matingPlan[bull]==undefined) {
         matingPlan[bull] = Array();    
     }
@@ -102,12 +204,28 @@ function mate(bull,cow) {
     }
 }
 
+function unmate(bull,cow) {
+  $("tr#"+cow+" .mated").html(''); 
+  $('#'+bull+' .bulldrop[data-cow="'+cow+'"]').remove();
+  bullmates = matingPlan[bull];
+  matingPlan[bull] = Array();
+  for(var i=0;i<bullmates;i++) {
+    if(bullmates[i]!=cow) {
+        matingPlan[bull].push(bullmates[i]);
+    }
+  }
+  if(useStorage) {
+      localStorage.setItem(game+"-"+level, JSON.stringify(matingPlan));
+  }
+
+}
+
 function addCowToBull(bull,cow) {
-    console.log("append "+cow);
-    console.log(bull);
-    bull.append(cows_icon);
-    bull.attr("data-cow",cow);
-    bull.attr("title",cow);
+    divelt = $("#"+bull+" .bulldrop");
+    divelt.append(cows_icon);
+    divelt.attr("data-cow",cow);
+    divelt.attr("title",cow);
+    $("tr#"+cow+" .mated").html('<span class="label label-info">mated</span><button class="unmate btn btn-mini" data-bull="'+bull+'" data-cow="'+cow+'">Unmate</button>');
 }
 
 function handleDragStart(e) {
@@ -149,6 +267,9 @@ function loadCattle(tablename, cattle) {
             if(tablename == 'bulls') {
                 data += '<td data-id="'+cattle[i][1]+'" class="bulldrop" ondragover="allowDrop(event)" ondrop="handleDrop(event);"></td>';
             }
+            else {
+                data +='<td class="mated"></td>';
+            }
             data += '</tr>';
         }
         else {
@@ -179,3 +300,29 @@ function loadCattle(tablename, cattle) {
 <thead><th></th><th>ID</th><th>P_W4M</th><th>P_W7M</th><th>g_W4Md</th><th>g_W7Md</th><th>g_W4Mm</th><th>g_W7Mm</th></thead>
 <tbody></tbody>
 </table>
+
+
+<div id="mateModal" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Confirm mating</h3>
+  </div>
+  <div id="mateModalBody" class="modal-body">
+    <table class="table">
+    <tr>
+    <td><%= image_tag('/assets/bulls_icon.png', {:width => 64})  %></td>
+    <td><%= image_tag('/assets/rings.png', {:width => 64})  %></td>
+    <td><%= image_tag('/assets/cows_icon.png', {:width => 64})  %></td>
+    </tr>
+    <tr>
+    <td id="mateModalBull"></td>
+    <td></td>
+    <td id="mateModalCow"></td>
+    </tr>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn bn-primary" id="mate">Mate</button>
+  </div>
+</div>
