@@ -4,6 +4,21 @@
   <%= @user.email %>
 </p>
 
+<% if @groups!=nil %>
+<h2>Groups</h2>
+
+<table class="table table-bordered">
+  <tr>
+    <th>Name</th>
+  </tr>
+
+<% @groups.each do |group| %>
+  <tr class="info">
+    <td><a href="<%= group_path(group)  %>"><%= group.name %></a></td>
+  </tr>
+<% end %>
+</table>
+<% end %>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

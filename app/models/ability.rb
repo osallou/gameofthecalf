@@ -28,6 +28,12 @@ class Ability
           game.user_id == user.id
       end
 
+      can :create, Level
+      can [:read, :update, :destroy], Level  do |level|
+            game = Game.find(level.game_id)
+            game.user_id == user.id
+      end
+
     end
     # Define abilities for the passed in user here. For example:
     #

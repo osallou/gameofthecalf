@@ -21,7 +21,10 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
-
+    @groups = nil
+    if @user.group_id != nil
+        @groups = Group.where(:id => @user.group_id)
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }

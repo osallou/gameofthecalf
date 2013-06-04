@@ -12,6 +12,10 @@
  *= require_tree .
  */
 
+.selected td {
+    background-color: lightblue;
+}
+
 .icon-trash::before {
   content: none;
 }

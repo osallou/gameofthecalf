@@ -1,0 +1,181 @@
+<h2>Cattle</h2>
+
+<script>
+var game = <%= @game.id %>;
+var level = <%= @level.id %>;
+var bulls = <%= @bulls.to_s.html_safe %>;
+var cows = <%= @cows.to_s.html_safe %>;
+var bulls_icon = '<%= image_tag('/assets/bulls_icon.png', {:width => 36})  %>';
+var cows_icon = '<%= image_tag('/assets/cows_icon.png', {:width => 36})  %>';
+var dead_icon = '<%= image_tag('/assets/dead_icon.png', {:width => 36, :class => 'dead' })  %>';
+</script>
+
+<script>
+var msg = "To mate a bull and a cow, select a bull then select a cow.";
+if (Modernizr.draganddrop) {
+    bulls_icon = '<%= image_tag('/assets/bulls_icon.png', {:width => 36})  %>';
+    cows_icon = '<%= image_tag('/assets/cows_icon.png', {:width => 36, :draggable => true, :class => 'cowdrag', :ondragstart => "handleDragStart(event)"})  %>';
+}
+  msg += "You can also select a cow icon and drop it in the mating column of a bull.";
+
+var useStorage = false;
+
+var matingPlan = {};
+
+if (Modernizr.localstorage) {
+    useStorage = true;
+    matingPlan = localStorage.getItem(game+"-"+level);
+    if(matingPlan == null) {
+        matingPlan = {};
+    }
+    else {
+        matingPlan = JSON.parse(matingPlan);
+    }
+    console.log("Load previous mating plan");
+}
+
+
+var selectedBull = null;
+
+
+  $(function() {
+    $("#help").html(msg);
+    loadCattle('bulls', bulls);
+    $("table#bulls").tablesorter();
+    loadCattle('cows', cows);
+    $("table#cows").tablesorter();
+
+    if(useStorage) {
+        loadMatingPlan();
+    }
+
+    $(document).on("click",".bulls",function() { 
+            if($(this).hasClass('bulls')) {
+                if(selectedBull==null || selectedBull != $(this).attr('id') ) {
+                    if(selectedBull!=null) {
+                        $("tr#"+selectedBull).removeClass('selected');
+                    }
+                    $(this).addClass('selected');
+                    selectedBull = $(this).attr('id');
+                }
+                else {
+                    $(this).removeClass('selected');
+                    selectedBull = null;
+                }
+            }
+    });
+  });
+
+
+function handleDrop(e) {
+  if (e.stopPropagation) {
+    e.stopPropagation(); // stops the browser from redirecting.
+  }
+  console.log($(e.target));
+  if($(e.target).hasClass('bulldrop')) { 
+    mate($(e.target).attr('data-id'),e.dataTransfer.getData('text'));
+  }
+  return false;
+}
+
+function loadMatingPlan() {
+    $.each(matingPlan, function(key,value) {
+        for(var i=0;i<value.length;i++) {
+            addCowToBull($("#"+key+" .bulldrop"),value[i]);
+        }
+    });
+}
+function confirmMating(bull,cow) {
+    console.log("TODO");
+}
+
+function mate(bull,cow) {
+    // Mate bull and cow
+    var divelt = $("#"+bull+" .bulldrop");
+    addCowToBull(divelt,cow);
+    if(matingPlan[bull]==undefined) {
+        matingPlan[bull] = Array();    
+    }
+    matingPlan[bull].push(cow);
+    if(useStorage) {
+        localStorage.setItem(game+"-"+level, JSON.stringify(matingPlan));
+    }
+}
+
+function addCowToBull(bull,cow) {
+    console.log("append "+cow);
+    console.log(bull);
+    bull.append(cows_icon);
+    bull.attr("data-cow",cow);
+    bull.attr("title",cow);
+}
+
+function handleDragStart(e) {
+  cowid = $(e.target).parent().parent().attr('id');
+  e.dataTransfer.setData('text', cowid);
+}
+
+function allowDrop(ev)
+{
+ev.preventDefault();
+}
+
+
+
+function loadCattle(tablename, cattle) {
+   table_data = $("table#"+tablename+" tbody");
+   table_data.html();
+   for(var i=0;i<cattle.length;i++) {
+        var data = '';
+        if(cattle[i].length==11) {
+            data += '<tr id="'+cattle[i][1]+'" data-index="'+i+'" class="'+tablename+'">';
+            if(tablename == 'bulls') {
+                icon = bulls_icon;
+                //dodrag = ' class="bulldrop"';
+            }
+            else {
+                icon = cows_icon;
+                //dodrag = ' class="cowdrag"';
+            }
+            data += '<td>'+icon+'</td>';
+            data += '<td>' + cattle[i][1] + '</td>';
+            data += '<td>' + cattle[i][3] + '</td>';
+            data += '<td>' + cattle[i][4] + '</td>';
+            data += '<td>' + cattle[i][5] + '</td>';
+            data += '<td>' + cattle[i][6] + '</td>';
+            data += '<td>' + cattle[i][7] + '</td>';
+            data += '<td>' + cattle[i][8] + '</td>';
+            // mating
+            if(tablename == 'bulls') {
+                data += '<td data-id="'+cattle[i][1]+'" class="bulldrop" ondragover="allowDrop(event)" ondrop="handleDrop(event);"></td>';
+            }
+            data += '</tr>';
+        }
+        else {
+            data += '<tr id="'+cattle[i][1]+'" class="dead">';
+            data += '<td>'+dead_icon+'</td>';
+            data += '<td>' + cattle[i][1] + '</td>';
+            data += '<td></td><td></td><td></td><td></td><td></td><td></td>';
+            
+        }
+        table_data.append(data);
+    }
+
+}
+
+</script>
+
+<div class="alert alert-info" id="help">
+</div>
+
+<h3>Bulls</h3>
+<table id="bulls" class="table">
+<thead><th></th><th>ID</th><th>P_W4M</th><th>P_W7M</th><th>g_W4Md</th><th>g_W7Md</th><th>g_W4Mm</th><th>g_W7Mm</th><th>Mating</th></thead>
+<tbody></tbody>
+</table>
+
+<h3>Cows</h3>
+<table id="cows" class="table">
+<thead><th></th><th>ID</th><th>P_W4M</th><th>P_W7M</th><th>g_W4Md</th><th>g_W7Md</th><th>g_W4Mm</th><th>g_W7Mm</th></thead>
+<tbody></tbody>
+</table>

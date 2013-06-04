@@ -11,6 +11,18 @@ class Game < ActiveRecord::Base
 
   has_many :levels, :dependent => :destroy
 
+  #Get the path to the cattle files according to user
+  def get_cattle_path(user)
+    if user.group_id != nil
+        group = Group.find(user.group_id)
+        pathid = 'group'+group.id.to_s
+    else
+        pathid = 'game'+self.id.to_s
+    end 
+    pairtree = GameOfTheCalf::Application.config.pairtree
+    cattle_path = pairtree.get('bull:'+pathid).path
+  end
+
   # Generate X cattles calling external scripts
   def self.generate_new_cattle(players=1,id=0,bulls=Settings.default_bulls,cows=Settings.default_cows)
     # Create a ppath
