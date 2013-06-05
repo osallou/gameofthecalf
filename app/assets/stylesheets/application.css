@@ -12,6 +12,11 @@
  *= require_tree .
  */
 
+
+.dead {
+    display: none;
+}
+
 .action {
     margin: 10px;
 }

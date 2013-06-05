@@ -25,6 +25,42 @@ class Game < ActiveRecord::Base
     cattle_path = pairtree.get('bull:'+pathid).path
   end
 
+  def self.writeMatingPlan(id, gen, matingplans)
+    # matingplans is an associative array with cattle id and mating plan
+    pairtree = GameOfTheCalf::Application.config.pairtree
+    cattle_path = pairtree.get('bull:'+id).path
+    matingfile = cattle_path+'/bullMate_matingDATA-G'+gen.to_s+'-1.txt'
+    File.open(matingfile, 'w') {|f| 
+      matingplans.each do |cattle,plan|
+        if plan!=nil
+          line = '##'
+          plan.each do |bull,cows|
+            line = cattle.to_s+"\t"+bull.to_s+"\t"+cows.join(",").to_s+"\n"
+          end       
+          f.write(line)
+        end   
+      end  
+      }  
+  end
+
+  def self.mate(id, gen)
+    obj = GameOfTheCalf::Application.config.pairtree.mk('bull:'+id)
+    game_path = obj.path
+    cmd = "perl "+Settings.binaries+"/bullmate_02_generateNextGeneration.pl"+
+          " -b "+game_path+"/bullMate_breederEffect_B-1"+
+          " -p "+game_path+"/bullMate_pedigree_Flock-1.txt"+
+          " --gen "+gen.to_s+" --group 1 --matrix "+Settings.binaries+"/covar_poids_4_7_mois"+
+          " --vg "+game_path+"/bullMate_perfVG_Flock-1.txt"+
+          " --mating "+game_path+"/bullMate_matingDATA-G"+gen.to_s+"-1.txt"+
+          " -d "+game_path+
+          " -e "+Settings.binaries+"/covar_envPermanent_4_7_mois"
+    err = system(cmd)
+    if not err
+        raise 'Error while trying to execute command '+cmd
+    end    
+  end
+  
+
   # Generate X cattles calling external scripts
   def self.generate_new_cattle(players=1,id=0,bulls=Settings.default_bulls,cows=Settings.default_cows)
     # Create a ppath

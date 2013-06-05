@@ -1,5 +1,6 @@
 <h2>Cattle</h2>
-<button id="reset" class="action btn btn-warning">Reset mating plan</button><button class="btn btn-primary action">Validate mating plan</button>
+<button id="reset" class="action btn btn-warning">Reset mating plan</button>
+<button id="validate" class="btn btn-primary action">Validate mating plan</button>
 
 <script>
 var game = <%= @game.id %>;
@@ -53,6 +54,11 @@ var selectedBull = null;
             matingPlan = localStorage.removeItem(game+"-"+level);
         }
     });
+    
+    $("#validate").click(function() {
+    	$("#matingplan").val(JSON.stringify(matingPlan));
+    	$("#validateModal").modal();
+    });
 
     $("#mate").click(function() {
         mate($("#mateModalBull").attr("data-id"),$("#mateModalCow").attr("data-id"));
@@ -70,9 +76,9 @@ var selectedBull = null;
 
     $(document).on("click",".bulls",function() { 
             if(selectedBull==null || selectedBull != $(this).attr('id') ) {
-                if(selectedBull!=null) {
-                    $("tr#"+selectedBull).removeClass('selected');
-                }
+                //if(selectedBull!=null) {
+                    $("tr.bulls").removeClass('selected');
+                //}
                 $(this).addClass('selected');
                 selectedBull = $(this).attr('id');
             }
@@ -207,9 +213,10 @@ function mate(bull,cow) {
 function unmate(bull,cow) {
   $("tr#"+cow+" .mated").html(''); 
   $('#'+bull+' .bulldrop span[data-cow="'+cow+'"]').remove();
-  bullmates = matingPlan[bull];
+  bullindex = -1;
+  bullmates = matingPlan[bull].slice(0);
   matingPlan[bull] = Array();
-  for(var i=0;i<bullmates;i++) {
+  for(var i=0;i<bullmates.length;i++) {
     if(bullmates[i]!=cow) {
         matingPlan[bull].push(bullmates[i]);
     }
@@ -222,7 +229,7 @@ function unmate(bull,cow) {
 
 function addCowToBull(bull,cow) {
     divelt = $("#"+bull+" .bulldrop");
-    cowelt = '<span data-cow="'+cow+'">'+cows_icon+'</span>';
+    cowelt = '<span data-cow="'+cow+'" data-toggle="tooltip" title="'+cow+'">'+cows_icon+'</span>';
     divelt.append(cowelt);
     $("tr#"+cow+" .mated").html('<span class="label label-info">mated</span><button class="unmate btn btn-mini" data-bull="'+bull+'" data-cow="'+cow+'">Unmate</button>');
 }
@@ -300,6 +307,22 @@ function loadCattle(tablename, cattle) {
 <tbody></tbody>
 </table>
 
+<div id="validateModal" class="modal hide fade">
+	<form method="post" action="<%= next_level_path(@game) %>">
+	<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Validate mating plan</h3>
+    </div>
+    <div class="modal-body">
+    	<input id="matingplan" type="hidden" name="matingplan"/>
+    	Validate current mating plan and go to the next generation.
+	</div>
+  <div class="modal-footer">
+    <button type="reset" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    <button class="btn bn-primary" id="nextlevel">Next level</button>
+  </div>
+  </form>	
+</div>
 
 <div id="mateModal" class="modal hide fade">
   <div class="modal-header">

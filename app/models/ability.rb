@@ -24,16 +24,31 @@ class Ability
   
     if user.usertype == User::PROFESSOR || user.usertype == User::STUDENT 
       can :create, Game
-      can [:read, :update, :destroy], Game  do |game|
-          game.user_id == user.id
+      can [:read, :update, :destroy, :nextlevel], Game  do |game|
+          if user.usertype == USer::PROFESSOR
+            group = Group.find(game.group_id)
+            professor = false
+            if group.email == user.email
+              professor = true
+            end
+            
+          end
+          game.user_id == user.id || professor
+          
       end
 
       can :create, Level
       can [:read, :update, :destroy], Level  do |level|
             game = Game.find(level.game_id)
-            game.user_id == user.id
+            if user.usertype == USer::PROFESSOR
+              group = Group.find(game.group_id)
+              professor = false
+              if group.email == user.email
+                professor = true
+              end
+            end
+            game.user_id == user.id || professor
       end
-
     end
     # Define abilities for the passed in user here. For example:
     #

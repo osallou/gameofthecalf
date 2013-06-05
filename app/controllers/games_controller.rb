@@ -1,7 +1,9 @@
 # Base controller for managing games
 class GamesController < ApplicationController
 
+  skip_before_filter :verify_authenticity_token
   before_filter :authenticate_user!
+  
 
   # Propose new game or load previous sessions
   def index
@@ -60,5 +62,46 @@ class GamesController < ApplicationController
     end
 
   end
+
+
+  # Move to next level
+  # POST /games/1/nextlevel
+  # POST /games/1/nextlevel.json
+  def nextlevel
+    authorize! :create, Game
+    @game = Game.find(params[:id])
+    level = Level.where(:game_id => @game.id, :level => @game[:level]).first
+    level[:matingplan] = params[:matingplan]
+    level.status = Level::STATUS_COMPLETED
+    level.save
+    max_levels = Settings.max_levels
+    
+    if @game[:group_id]!=nil
+        @game[:status] = Level::STATUS_COMPLETED
+        @game.save
+    else
+      Game.writeMatingPlan("game"+@game[:id].to_s, level[:level]+1,{ @game[:cattle] => JSON.parse(level[:matingplan]) })
+      Game.mate("game"+@game[:id])
+      if @game[level]< max_levels
+        # Go to next level
+        @game[:level] += 1
+        @game[:status] = Level::STATUS_NEW
+
+        level = Level.new(:game_id => @game.id, :status => Level::STATUS_NEW, :level => @game[:level])
+        level.save!
+      else
+        @game[:status] = Level::STATUS_COMPLETED
+      end
+      @game.save
+    end
+
+    @levels = Level.where(:game_id => @game.id)
+    
+    respond_to do |format|
+      format.html { render :levels } # levels.html.erb
+      format.json { render json: @levels }
+    end
+    
+  end  
 
 end

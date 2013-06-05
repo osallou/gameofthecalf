@@ -8,6 +8,11 @@ class LevelsController < ApplicationController
   # GET /levels/1.json
   def show
     @level = Level.find(params[:id])
+    
+    if @level[:status] == Level::STATUS_COMPLETED
+      return redirect_to :controller => "games", :action => "show", :id => @level.game_id     
+    end
+
     @game = Game.find(@level.game_id)
 
     if @level[:status] == Level::STATUS_NEW

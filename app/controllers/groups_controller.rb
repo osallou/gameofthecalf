@@ -141,6 +141,31 @@ class GroupsController < ApplicationController
   end
 
 
+  # POST /groups/1/nextlevel
+  # POST /groups/1/nextlevel.json
+  # Go to next level for all users in group
+  def nextlevel
+    @group = Group.find(params[:id])
+    authorize! :create, @group 
+    @group.mate()
+    users_in_group = User.where(:group_id => @group[:id])
+
+    @group[:users] = []
+    users_in_group.each do |user|
+        @group[:users] << { :id => user[:id], :email => user[:email] }
+    end
+
+    @users = User.where(:group_id => @group[:id])
+
+    @games = Game.where(:group_id => @group[:id])
+
+    respond_to do |format|
+      format.html { render :show }# show.html.erb
+      format.json { render json: @group }
+    end 
+    
+  end
+
   # POST /groups/1/generateusers/10
   # POST /groups/1/generateusers/10.json
   # Generate a umberof fake accounts
