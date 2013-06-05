@@ -3,11 +3,13 @@
 # It gathers statistics, interactions etc... with the player
 # as well as global rules.
 class Game < ActiveRecord::Base
-  attr_accessible :user_id, :level, :status, :cattle
+
+  attr_accessible :user_id, :level, :status, :cattle, :group_id
   
   scope :recent, order("created_at desc")
   
   belongs_to :user
+  belongs_to :group
 
   has_many :levels, :dependent => :destroy
 

@@ -1,7 +1,4 @@
-<p>
-  <b>Name:</b>
-  <%= @group.name %>
-</p>
+<h2>  <%= @group.name %> </h2>
 
 <p>
   <b>Description:</b>
@@ -13,7 +10,7 @@
   <%= @group.email %>
 </p>
 
-<b>Students</b>
+<h3>Students</h3>
 
 <table class="table table-bordered">
   <tr>
@@ -22,12 +19,27 @@
 
 <% @users.each do |user| %>
   <tr class="info">
-    <td><a href="<%= user_path(user)  %>"><%= user.email %></a></td>
+    <td><%= user[:id]  %></td><td><a href="<%= user_path(user)  %>"><%= user[:email] %></a></td>
   </tr>
 <% end %>
 </table>
 
-
+<h3>Game status</h3>
+<table class="table table-bordered">
+<thead><th>User id</th><th>Current level</th><th>Status</th><th></th></thead>
+<tbody>
+<% @games.each do |game| %>
+  <tr class="info">
+    <td><%= game[:user_id] %></td><td><%= game[:level] %></td><td><%= game[:status] %></td>
+    <% if game[:status] == Level::STATUS_NEW || game[:status] == Level::STATUS_IN_PROGRESS %>
+    <td><button class="btn"><a href="<%= game_path(game)  %>">Show</a></button><button class="btn">Force completion</button></td>
+    <% else %>
+    <td></td>
+    <% end %>
+  </tr>
+<% end %>
+</tbody>
+</table>
 
 <%= link_to 'Edit', edit_group_path(@group) %> |
 <%= link_to 'Back', groups_path %>

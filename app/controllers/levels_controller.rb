@@ -10,7 +10,16 @@ class LevelsController < ApplicationController
     @level = Level.find(params[:id])
     @game = Game.find(@level.game_id)
 
-    cattle_path = @game.get_cattle_path(current_user)
+    if @level[:status] == Level::STATUS_NEW
+        @level[:status] = Level::STATUS_IN_PROGRESS
+        @level.save
+        @game[:status] = Level::STATUS_IN_PROGRESS
+        @game.save
+    end
+
+    user = User.find(@game[:user_id])        
+
+    cattle_path = @game.get_cattle_path(user)
     cattle_file = 'bullMate_perfVG_Flock-1_generation-'+@level.level.to_s+'.txt'
 
     @bulls = []

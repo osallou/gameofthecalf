@@ -34,6 +34,8 @@ class GroupsController < ApplicationController
 
     @users = User.where(:group_id => @group[:id])
 
+    @games = Game.where(:group_id => @group[:id])
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @group }
@@ -109,9 +111,24 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     authorize! :destroy, @group
 
-    # Delete all users in group
-    users_in_group = User.where(:group_id => @group[:id])
+    users_in_group = User.where(:group_id => @group[:id], :fake => 0)
     users_in_group.each do |user|
+        user[:group_id] = nil
+        user.save
+    end
+    # Delete all users in group
+    users_in_group = User.where(:group_id => @group[:id], :fake => 1)
+    users_in_group.each do |user|
+        # Delete user games
+        user_games = Game.where(:user_id => user[:id])
+        user_games.each do |game|
+            # Delete game levels
+            Level.delete_all(:game_id => game[:id])
+            #game_levels.each do |level|
+            #    level.destroy
+            #end
+            game.destroy
+        end
         user.destroy
     end
 
@@ -144,6 +161,7 @@ class GroupsController < ApplicationController
     uuid = UUID.new
     (1..@quantity.to_i).each do |n|
         user = User.new()
+        user.fake = 1
         user.usertype = User::STUDENT
         user.password = SecureRandom.hex(16)
         user.password_confirmation =  user.password
@@ -152,7 +170,7 @@ class GroupsController < ApplicationController
         user.confirm!
         user.save(:validate => false)
         # Add a game to the user, associate one of the cattles to the user
-        game = Game.new(:user_id => user.id, :cattle => n)
+        game = Game.new(:user_id => user.id, :cattle => n, :group_id => user.group_id, :level => 1, :status => Level::STATUS_NEW)
         game.save!
         # Create first level e.g. first generation
         level = Level.new(:game_id => game.id, :status => Level::STATUS_NEW, :level => 1)

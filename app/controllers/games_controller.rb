@@ -18,7 +18,7 @@ class GamesController < ApplicationController
   # POST /games.json
   def create
     authorize! :create, Game
-    @game = Game.new(:user_id => current_user.id)
+    @game = Game.new(:user_id => current_user.id, :status => Level::STATUS_NEW, :level => 1)
     @game.save!
     # Generate cattle
     Game.generate_new_cattle(1,'game'+@game[:id].to_s)

@@ -7,5 +7,6 @@ class Group < ActiveRecord::Base
   scope :recent, order("created_at desc")
 
   has_many :users, :dependent => :nullify
+  has_many :games, :dependent => :nullify
 
 end
