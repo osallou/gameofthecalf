@@ -36,7 +36,8 @@
   	end %>
     <td><%= game[:user_id] %></td><td><%= game[:level] %></td><td><%= game[:status] %></td>
     <% if game[:status] == Level::STATUS_NEW || game[:status] == Level::STATUS_IN_PROGRESS %>
-    <td><button class="btn"><a href="<%= game_path(game)  %>">Show</a></button><button class="btn">Force completion</button></td>
+    <td><button class="btn"><a href="<%= game_path(game)
+%>">Show</a></button><button class="btn"><a href="<%= group_force_next_level_path(@group, game) %>">Force completion</a></button></td>
     <% else %>
     <td></td>
     <% end %>

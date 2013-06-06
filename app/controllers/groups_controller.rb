@@ -140,6 +140,27 @@ class GroupsController < ApplicationController
     end
   end
 
+  def forcenextlevel
+    @group = Group.find(params[:id])
+    authorize! :create, @group
+    @game = Game.find(params[:gid])
+
+    matingPlan = @game.generateFakeMatingPlan()
+
+    level = Level.where(:game_id => @game.id, :level => @game[:level]).first
+    level[:matingplan] = JSON.generate(matingPlan)
+    level.status = Level::STATUS_COMPLETED
+    level.save
+    @game[:status] = Level::STATUS_COMPLETED
+    @game.save
+
+    respond_to do |format|
+      format.html { redirect_to @group, notice: 'Game switched to next level.'}
+      format.json { render json: matingPlan }
+    end
+    
+
+  end
 
   # POST /groups/1/nextlevel
   # POST /groups/1/nextlevel.json

@@ -33,6 +33,7 @@ GameOfTheCalf::Application.routes.draw do
   as :group do
     post 'groups/:id/generateusers' => 'groups#generateusers', :as => 'generate_users'
     get 'groups/:id/nextlevel' => 'groups#nextlevel', :as => 'next_group_level'
+    get 'groups/:id/games/:gid/forcenextlevel' => 'groups#forcenextlevel', :as => 'group_force_next_level'
   end
 
   match 'users/create' => 'users#create', :via => :post, :as => :create_user

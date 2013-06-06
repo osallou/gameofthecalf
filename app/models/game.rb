@@ -43,6 +43,56 @@ class Game < ActiveRecord::Base
       }  
   end
 
+  def generateFakeMatingPlan()
+    #level = Level.where(:game_id => self.id, :level => self.level).first
+    user = User.find(self.user_id)
+    cattle_path = self.get_cattle_path(user)
+    cattle_file = 'bullMate_perfVG_Flock-1_generation-'+self.level.to_s+'.txt'
+
+    bulls = []
+    cows = []
+
+    found = false
+    CSV.foreach(cattle_path+'/'+cattle_file, col_sep:"\t") do |row|
+        if row[0].to_i == self.cattle
+            if row[2].to_i == 0
+                bulls << row
+            else
+                cows << row
+            found = true
+            end
+        elsif found
+            break
+        end
+    end
+
+    matingplan = {}
+    i = 0
+    maxbulls = Settings.max_bulls
+    maxcows = Settings.max_cows
+    if self.group_id != nil
+        group  = Group.find(self.group_id)
+        maxbulls = group[:bulls]
+        maxcows = group[:cows]
+    end
+    cowsperbull = maxcows / maxbulls
+    remaining = maxcows - (maxbulls * cowsperbull)
+    cow = 0
+    for cbull in 0..(maxbulls-1)
+        bull = bulls[cbull]
+        matingplan[bull[1]] = []
+        for j in (cowsperbull*cbull)..((cowsperbull*(cbull+1)-1))
+            matingplan[bull[1]] << cows[j][1]
+            cow+=1
+        end 
+    end
+    for j in cow..(cow+remaining-1)
+        matingplan[bull[maxbulls-1]] << cows[j][1]
+    end 
+    return matingplan 
+
+  end
+
   def self.mate(id, gen)
     obj = GameOfTheCalf::Application.config.pairtree.mk('bull:'+id)
     game_path = obj.path
