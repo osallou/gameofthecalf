@@ -15,6 +15,14 @@ class LevelsController < ApplicationController
 
     @game = Game.find(@level.game_id)
 
+    @maxbulls = Settings.default_bulls
+    @maxcows = Settings.default_cowsa
+    if @game[:group_id] != nil
+        group = Group.find(@game[:group_id])
+        @maxbulls = group[:bulls]
+        @maxcows = group[:cows]
+    end
+
     if @level[:status] == Level::STATUS_NEW
         @level[:status] = Level::STATUS_IN_PROGRESS
         @level.save

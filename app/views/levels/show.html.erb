@@ -1,12 +1,24 @@
 <h2>Cattle</h2>
+<div class="row">
+<div class="span6">
 <button id="reset" class="action btn btn-warning">Reset mating plan</button>
 <button id="validate" class="btn btn-primary action">Validate mating plan</button>
+</div>
+<div class="span6">
+<h3>You can mate <span id="countBulls"></span> bulls and <span
+id="countCows"></span> cows.</h3>
+</div>
+</div>
 
 <script>
 var game = <%= @game.id %>;
 var level = <%= @level.id %>;
 var bulls = <%= @bulls.to_s.html_safe %>;
 var cows = <%= @cows.to_s.html_safe %>;
+var maxbulls = <%= @maxbulls.to_s %>;
+var maxcows = <%= @maxcows.to_s %>;
+var nbBulls = 0;
+var nbCows = 0;
 var bulls_icon = '<%= image_tag('/assets/bulls_icon.png', {:width => 36})  %>';
 var cows_icon = '<%= image_tag('/assets/cows_icon.png', {:width => 36})  %>';
 var dead_icon = '<%= image_tag('/assets/dead_icon.png', {:width => 36, :class => 'dead' })  %>';
@@ -53,6 +65,8 @@ var selectedBull = null;
         if(useStorage) {
             matingPlan = localStorage.removeItem(game+"-"+level);
         }
+        $(".bulldrop").html("");
+        $(".mated").html("");
     });
     
     $("#validate").click(function() {
@@ -142,15 +156,22 @@ function handleDrop(e) {
 
 function loadMatingPlan() {
     $.each(matingPlan, function(key,value) {
+        nbBulls += 1;
+        nbCows += value.length;
         for(var i=0;i<value.length;i++) {
             addCowToBull(key,value[i]);
         }
     });
+    updateCounters();
+}
+
+function updateCounters() {
+    $("#countBulls").html(maxbulls - nbBulls);
+    $("#countCows").html(maxcows - nbCows);
 }
 
 function is_mated(bull,cow) {
   bullmates = matingPlan[bull];
-  console.log("is mated? "+bullmates+","+cow);
   if(bullmates == undefined) {
     return false;
   }
@@ -200,7 +221,26 @@ function confirmMating(bull,cow) {
 
 function mate(bull,cow) {
     // Mate bull and cow
+
+    if(nbCows==maxCows) {
+        alert("You have reached the maximum number of cow mating");
+        return;
+    }
+
+    nbCows += 1;
+
+    if(matingPlan[bull]==undefined || matingPlan[bull].length==0) {
+        if(nbBulls == maxBulls) {
+            alert("You have reached the maximum number of bull mating");
+            return;
+        }
+        nbBulls += 1;
+    }
+    updateCounters();
+
     addCowToBull(bull,cow);
+
+
     if(matingPlan[bull]==undefined) {
         matingPlan[bull] = Array();    
     }
@@ -208,6 +248,7 @@ function mate(bull,cow) {
     if(useStorage) {
         localStorage.setItem(game+"-"+level, JSON.stringify(matingPlan));
     }
+
 }
 
 function unmate(bull,cow) {
@@ -224,6 +265,13 @@ function unmate(bull,cow) {
   if(useStorage) {
       localStorage.setItem(game+"-"+level, JSON.stringify(matingPlan));
   }
+
+  nbCows -= 1;
+  if(matingPlan[bull]==undefined || matingPlan[bull].length==0) {
+      nbBulls -= 1;
+  }
+  updateCounters();
+
 
 }
 
