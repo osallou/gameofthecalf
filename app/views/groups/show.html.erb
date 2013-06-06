@@ -45,7 +45,7 @@
 </tbody>
 </table>
 
-<% if completed %>
+<% if completed && @games.length>0%>
 <div>
 <h3>Generate next generation</h3>
 	<button class="btn"><a href="<%= next_group_level_path(@group)  %>">Generate next generation</a></button>
