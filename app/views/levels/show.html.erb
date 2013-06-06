@@ -5,8 +5,7 @@
 <button id="validate" class="btn btn-primary action">Validate mating plan</button>
 </div>
 <div class="span6">
-<h3>You can mate <span id="countBulls"></span> bulls and <span
-id="countCows"></span> cows.</h3>
+<h3>You can mate <span id="countBulls" class="counter"></span> bulls and <span id="countCows" class="counter"></span> cows.</h3>
 </div>
 </div>
 
@@ -67,6 +66,8 @@ var selectedBull = null;
         }
         $(".bulldrop").html("");
         $(".mated").html("");
+        nbBulls = 0;
+        nbCows = 0;
     });
     
     $("#validate").click(function() {
