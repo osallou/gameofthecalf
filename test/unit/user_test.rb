@@ -76,6 +76,18 @@ class UserTest < ActiveSupport::TestCase
     ability = Ability.new(prof2)
     assert ability.cannot?(:update, group)
   end
-  
-  
+
+  test "prof can force a student level completion" do
+    fail
+  end  
+ 
+  test "when all students in group have completed level professor can go to
+next level" do
+    fail
+  end 
+
+  test "when student complete level and not in group, switch to next level" do
+    fail
+  end
+
 end

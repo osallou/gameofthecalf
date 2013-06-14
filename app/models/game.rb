@@ -15,6 +15,9 @@ class Game < ActiveRecord::Base
 
   #Get the path to the cattle files according to user
   def get_cattle_path(user)
+    if Settings.simulate != nil
+        return Rails.root.join('test', 'fixtures', 'fakedata', '/')
+    end
     if user.group_id != nil
         group = Group.find(user.group_id)
         pathid = 'group'+group.id.to_s
@@ -23,6 +26,7 @@ class Game < ActiveRecord::Base
     end 
     pairtree = GameOfTheCalf::Application.config.pairtree
     cattle_path = pairtree.get('bull:'+pathid).path
+    return cattle_path
   end
 
   def self.writeMatingPlan(id, gen, matingplans)
@@ -94,6 +98,9 @@ class Game < ActiveRecord::Base
   end
 
   def self.mate(id, gen)
+    if Settings.simulate != nil
+        return
+    end
     obj = GameOfTheCalf::Application.config.pairtree.mk('bull:'+id)
     game_path = obj.path
     cmd = "perl "+Settings.binaries+"/bullmate_02_generateNextGeneration.pl"+
@@ -113,6 +120,9 @@ class Game < ActiveRecord::Base
 
   # Generate X cattles calling external scripts
   def self.generate_new_cattle(players=1,id=0,bulls=Settings.default_bulls,cows=Settings.default_cows)
+    if Settings.simulate!=nil
+        return
+    end
     # Create a ppath
     obj = GameOfTheCalf::Application.config.pairtree.mk('bull:'+id)
     game_path = obj.path
@@ -139,17 +149,6 @@ class Game < ActiveRecord::Base
     if not err
         raise 'Error while trying to execute command '+cmd
     end
-    # execute:
-    # bullmate_01_generateInitialPop.pl -w poids_4_7mois -m covar_poids_4_7_mois
-    # -h heritability_poids_4_7_mois -f 10 -b 5 -c 50 -e
-    # covar_envPermanent_4_7_mois -g groupid -d workdir
-    # Then
-    # perl  bullmate_02_generateNextGeneration.pl -b
-    # /tmp/bullMate_breederEffect_B-1  -p
-    # /tmp/bullMate_pedigree_Flock-1_Bull-5_Cow-50.txt --gen 1 --group 1
-    # --matrix covar_poids_4_7_mois  --vg
-    # /tmp/bullMate_perfVG_Flock-1_Bull-5_Cow-50.txt  --mating
-    # /tmp/bullMate_matingDATA-G0-1.txt  -d /tmp/ -e covar_envPermanent_4_7_mois
   end
 
 end
