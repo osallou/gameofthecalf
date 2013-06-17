@@ -42,7 +42,7 @@ end
 # Gems for test group
 group :test do
   gem 'rake'
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
 end
 

@@ -27,10 +27,10 @@ class GroupsController < ApplicationController
 
     users_in_group = User.where(:group_id => @group[:id])
 
-    @group[:users] = []
-    users_in_group.each do |user|
-        @group[:users] << { :id => user[:id], :email => user[:email] }
-    end
+    #@group.users = []
+    #users_in_group.each do |user|
+    #    @group.users << { :id => user[:id], :email => user[:email] }
+    #end
 
     @users = User.where(:group_id => @group[:id])
 
@@ -171,10 +171,10 @@ class GroupsController < ApplicationController
     @group.mate()
     users_in_group = User.where(:group_id => @group[:id])
 
-    @group[:users] = []
-    users_in_group.each do |user|
-        @group[:users] << { :id => user[:id], :email => user[:email] }
-    end
+    #@group.users = []
+    #users_in_group.each do |user|
+    #    @group.users << { :id => user[:id], :email => user[:email] }
+    #end
 
     @users = User.where(:group_id => @group[:id])
 

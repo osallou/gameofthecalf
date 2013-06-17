@@ -28,7 +28,11 @@ class GameTest < ActiveSupport::TestCase
     
     game.complete_level()
     assert game[:level] == 2
+    assert game[:status] == Level::STATUS_NEW
+    previouslevel = Level.where(:game_id => game.id, :level => 1).first
+    assert previouslevel[:status] == Level::STATUS_COMPLETED
     nextlevel = Level.where(:game_id => game.id, :level => 2).first
     assert nextlevel != nil
+    assert nextlevel[:status] == Level::STATUS_NEW
   end
 end
