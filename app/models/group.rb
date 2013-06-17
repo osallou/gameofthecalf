@@ -32,10 +32,9 @@ class Group < ActiveRecord::Base
       end
       game.save
     end
-    #TODO write matingplan
     do_mating = Game.writeMatingPlan("group"+self[:id].to_s, gen+1, matingplans)
     if do_mating
-      Game.mate("group"+self[:id].to_s, gen)
+      Game.mate("group"+self[:id].to_s, gen+1)
     end
   end
 

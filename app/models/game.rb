@@ -31,6 +31,9 @@ class Game < ActiveRecord::Base
 
   def self.writeMatingPlan(id, gen, matingplans)
     # matingplans is an associative array with cattle id and mating plan
+    if Settings.simulate != nil
+      return
+    end
     pairtree = GameOfTheCalf::Application.config.pairtree
     cattle_path = pairtree.get('bull:'+id).path
     matingfile = cattle_path+'/bullMate_matingDATA-G'+gen.to_s+'-1.txt'
@@ -57,7 +60,7 @@ class Game < ActiveRecord::Base
     cows = []
 
     found = false
-    CSV.foreach(cattle_path+'/'+cattle_file, col_sep:"\t") do |row|
+    CSV.foreach(cattle_path + '/' + cattle_file, col_sep: + "\t") do |row|
         if row[0].to_i == self.cattle
             if row[2].to_i == 0
                 bulls << row
@@ -148,6 +151,36 @@ class Game < ActiveRecord::Base
     err = system(cmd)
     if not err
         raise 'Error while trying to execute command '+cmd
+    end
+  end
+  
+  def complete_level(matingplan="{}")
+    
+    max_levels = Settings.max_levels
+    
+    # Update current level
+    level = Level.where(:game_id => self[:id], :level => self[:level]).first
+    level[:matingplan] = matingplan
+    level.status = Level::STATUS_COMPLETED
+    level.save
+    
+    if self[:group_id]!=nil
+        self[:status] = Level::STATUS_COMPLETED
+        self.save
+    else
+      Game.writeMatingPlan("game"+self[:id].to_s, level[:level]+1,{ self[:cattle] => JSON.parse(level[:matingplan]) })
+      Game.mate("game"+self[:id].to_s, self[:level]+1)
+      if self[:level]< max_levels
+        # Go to next level
+        self[:level] += 1
+        self[:status] = Level::STATUS_NEW
+
+        level = Level.new(:game_id => self.id, :status => Level::STATUS_NEW, :level => self[:level])
+        level.save!
+      else
+        self[:status] = Level::STATUS_COMPLETED
+      end
+      self.save
     end
   end
 

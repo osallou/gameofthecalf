@@ -70,30 +70,8 @@ class GamesController < ApplicationController
   def nextlevel
     authorize! :create, Game
     @game = Game.find(params[:id])
-    level = Level.where(:game_id => @game.id, :level => @game[:level]).first
-    level[:matingplan] = params[:matingplan]
-    level.status = Level::STATUS_COMPLETED
-    level.save
-    max_levels = Settings.max_levels
     
-    if @game[:group_id]!=nil
-        @game[:status] = Level::STATUS_COMPLETED
-        @game.save
-    else
-      Game.writeMatingPlan("game"+@game[:id].to_s, level[:level]+1,{ @game[:cattle] => JSON.parse(level[:matingplan]) })
-      Game.mate("game"+@game[:id])
-      if @game[level]< max_levels
-        # Go to next level
-        @game[:level] += 1
-        @game[:status] = Level::STATUS_NEW
-
-        level = Level.new(:game_id => @game.id, :status => Level::STATUS_NEW, :level => @game[:level])
-        level.save!
-      else
-        @game[:status] = Level::STATUS_COMPLETED
-      end
-      @game.save
-    end
+    @game.complete_level(params[:matingplan])
 
     @levels = Level.where(:game_id => @game.id)
     
