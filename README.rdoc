@@ -17,7 +17,14 @@ in development
 
 == Configuration
 
-Administrators are set in config/settings.yml
+Administrators are set in config/settings.yml and
+config/settings/production.yml,development.yml,test.yml
+
+Following should be set to where game data should be stored:
+
+binaries: "path_to/gameofthecalf-bin/bullmate/trunk/"
+workdir: "path_to/gameofthecalf-data"
+
 
 === Create a user from console
 
