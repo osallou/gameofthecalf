@@ -36,7 +36,8 @@ end
 
 group :production do
   # Requires postgresql and pq-dev packages
-  gem 'pg'
+  gem 'pg', :platform => [:ruby, :mswin, :mingw]
+  gem 'activerecord-jdbcpostgresql-adapter', :platform => :jruby
 end
 
 # Gems for test group
