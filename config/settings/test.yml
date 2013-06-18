@@ -1,1 +1,6 @@
 simulate: true
+
+binaries: ""
+
+workdir: ""
+
