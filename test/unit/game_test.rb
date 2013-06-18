@@ -16,16 +16,18 @@ class GameTest < ActiveSupport::TestCase
     return game
   end
   
-  test "complete level" do
+  setup do
     Settings.simulate = true
-    
+    Settings.max_levels = 2
     Game.delete_all()
     Level.delete_all()
+  end
+  
+  test "complete level" do
     
     student = User.where(:email => "student@no-reply.org").first
     game = self.new_game(student)
-    
-    
+       
     game.complete_level()
     assert game[:level] == 2
     assert game[:status] == Level::STATUS_NEW
@@ -34,5 +36,19 @@ class GameTest < ActiveSupport::TestCase
     nextlevel = Level.where(:game_id => game.id, :level => 2).first
     assert nextlevel != nil
     assert nextlevel[:status] == Level::STATUS_NEW
+  end
+  
+  test "complete game" do
+    student = User.where(:email => "student@no-reply.org").first
+    game = self.new_game(student)
+    
+    game.complete_level()
+    game.complete_level()
+    assert game[:level] == 2
+    assert game[:status] == Level::STATUS_COMPLETED
+    previouslevel = Level.where(:game_id => game.id, :level => 2).first
+    assert previouslevel[:status] == Level::STATUS_COMPLETED
+    nextlevel = Level.where(:game_id => game.id, :level => 3).first
+    assert nextlevel == nil  
   end
 end

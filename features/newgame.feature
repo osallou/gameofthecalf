@@ -6,15 +6,11 @@ Feature: Newgame
     When the user click on "new game"
     Then a new game is created with one level
 
-Feature: DeleteGroup
-
   Scenario: Professor delete a group
     Given the professor owns the group
     When the professor click on "delete group"
     Then users in the group are deleted
     And  group is deleted 
-
-Feature: GenerateUsers
 
   Scenario: Professor create some users for the group
     Given the professor needs 5 users

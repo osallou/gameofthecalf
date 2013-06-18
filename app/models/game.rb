@@ -170,7 +170,7 @@ class Game < ActiveRecord::Base
     else
       Game.writeMatingPlan("game"+self[:id].to_s, level[:level]+1,{ self[:cattle] => JSON.parse(level[:matingplan]) })
       Game.mate("game"+self[:id].to_s, self[:level]+1)
-      if self[:level]< max_levels
+      if self[:level] < max_levels
         # Go to next level
         self[:level] += 1
         self[:status] = Level::STATUS_NEW
