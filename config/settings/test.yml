@@ -2,5 +2,5 @@ simulate: true
 
 binaries: ""
 
-workdir: ""
+workdir: "test"
 

@@ -1,9 +1,11 @@
 
 workdir = Settings.workdir
-if Settings.workdir.empty?
+if Settings.workdir.nil? or Settings.workdir.empty?
     workdir = Rails.root.join('data')
-    Dir.mkdir(workdir)
+    if not Dir.exists?(workdir)
+        Dir.mkdir(workdir)
+    end
 end
-GameOfTheCalf::Application.config.pairtree = Pairtree.at(workdir, :prefix => 'bull:', :create => true)
+GameOfTheCalf::Application.config.pairtree = Pairtree.at(workdir.to_s, :prefix => 'bull:', :create => true)
 
-puts "Initialize workdir at "+Settings.workdir
+puts "Initialize workdir at "+workdir.to_s
