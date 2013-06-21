@@ -20,6 +20,7 @@ var nbBulls = 0;
 var nbCows = 0;
 var bulls_icon = '<%= image_tag('/assets/bulls_icon.png', {:width => 36})  %>';
 var cows_icon = '<%= image_tag('/assets/cows_icon.png', {:width => 36})  %>';
+var cows_mini_icon = '<%= image_tag('/assets/cows_icon.png', {:width => 12})  %>';
 var dead_icon = '<%= image_tag('/assets/dead_icon.png', {:width => 36, :class => 'dead' })  %>';
 </script>
 
@@ -137,6 +138,7 @@ var selectedBull = null;
 
 function highlight_mated_bull(bull) {
     selectedBull = null;
+    $("tr.bulls").removeClass('selected');
     $("tr#"+bull).addClass('selected');
     highlight_mated_cows(bull);
 }
@@ -286,7 +288,7 @@ function unmate(bull,cow) {
 
 function addCowToBull(bull,cow) {
     divelt = $("#"+bull+" .bulldrop");
-    cowelt = '<span data-cow="'+cow+'" data-toggle="tooltip" title="'+cow+'">'+cows_icon+'</span>';
+    cowelt = '<span data-cow="'+cow+'" data-toggle="tooltip" title="'+cow+'">'+cows_mini_icon+'</span>';
     divelt.append(cowelt);
     $("tr#"+cow+" .mated").html('<span class="label label-info">mated</span><button class="unmate btn btn-mini" data-bull="'+bull+'" data-cow="'+cow+'">Unmate</button>');
 }
@@ -351,18 +353,22 @@ function loadCattle(tablename, cattle) {
 
 <div class="alert alert-info" id="help">
 </div>
-
+<div class="row">
+<div class="span6">
 <h3 class="reduce" data-reduce="bulls">Bulls <%= image_tag('/assets/resize.png', {:width => 16})  %></h3>
 <table id="bulls" class="table">
 <thead><th></th><th>ID</th><th>P_W4M</th><th>P_W7M</th><th>g_W4Md</th><th>g_W7Md</th><th>g_W4Mm</th><th>g_W7Mm</th><th>Mating</th></thead>
 <tbody></tbody>
 </table>
-
+</div>
+<div class="span6">
 <h3 class="reduce" data-reduce="cows">Cows <%= image_tag('/assets/resize.png', {:width => 16})  %></h3>
 <table id="cows" class="table">
 <thead><th></th><th>ID</th><th>P_W4M</th><th>P_W7M</th><th>g_W4Md</th><th>g_W7Md</th><th>g_W4Mm</th><th>g_W7Mm</th></thead>
 <tbody></tbody>
 </table>
+</div>
+</div>
 
 <div id="validateModal" class="modal hide fade">
 	<form method="post" action="<%= next_level_path(@game) %>">
