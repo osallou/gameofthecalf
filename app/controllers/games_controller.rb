@@ -15,6 +15,7 @@ class GamesController < ApplicationController
    end
   end
 
+
   # Creates a new game
   # POST /games
   # POST /games.json

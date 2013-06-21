@@ -11,6 +11,11 @@
  *= require_self
  *= require_tree .
  */
+
+h3 {
+  padding: 5px;
+}
+
 .counter {
    border-style: solid;
    background-color: black;
