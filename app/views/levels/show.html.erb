@@ -58,6 +58,14 @@ var selectedBull = null;
     loadCattle('cows', cows);
     $("table#cows").tablesorter();
 
+    $(".reduce").click(function() {
+       $("."+$(this).attr("data-reduce")).each(function() {
+           if(selectedBull != $(this).attr('id')) {
+              $(this).toggle();
+           }
+       });
+    });
+
     $("#reset").click(function() {
         $("tr").removeClass('selected');
         matingPlan = {}
@@ -223,7 +231,7 @@ function confirmMating(bull,cow) {
 function mate(bull,cow) {
     // Mate bull and cow
 
-    if(nbCows==maxCows) {
+    if(nbCows==maxcows) {
         alert("You have reached the maximum number of cow mating");
         return;
     }
@@ -231,7 +239,7 @@ function mate(bull,cow) {
     nbCows += 1;
 
     if(matingPlan[bull]==undefined || matingPlan[bull].length==0) {
-        if(nbBulls == maxBulls) {
+        if(nbBulls == maxbulls) {
             alert("You have reached the maximum number of bull mating");
             return;
         }
@@ -344,13 +352,13 @@ function loadCattle(tablename, cattle) {
 <div class="alert alert-info" id="help">
 </div>
 
-<h3>Bulls</h3>
+<h3 class="reduce" data-reduce="bulls">Bulls <%= image_tag('/assets/resize.png', {:width => 16})  %></h3>
 <table id="bulls" class="table">
 <thead><th></th><th>ID</th><th>P_W4M</th><th>P_W7M</th><th>g_W4Md</th><th>g_W7Md</th><th>g_W4Mm</th><th>g_W7Mm</th><th>Mating</th></thead>
 <tbody></tbody>
 </table>
 
-<h3>Cows</h3>
+<h3 class="reduce" data-reduce="cows">Cows <%= image_tag('/assets/resize.png', {:width => 16})  %></h3>
 <table id="cows" class="table">
 <thead><th></th><th>ID</th><th>P_W4M</th><th>P_W7M</th><th>g_W4Md</th><th>g_W7Md</th><th>g_W4Mm</th><th>g_W7Mm</th></thead>
 <tbody></tbody>
