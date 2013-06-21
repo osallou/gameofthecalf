@@ -16,7 +16,9 @@ gem 'simple_form'
 
 gem 'rails_config'
 
-gem "therubyracer"
+gem "therubyracer", :platform => [:ruby, :mswin, :mingw]
+gem "therubyrhino", :platform => :jruby
+
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 gem "twitter-bootstrap-rails"
 
