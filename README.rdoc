@@ -2,11 +2,20 @@
 
 == INSTALLATION
 
+Update config in config/settings/production.yml
+                 config/databases.yml
+                 config/environments/production.yml (mailer)
+
 create preferably an RVM gemset
-rvm create gemset gameofthecalf
-rvm use @gameofthecalf
-bundle install
-rake db:migrate
+
+    rvm create gemset gameofthecalf
+    rvm use @gameofthecalf
+    bundle install
+    rake db:migrate
+
+In production, precompile assets:
+
+    bundle exec rake assets:precompile
 
 == STATUS
 
