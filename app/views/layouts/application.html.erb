@@ -14,6 +14,9 @@
     <ul class="nav">
       <li><a href="/"><%= t :home %></a></li>
       <li><a href="/tutorial"><%= t :tutorial %></a></li>
+      <% if user_signed_in? %>
+          <li><a href="#" id="collaborate">Collaborate</a></li>
+      <% end %>
       <li><a href="/credits"><%= t :credits %></a></li>
     </ul>
     <ul class="nav pull-right">
@@ -54,5 +57,16 @@
 Powered by <span>The GenOuest Platform</span> and <span>Agro Campus Rennes</span>
 </div>
 </div>
+<script>
+  // Set to false or delete to disable analytics/tracking:
+  TowTruckConfig_enableAnalytics = true;
+  $(function() {
+    $("#collaborate").click(function() {
+        TowTruck(this); return false;
+    });
+
+  });
+</script>
+<script src="https://towtruck.mozillalabs.com/towtruck.js"></script>
 </body>
 </html>
