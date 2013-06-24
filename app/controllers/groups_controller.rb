@@ -136,7 +136,7 @@ class GroupsController < ApplicationController
         user.destroy
     end
 
-    config = Config.find(@group[:config_id])
+    config = GameConfig.find(@group[:config_id])
     config.destroy
 
     @group.destroy
