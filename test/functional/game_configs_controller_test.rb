@@ -1,8 +1,12 @@
 require 'test_helper'
 
 class GameConfigsControllerTest < ActionController::TestCase
+  include Devise::TestHelpers
+
   setup do
     @game_config = game_configs(:one)
+    user = users(:admin)
+    sign_in user
   end
 
   test "should get index" do
