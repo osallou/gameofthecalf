@@ -109,11 +109,12 @@ class Game < ActiveRecord::Base
     cmd = "perl "+Settings.binaries+"/bullmate_02_generateNextGeneration.pl"+
           " -b "+game_path+"/bullMate_breederEffect_B-1"+
           " -p "+game_path+"/bullMate_pedigree_Flock-1.txt"+
-          " --gen "+gen.to_s+" --group 1 --matrix "+Settings.binaries+"/covar_poids_4_7_mois"+
+          " --gen "+gen.to_s+" --group 1 --matrix "+game_path+"/covar_poids_4_7_mois"+
           " --vg "+game_path+"/bullMate_perfVG_Flock-1.txt"+
           " --mating "+game_path+"/bullMate_matingDATA-G"+gen.to_s+"-1.txt"+
           " -d "+game_path+
-          " -e "+Settings.binaries+"/covar_envPermanent_4_7_mois"
+          " -e "+game_path+"/covar_envPermanent_4_7_mois"+
+          " --config "+game_path+"/config.yml"
     err = system(cmd)
     if not err
         raise 'Error while trying to execute command '+cmd
@@ -121,21 +122,78 @@ class Game < ActiveRecord::Base
   end
   
 
+  def self.generate_config(game_path, config)
+    conf = {}
+    conf['nbtraits'] = config['nbtrait']
+    conf['mortality'] = config['mortality']
+    conf['mean_weight'] = {}
+    mean = config['mean_weight'].split(',')
+    conf['mean_weight']['WEIGHT4M'] = mean[0]
+    conf['mean_weight']['WEIGHT7M'] = mean[1]
+    sex_effect = config['sex_effect'].split(',')
+    conf['sex_effect'] = {}
+    conf['sex_effect']['MALE_P4M'] = sex_effect[0]
+    conf['sex_effect']['MALE_P7M'] = sex_effect[1]
+    conf['heritability'] = config['heritability'].split(',')  
+    File.open(game_path+'/config.yml', 'w') do |f|
+        f.puts conf.to_yaml  
+    end
+    File.open(game_path+'/poids_4_7mois', 'w') do |f|  
+        f.puts "#W4M\tW7M"
+        weight_elts = config['weight_month'].split(',')
+        f.puts weight_elts[0]+"\t"+weight_elts[1]
+    end
+    File.open(game_path+'/covar_poids_4_7_mois', 'w') do |f|
+        f.puts "#W4Md\tW7Md\tW4Mm\tW7Mm"
+        covar_weight_elts = config['covar_weight'].split('|')
+        covar_weight_elts.each do |covar_weight_elt|
+          covars = covar_weight_elt.split(',')
+          f.puts covars[0]+"\t"+covars[1]+"\t"+covars[2]+"\t"+covars[3]
+        end   
+    end 
+    File.open(game_path+'/heritability_poids_4_7_mois', 'w') do |f|   
+        f.puts "#W4Md\tW7Md\tW4Mm\tW7Mm"
+        heritability_weight_elts = config['heritability_weight'].split('|')
+        heritability_weight_elts.each do |heritability_weight_elt|
+          heritabilitys = heritability_weight_elt.split(',')
+          f.puts heritabilitys[0]+"\t"+heritabilitys[1]+"\t"+heritabilitys[2]+"\t"+heritabilitys[3]
+        end   
+    end 
+    File.open(game_path+'/covar_envPermanent_4_7_mois', 'w') do |f|   
+        f.puts "#W4M\tW7M"
+        covar_envPermanent_elts = config['covar_envPermanent'].split('|')
+        covar_envPermanent_elts.each do |covar_envPermanent_elt|
+          covars = covar_envPermanent_elt.split(',')
+          f.puts covars[0]+"\t"+covars[1]
+        end  
+    end   
+  end
+
   # Generate X cattles calling external scripts
   def self.generate_new_cattle(players=1,id=0,bulls=Settings.default_bulls,cows=Settings.default_cows)
     if Settings.simulate!=nil
         return
     end
-    # Create a ppath
+    # Create a path
     obj = GameOfTheCalf::Application.config.pairtree.mk('bull:'+id)
     game_path = obj.path
-    cmd = "perl "+Settings.binaries+"/bullmate_01_generateInitialPop.pl -w "+
-        Settings.binaries+"/poids_4_7mois -m "+
-        Settings.binaries+"/covar_poids_4_7_mois -h "+
-        Settings.binaries+"/heritability_poids_4_7_mois -f "+players.to_s+
-        " -b "+bulls.to_s+" -c "+cows.to_s+" -e "+
-        Settings.binaries+"/covar_envPermanent_4_7_mois "+
-        "-g 1 -d "+game_path
+    # Load default config
+    config = GameConfig.where(:default => true).first
+    if id.match(/^group/)
+      # If a group, load group config
+      group = Group.find(id.sub(/group/,'').to_i)
+      config = GameConfig.find(group[:config_id])
+    end
+    Game.generate_config(game_path, config)
+    
+    cmd = "perl "+Settings.binaries+"/bullmate_01_generateInitialPop.pl"+
+        " -w "+game_path+"/poids_4_7mois"+
+        " -m "+game_path+"/covar_poids_4_7_mois"+
+        " -f "+players.to_s+
+        " -b "+bulls.to_s+" --cow "+cows.to_s+" -e "+
+        game_path+"/covar_envPermanent_4_7_mois"+
+        " -g 1 -d "+game_path+
+        " --config "+game_path+"/config.yml"
     err = system(cmd)
     if not err
         raise 'Error while trying to execute command '+cmd
@@ -143,11 +201,12 @@ class Game < ActiveRecord::Base
     cmd = "perl "+Settings.binaries+"/bullmate_02_generateNextGeneration.pl"+
           " -b "+game_path+"/bullMate_breederEffect_B-1"+
           " -p "+game_path+"/bullMate_pedigree_Flock-1.txt"+
-          " --gen 1 --group 1 --matrix "+Settings.binaries+"/covar_poids_4_7_mois"+
+          " --gen 1 --group 1 --matrix "+game_path+"/covar_poids_4_7_mois"+
           " --vg "+game_path+"/bullMate_perfVG_Flock-1.txt"+
           " --mating "+game_path+"/bullMate_matingDATA-G0-1.txt"+
           " -d "+game_path+
-          " -e "+Settings.binaries+"/covar_envPermanent_4_7_mois"
+          " -e "+game_path+"/covar_envPermanent_4_7_mois"+
+          " --config "+game_path+"/config.yml"
     err = system(cmd)
     if not err
         raise 'Error while trying to execute command '+cmd

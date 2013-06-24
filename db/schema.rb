@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130605105550) do
+ActiveRecord::Schema.define(:version => 20130624125327) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -27,6 +27,21 @@ ActiveRecord::Schema.define(:version => 20130605105550) do
   add_index "active_admin_comments", ["author_type", "author_id"], :name => "index_active_admin_comments_on_author_type_and_author_id"
   add_index "active_admin_comments", ["namespace"], :name => "index_active_admin_comments_on_namespace"
   add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
+
+  create_table "game_configs", :force => true do |t|
+    t.boolean  "default"
+    t.integer  "nbtrait"
+    t.float    "mortality"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.text     "mean_weight"
+    t.text     "sex_effect"
+    t.text     "heritability"
+    t.text     "heritability_weight"
+    t.text     "covar_weight"
+    t.text     "weight_month"
+    t.text     "covar_envPermanent"
+  end
 
   create_table "games", :force => true do |t|
     t.datetime "created_at",                :null => false
@@ -47,6 +62,7 @@ ActiveRecord::Schema.define(:version => 20130605105550) do
     t.integer  "levels",      :default => 8
     t.integer  "bulls",       :default => 5
     t.integer  "cows",        :default => 50
+    t.integer  "config_id"
   end
 
   create_table "levels", :force => true do |t|

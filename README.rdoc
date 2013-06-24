@@ -12,6 +12,7 @@ create preferably an RVM gemset
     rvm use @gameofthecalf
     bundle install
     rake db:migrate
+    rake db:seed
 
 In production, precompile assets:
 

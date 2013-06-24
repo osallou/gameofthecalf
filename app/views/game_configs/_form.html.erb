@@ -1,0 +1,103 @@
+<%= simple_form_for(@game_config) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :nbtrait %>
+    <%= f.input :mortality %>
+    <%= f.label :mean_weight %>
+    <%= f.text_field :mean_weight  %>
+    <%= f.label :sex_effect %>
+    <%= f.text_field :sex_effect %>
+
+<p>
+  <b>Heritability:</b>
+  <%= f.hidden_field :heritability, { :class => 'matrix', :'data-field' => 'heritability' } %>
+  <table class="table">
+  <thead><tr><th>W4Md</th><th>W7Md</th><th>W4Mm</th><th>W7Mm</th></tr></thead>
+  <tbody id="heritability"></tbody>
+  </table>
+</p>
+
+<p>
+  <b>Covariance weight:</b>
+  <%= f.hidden_field :covar_weight, { :class => 'matrix', :'data-field' => 'covar_weight' } %>
+  <table class="table">
+  <thead><tr><th>W4Md</th><th>W7Md</th><th>W4Mm</th><th>W7Mm</th></tr></thead>
+  <tbody id="covar_weight"></tbody>
+  </table>
+</p>
+
+<p>
+  <b>Weight months:</b>
+  <%= f.hidden_field :weight_month, { :class => 'matrix', :'data-field' => 'weight_month' } %>
+  <table class="table">
+  <thead><tr><th>W4M</th><th>W7M</th></tr></thead>
+  <tbody id="weight_month"></tbody>
+  </table>
+</p>
+
+<p>
+  <b>Covariance env permanent:</b>
+  <%= f.hidden_field :covar_envPermanent, { :class => 'matrix', :'data-field' => 'covar_envPermanent' } %>
+  <table class="table">
+  <thead><tr><th>W4M</th><th>W7M</th></tr></thead>
+  <tbody id="covar_envPermanent"></tbody>
+  </table>
+</p>
+
+
+<script>
+$(function() {
+
+$.each($(".matrix"),function() {
+   values = $(this).val();
+   id = $(this).attr('data-field');
+   lines = values.split('|');
+   matrix = '';
+   for(var i=0;i<lines.length;i++) {
+    matrix += '<tr>'; 
+    cells = lines[i].split(',');
+    for(var j=0;j<cells.length;j++) {
+      matrix+='<td contenteditable="true">'+cells[j]+'</td>';
+    }
+    matrix += '</tr>';
+   }
+   $("#"+id).html(matrix);
+
+});
+
+
+$(document).on('blur',"tbody td", function(e) {
+    var attr = $(e.currentTarget).parent().parent().attr('id');
+    var rows = $("#"+attr+" > tr");
+    var newvalues = "";
+    var firstcell = true;
+    var firstcol = true;
+    $.each(rows, function() {
+    	var cells = $(this).children();
+    	if(! firstcol) { newvalues += "|";}
+    	$.each(cells, function() {
+    		if(! firstcell) { newvalues += ",";}
+    		newvalues += $(this).text();
+    		firstcell = false;
+    	});
+ 		firstcol = false;
+ 		firstcell= true;
+    });
+    $("#game_config_"+attr).val(newvalues);
+    console.log("update with "+newvalues);
+	
+});
+
+
+});
+
+</script>
+
+  </div>
+
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

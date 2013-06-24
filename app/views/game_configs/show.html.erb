@@ -1,0 +1,89 @@
+<%= link_to 'Edit', edit_game_config_path(@game_config) %> |
+<%= link_to 'Back', game_configs_path %>
+
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Nbtrait:</b>
+  <%= @game_config.nbtrait %>
+</p>
+
+<p>
+  <b>Mortality:</b>
+  <%= @game_config.mortality %>
+</p>
+
+<p>
+  <b>Mean weight:</b>
+  <%= @game_config.mean_weight %>
+</p>
+
+<p>
+  <b>Sex effect:</b>
+  <%= @game_config.sex_effect %>
+</p>
+
+<p>
+  <b>Heritability:</b>
+  <input type="hidden" value="<%= @game_config.heritability %>" class="matrix" data-field="heritability"/>
+  <table class="table">
+  <thead><tr><th>W4Md</th><th>W7Md</th><th>W4Mm</th><th>W7Mm</th></tr></thead>
+  <tbody id="heritability"></tbody>
+  </table>
+</p>
+
+<p>
+  <b>Covariance weight:</b>
+  <input type="hidden" value="<%= @game_config.covar_weight %>" class="matrix" data-field="covar_weight"/>
+  <table class="table">
+  <thead><tr><th>W4Md</th><th>W7Md</th><th>W4Mm</th><th>W7Mm</th></tr></thead>
+  <tbody id="covar_weight"></tbody>
+  </table>
+</p>
+
+<p>
+  <b>Weight months:</b>
+  <input type="hidden" value="<%= @game_config.weight_month %>" class="matrix" data-field="weight_month"/>
+  <table class="table">
+  <thead><tr><th>W4M</th><th>W7M</th></tr></thead>
+  <tbody id="weight_month"></tbody>
+  </table>
+</p>
+
+<p>
+  <b>Covariance env permanent:</b>
+  <input type="hidden" value="<%= @game_config.covar_envPermanent %>" class="matrix" data-field="covar_envPermanent"/>
+  <table class="table">
+  <thead><tr><th>W4M</th><th>W7M</th></tr></thead>
+  <tbody id="covar_envPermanent"></tbody>
+  </table>
+</p>
+
+
+<script>
+$(function() {
+
+$.each($(".matrix"),function() {
+   values = $(this).val();
+   id = $(this).attr('data-field');
+   lines = values.split('|');
+   matrix = '';
+   for(var i=0;i<lines.length;i++) {
+    matrix += '<tr>'; 
+    cells = lines[i].split(',');
+    for(var j=0;j<cells.length;j++) {
+      matrix+='<td>'+cells[j]+'</td>';
+    }
+    matrix += '</tr>';
+   }
+   $("#"+id).html(matrix);
+
+});
+
+
+
+});
+
+</script>
+

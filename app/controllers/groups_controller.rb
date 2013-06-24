@@ -77,6 +77,10 @@ class GroupsController < ApplicationController
 
     @group.email = current_user.email unless User.admin?(current_user)
 
+    config = GameConfig.where(:default => true).first.dup
+    config.save
+    @group[:config_id] = config[:id]
+
     respond_to do |format|
       if @group.save
         format.html { redirect_to @group, notice: 'Group was successfully created.' }
@@ -131,6 +135,9 @@ class GroupsController < ApplicationController
         end
         user.destroy
     end
+
+    config = Config.find(@group[:config_id])
+    config.destroy
 
     @group.destroy
 
@@ -202,7 +209,6 @@ class GroupsController < ApplicationController
 
     @quantity = params[:quantity]
     @users = Array.new
-    # TODO Call Game.generate_new_cattle
     Game.generate_new_cattle(@quantity,'group'+@group[:id].to_s,@group[:bulls],@group[:cows])
     uuid = UUID.new
     (1..@quantity.to_i).each do |n|

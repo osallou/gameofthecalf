@@ -1,5 +1,7 @@
 GameOfTheCalf::Application.routes.draw do
 
+  resources :game_configs
+
   devise_for :levels
   resources :levels
 

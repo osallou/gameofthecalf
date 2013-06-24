@@ -10,6 +10,12 @@
   <%= @group.email %>
 </p>
 
+<% if ! @group[:config_id].nil? %>
+<p>
+<button class="btn" type="btn"><a href="<%= game_config_path(@group[:config_id]) %>">Configuration</a></button>
+</p>
+<% end %>
+
 <h3>Students</h3>
 
 <table class="table table-bordered">

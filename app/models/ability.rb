@@ -13,6 +13,10 @@ class Ability
       can [:read, :update, :destroy], Group  do |group|
           user.email == group.email
       end
+      can :update, GameConfig do |gc|
+         prof_group = Group.find(student.group_id)
+         prof_group[:config_id] == gc[:id]
+      end
       can :create, User, :usertype =>  User::STUDENT
 
       can [:read, :update, :destroy], User do |student|
