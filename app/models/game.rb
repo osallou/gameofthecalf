@@ -182,7 +182,9 @@ class Game < ActiveRecord::Base
     if id.match(/^group/)
       # If a group, load group config
       group = Group.find(id.sub(/group/,'').to_i)
-      config = GameConfig.find(group[:config_id])
+      if ! group.nil?
+        config = GameConfig.find(group[:config_id])
+      end
     end
     Game.generate_config(game_path, config)
     

@@ -1,11 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  default: false
-  nbtrait: 
-  mortality: 1.5
-
-two:
-  default: false
+  default: true
   nbtrait: 
   mortality: 1.5

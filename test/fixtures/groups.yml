@@ -4,6 +4,7 @@ testgroup1:
   name: samplegroup1
   description: a group for test
   email: prof1@no-reply.org
+  
 
 testgroup2:
   name: samplegroup2
