@@ -5,4 +5,4 @@ rvm:
   - rbx-19mode
 before_script: 
     - rake db:migrate
-    - rabe db:seed
+    - rake db:seed
