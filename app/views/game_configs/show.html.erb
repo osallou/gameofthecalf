@@ -15,11 +15,6 @@
 </p>
 
 <p>
-  <b>Mean weight:</b>
-  <%= @game_config.mean_weight %>
-</p>
-
-<p>
   <b>Sex effect:</b>
   <%= @game_config.sex_effect %>
 </p>
@@ -43,11 +38,11 @@
 </p>
 
 <p>
-  <b>Weight months:</b>
-  <input type="hidden" value="<%= @game_config.weight_month %>" class="matrix" data-field="weight_month"/>
+  <b>Mean weight:</b>
+  <input type="hidden" value="<%= @game_config.mean_weight %>" class="matrix" data-field="mean_weight"/>
   <table class="table">
   <thead><tr><th>W4M</th><th>W7M</th></tr></thead>
-  <tbody id="weight_month"></tbody>
+  <tbody id="mean_weight"></tbody>
   </table>
 </p>
 

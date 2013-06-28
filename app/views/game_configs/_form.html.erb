@@ -4,8 +4,6 @@
   <div class="form-inputs">
     <%= f.input :nbtrait %>
     <%= f.input :mortality %>
-    <%= f.label :mean_weight %>
-    <%= f.text_field :mean_weight  %>
     <%= f.label :sex_effect %>
     <%= f.text_field :sex_effect %>
 
@@ -28,11 +26,11 @@
 </p>
 
 <p>
-  <b>Weight months:</b>
-  <%= f.hidden_field :weight_month, { :class => 'matrix', :'data-field' => 'weight_month' } %>
+  <b>Mean weight:</b>
+  <%= f.hidden_field :mean_weight, { :class => 'matrix', :'data-field' => 'mean_weight' } %>
   <table class="table">
   <thead><tr><th>W4M</th><th>W7M</th></tr></thead>
-  <tbody id="weight_month"></tbody>
+  <tbody id="mean_weight"></tbody>
   </table>
 </p>
 
