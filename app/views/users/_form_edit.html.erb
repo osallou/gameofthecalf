@@ -3,6 +3,7 @@
 
   <div class="form-inputs">
     <%= f.input :email %>
+    <%= f.input :nickname %>
     <% if User.admin?(current_user) %>
       <%= f.input :usertype, :collection => [ 0,1], label_method: lambda { |obj| t("usertype#{obj}") } %>
     <% else %>

@@ -20,12 +20,12 @@
 
 <table class="table table-bordered">
   <tr>
-    <th>Identifier</th>
+    <th>Identifier</th><th>Nickname</th><th>Email</th>
   </tr>
 
 <% @users.each do |user| %>
   <tr class="info">
-    <td><%= user[:id]  %></td><td><a href="<%= user_path(user)  %>"><%= user[:email] %></a></td>
+    <td><%= user[:id]  %></td><td><%= user[:nickname]  %></td><td><a href="<%= user_path(user)  %>"><%= user[:email] %></a></td>
   </tr>
 <% end %>
 </table>

@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   scope :recent, order("created_at desc")
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :locale, :usertype, :group_id, :fake
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :locale, :usertype, :group_id, :fake, :nickname
   # attr_accessible :title, :body
 
   belongs_to :group

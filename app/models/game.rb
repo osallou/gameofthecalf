@@ -138,11 +138,11 @@ class Game < ActiveRecord::Base
     File.open(game_path+'/config.yml', 'w') do |f|
         f.puts conf.to_yaml  
     end
-    File.open(game_path+'/poids_4_7mois', 'w') do |f|  
-        f.puts "#W4M\tW7M"
-        weight_elts = config['weight_month'].split(',')
-        f.puts weight_elts[0]+"\t"+weight_elts[1]
-    end
+    #File.open(game_path+'/poids_4_7mois', 'w') do |f|  
+    #    f.puts "#W4M\tW7M"
+    #    weight_elts = config['mean_weight'].split(',')
+    #    f.puts weight_elts[0]+"\t"+weight_elts[1]
+    #end
     File.open(game_path+'/covar_poids_4_7_mois', 'w') do |f|
         f.puts "#W4Md\tW7Md\tW4Mm\tW7Mm"
         covar_weight_elts = config['covar_weight'].split('|')
@@ -189,7 +189,7 @@ class Game < ActiveRecord::Base
     Game.generate_config(game_path, config)
     
     cmd = "perl "+Settings.binaries+"/bullmate_01_generateInitialPop.pl"+
-        " -w "+game_path+"/poids_4_7mois"+
+        #" -w "+game_path+"/poids_4_7mois"+
         " -m "+game_path+"/covar_poids_4_7_mois"+
         " -f "+players.to_s+
         " -b "+bulls.to_s+" --cow "+cows.to_s+" -e "+

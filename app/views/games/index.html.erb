@@ -10,7 +10,11 @@
   <div class="row"><h3><%= t("game.previous_game") %></h3></div>
   <br/>
   <% @games.each do |game| %>
-  <div class="row offset1"><div class="span4"><%= button_to game.created_at, game_path(game), :class => 'btn btn-large btn-success', :method => :get %></div><div class="span1"><%= link_to raw('<i class="icon-trash"></i>'), game, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger' %></div></div>
+  <div class="row offset1"><div class="span4">
+  <% if ! @group.nil? and game[:group_id] == @group[:id] %>
+  <span><%= @group[:name] %>:</span>
+  <% end %>
+  <%= button_to game.created_at, game_path(game), :class => 'btn btn-large btn-success', :method => :get %></div><div class="span1"><%= link_to raw('<i class="icon-trash"></i>'), game, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-danger' %></div></div>
   <% end %>
 <% end %>
   </div>

@@ -9,6 +9,11 @@ class GamesController < ApplicationController
   def index
    @games = Game.where(:user_id => current_user.id).order("created_at")
    @user = current_user
+   if @user[:group_id].nil?
+        @group = nil
+   else
+        @group = Group.find(@user[:group_id])
+   end
    respond_to do |format|
      format.html # index.html.erb
      format.json { render json: @games }
