@@ -15,8 +15,7 @@ create preferably an RVM gemset
     rake db:seed
 
 In production, precompile assets:
-
-    bundle exec rake assets:precompile
+    RAILS_ENV=production bundle exec rake assets:precompile
 
 == STATUS
 
