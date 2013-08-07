@@ -34,6 +34,11 @@ class Group < ActiveRecord::Base
     if do_mating
       Game.mate("group"+self[:id].to_s, gen+1)
     end
+    # Set statistics for each game
+    games.each do |game|
+      game.load_statistics()
+      game.save 
+    end
   end
 
 end

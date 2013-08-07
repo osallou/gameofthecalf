@@ -1,5 +1,16 @@
 <% levels_complete = true %>
 <% nblevels = 0 %>
+<div id="dashboard">
+	<h1>Dashboard</h1>
+	<div>
+		<canvas id="graphweight" width="400" height="300"></canvas>
+		<div id="graphlegend" class="span2">
+			<div style="background-color: rgba(220,220,220,0.5);">Mean weight at 4 months</div>
+			<div style="background-color: rgba(151,187,205,0.5);">Mean weight at 7 months</div>
+		</div>
+	</div>	
+</div>
+	
 <div class="bg1">
 <div class="row well">
 
@@ -7,16 +18,58 @@
   <% nblevels += 1 %>
   <% if level.status != Level::STATUS_COMPLETED %>
   <% levels_complete = false %>
-  <% status = 'primary'%>
+  <% status = 'current'%>
   <% else %>
   <% status = 'success'%>
   <% end %>
-  <div class="span2 offset1"><button class="btn btn-<%= status %>">
+  <div class="span2"><button class="generation<%= status %>">
 <a href="<%= level_path(level)  %>"><%= t("game.level") %> <%= level.level %></a></button></div>
 <% end %>
 
 <% if levels_complete && @game.group_id == nil && nblevels <Settings.max_levels %>
-  <div class="span2 offset1"><%= button_to t("game.next_level"), games_path, :class => 'btn btn-large btn-primary', :method => :post %></div>
+  <div class="span2 offset1"><%= button_to t("game.next_level"), games_path, :class => 'generation', :method => :post %></div>
 <% end %>
 </div>
+
 </div>
+
+<script>
+$(function() {
+var game_data = <%=raw @game.data %>;
+var ctx = $("#graphweight").get(0).getContext("2d");
+var level_labels = [];
+var dataset1 = [];
+var dataset2 = []
+$.each(game_data,function(key,inner_json){
+	level_labels.push(key);
+	dataset1.push(inner_json["weight_4m"]);
+	dataset2.push(inner_json["weight_7m"]);
+});
+
+var data = {
+	labels : level_labels,
+	datasets : [
+		{
+			fillColor : "rgba(220,220,220,0.5)",
+			strokeColor : "rgba(220,220,220,1)",
+			pointColor : "rgba(220,220,220,1)",
+			pointStrokeColor : "#fff",
+			data : dataset1
+		},
+		{
+			fillColor : "rgba(151,187,205,0.5)",
+			strokeColor : "rgba(151,187,205,1)",
+			pointColor : "rgba(151,187,205,1)",
+			pointStrokeColor : "#fff",
+			data : dataset2
+		}
+	]
+}
+<% if @game.level>1 %>
+var myNewChart = new Chart(ctx).Line(data);
+<% end %>
+
+
+});
+</script>
+

@@ -4,7 +4,7 @@
 # as well as global rules.
 class Game < ActiveRecord::Base
 
-  attr_accessible :user_id, :level, :status, :cattle, :group_id
+  attr_accessible :user_id, :level, :status, :cattle, :group_id, :data
   
   scope :recent, order("created_at desc")
   
@@ -12,6 +12,34 @@ class Game < ActiveRecord::Base
   belongs_to :group
 
   has_many :levels, :dependent => :destroy
+       
+  #Load statistical data from perfVG file
+  def load_statistics()
+    user = User.find(self.user_id)
+    cattle_path = self.get_cattle_path(user)
+    cattle_file = 'bullMate_perfVG_Flock-1_generation-'+self.level.to_s+'.txt'
+
+    weight_4m = []
+    weight_7m = []
+
+    found = false
+    CSV.foreach(cattle_path + '/' + cattle_file, { col_sep: "\t" }) do |row|
+        if row[0].to_i == self.cattle
+            weight_4m << row[3]
+            weight_7m << row[4]
+            found = true
+        elsif found
+            break
+        end
+    end
+    if self.data.nil? or self.data.empty?
+        self.data = "{}"
+    end
+    data = JSON.parse(self.data)
+    data[self.level.to_s] = {"weight_4m" => weight_4m.to_scale().mean(), "weight_7m" => weight_7m.to_scale().mean() }
+    self.data = JSON.dump(data)
+    
+  end
 
   #Get the path to the cattle files according to user
   def get_cattle_path(user)
@@ -60,7 +88,7 @@ class Game < ActiveRecord::Base
     cows = []
 
     found = false
-    CSV.foreach(cattle_path + '/' + cattle_file, col_sep: + "\t") do |row|
+    CSV.foreach(cattle_path + '/' + cattle_file, { col_sep: "\t" }) do |row|
         if row[0].to_i == self.cattle
             if row[2].to_i == 0
                 bulls << row
@@ -75,8 +103,10 @@ class Game < ActiveRecord::Base
 
     matingplan = {}
     i = 0
-    maxbulls = Settings.max_bulls
-    maxcows = Settings.max_cows
+    
+    
+    maxbulls = [ Settings.max_bulls, bulls.length ].max
+    maxcows = [ Settings.max_cows, cows.length ].max
     if self.group_id != nil
         group  = Group.find(self.group_id)
         maxbulls = group[:bulls]
@@ -110,7 +140,8 @@ class Game < ActiveRecord::Base
           " -b "+game_path+"/bullMate_breederEffect_B-1"+
           " -p "+game_path+"/bullMate_pedigree_Flock-1.txt"+
           " --gen "+gen.to_s+" --group 1 --matrix "+game_path+"/covar_poids_4_7_mois"+
-          " --vg "+game_path+"/bullMate_perfVG_Flock-1.txt"+
+          # Load previous perfVG
+          " --vg "+game_path+"/bullMate_perfVG_Flock-1_generation-"+(gen-1).to_s+".txt"+
           " --mating "+game_path+"/bullMate_matingDATA-G"+gen.to_s+"-1.txt"+
           " -d "+game_path+
           " -e "+game_path+"/covar_envPermanent_4_7_mois"+
@@ -118,7 +149,7 @@ class Game < ActiveRecord::Base
     err = system(cmd)
     if not err
         raise 'Error while trying to execute command '+cmd
-    end    
+    end
   end
   
 
@@ -241,6 +272,7 @@ class Game < ActiveRecord::Base
       else
         self[:status] = Level::STATUS_COMPLETED
       end
+      self.load_statistics()
       self.save
     end
   end

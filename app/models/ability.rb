@@ -44,7 +44,7 @@ class Ability
       can :create, Level
       can [:read, :update, :destroy], Level  do |level|
             game = Game.find(level.game_id)
-            if user.usertype == USer::PROFESSOR
+            if user.usertype == User::PROFESSOR
               group = Group.find(game.group_id)
               professor = false
               if group.email == user.email

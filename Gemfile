@@ -24,6 +24,7 @@ gem "twitter-bootstrap-rails"
 
 gem 'pairtree'
 
+gem 'statsample'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

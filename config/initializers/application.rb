@@ -1,3 +1,4 @@
+require 'csv'
 
 workdir = Settings.workdir
 if Settings.workdir.nil? or Settings.workdir.empty?

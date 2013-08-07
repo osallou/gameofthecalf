@@ -4,7 +4,7 @@ class GamesController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_filter :authenticate_user!
   
-
+     
   # Propose new game or load previous sessions
   def index
    @games = Game.where(:user_id => current_user.id).order("created_at")
@@ -27,9 +27,11 @@ class GamesController < ApplicationController
   def create
     authorize! :create, Game
     @game = Game.new(:user_id => current_user.id, :status => Level::STATUS_NEW, :level => 1)
-    @game.save!
+    #@game.save!
     # Generate cattle
     Game.generate_new_cattle(1,'game'+@game[:id].to_s)
+    @game.load_statistics()
+    @game.save!
 
     @levels = []
     level = Level.new(:game_id => @game.id, :status => Level::STATUS_NEW, :level => 1)
@@ -61,6 +63,9 @@ class GamesController < ApplicationController
   # GET /games/1.json
   def show
     @game = Game.find(params[:id])
+    if @game.data.nil? or @game.data.empty?
+      @game.data = "{}"
+    end
     @levels = Level.where(:game_id => @game.id)
     respond_to do |format|
       format.html { render :levels } # levels.html.erb

@@ -7,3 +7,6 @@ max_levels: 8
 default_bulls: 5
 default_cows: 50
 
+max_bulls: 5
+max_cows: 10
+

@@ -225,6 +225,7 @@ class GroupsController < ApplicationController
         user.save(:validate => false)
         # Add a game to the user, associate one of the cattles to the user
         game = Game.new(:user_id => user.id, :cattle => n, :group_id => user.group_id, :level => 1, :status => Level::STATUS_NEW)
+        game.load_statistics()
         game.save!
         # Create first level e.g. first generation
         level = Level.new(:game_id => game.id, :status => Level::STATUS_NEW, :level => 1)
