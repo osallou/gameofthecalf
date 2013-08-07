@@ -15,6 +15,9 @@ class Game < ActiveRecord::Base
        
   #Load statistical data from perfVG file
   def load_statistics()
+    if Settings.simulate != nil
+        return
+    end
     user = User.find(self.user_id)
     cattle_path = self.get_cattle_path(user)
     cattle_file = 'bullMate_perfVG_Flock-1_generation-'+self.level.to_s+'.txt'
