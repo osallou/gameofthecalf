@@ -18,7 +18,7 @@ class LevelsController < ApplicationController
     @game = Game.find(@level.game_id)
 
     @maxbulls = Settings.default_bulls
-    @maxcows = Settings.default_cowsa
+    @maxcows = Settings.default_cows
     if @game[:group_id] != nil
         group = Group.find(@game[:group_id])
         @maxbulls = group[:bulls]
