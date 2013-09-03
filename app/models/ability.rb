@@ -29,7 +29,7 @@ class Ability
     if user.usertype == User::PROFESSOR || user.usertype == User::STUDENT 
       can :create, Game
       can [:read, :update, :destroy, :nextlevel], Game  do |game|
-          if user.usertype == USer::PROFESSOR
+          if user.usertype == User::PROFESSOR && ! game.group_id.nil?
             group = Group.find(game.group_id)
             professor = false
             if group.email == user.email
