@@ -185,14 +185,11 @@ class Game < ActiveRecord::Base
           f.puts covars[0]+"\t"+covars[1]+"\t"+covars[2]+"\t"+covars[3]
         end   
     end 
-    File.open(game_path+'/heritability_poids_4_7_mois', 'w') do |f|   
-        f.puts "#W4Md\tW7Md\tW4Mm\tW7Mm"
-        heritability_weight_elts = config['heritability_weight'].split('|')
-        heritability_weight_elts.each do |heritability_weight_elt|
-          heritabilitys = heritability_weight_elt.split(',')
-          f.puts heritabilitys[0]+"\t"+heritabilitys[1]+"\t"+heritabilitys[2]+"\t"+heritabilitys[3]
-        end   
-    end 
+    #File.open(game_path+'/heritability_poids_4_7_mois', 'w') do |f|   
+    #    f.puts "#W4Md\tW7Md\tW4Mm\tW7Mm"
+    #    heritabilitys = conf['heritability']
+    #    f.puts heritabilitys[0]+"\t"+heritabilitys[1]+"\t"+heritabilitys[2]+"\t"+heritabilitys[3]
+    #end 
     File.open(game_path+'/covar_envPermanent_4_7_mois', 'w') do |f|   
         f.puts "#W4M\tW7M"
         covar_envPermanent_elts = config['covar_envPermanent'].split('|')
@@ -225,6 +222,7 @@ class Game < ActiveRecord::Base
     cmd = "perl "+Settings.binaries+"/bullmate_01_generateInitialPop.pl"+
         #" -w "+game_path+"/poids_4_7mois"+
         " -m "+game_path+"/covar_poids_4_7_mois"+
+        #" -h "+game_path+"/heritability_poids_4_7_mois"+
         " -f "+players.to_s+
         " -b "+bulls.to_s+" --cow "+cows.to_s+" -e "+
         game_path+"/covar_envPermanent_4_7_mois"+
