@@ -27,7 +27,7 @@ class GamesController < ApplicationController
   def create
     authorize! :create, Game
     @game = Game.new(:user_id => current_user.id, :status => Level::STATUS_NEW, :level => 1)
-    #@game.save!
+    @game.save!
     # Generate cattle
     Game.generate_new_cattle(1,'game'+@game[:id].to_s)
     @game.load_statistics()
