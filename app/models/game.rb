@@ -71,7 +71,7 @@ class Game < ActiveRecord::Base
     File.open(matingfile, 'w') {|f| 
       matingplans.each do |cattle,plan|
         if plan!=nil
-          line = '##'
+          line = '##\n'
           plan.each do |bull,cows|
             line += cattle.to_s+"\t"+bull.to_s+"\t"+cows.join(",").to_s+"\n"
           end       
