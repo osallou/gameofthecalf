@@ -305,14 +305,30 @@ ev.preventDefault();
 }
 
 
+function sortCattle(a,b) {
+  if(parseInt(a[1]) < parseInt(b[1])) { return -1; }
+  if(parseInt(a[1]) > parseInt(b[1])) { return 1; }
+  return 0;
+}
 
 function loadCattle(tablename, cattle) {
    table_data = $("table#"+tablename+" tbody");
    table_data.html();
+   cattle.sort(sortCattle);
+   cattle.reverse();
    for(var i=0;i<cattle.length;i++) {
         var data = '';
         if(cattle[i].length==11) {
-            data += '<tr id="'+cattle[i][1]+'" data-index="'+i+'" class="'+tablename+'">';
+            var baby="";
+            if(parseInt(cattle[i][1])/(1000*<%= @game.level %>)>=1) {
+              if(tablename  == 'bulls') {
+                baby = ' babyboy';
+              }
+              else {
+                baby = ' babygirl';
+              }
+            }
+            data += '<tr id="'+cattle[i][1]+'" data-index="'+i+'" class="'+tablename+baby+'">';
             if(tablename == 'bulls') {
                 icon = bulls_icon;
                 //dodrag = ' class="bulldrop"';
