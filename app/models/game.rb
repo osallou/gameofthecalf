@@ -73,7 +73,7 @@ class Game < ActiveRecord::Base
         if plan!=nil
           line = '##'
           plan.each do |bull,cows|
-            line = cattle.to_s+"\t"+bull.to_s+"\t"+cows.join(",").to_s+"\n"
+            line += cattle.to_s+"\t"+bull.to_s+"\t"+cows.join(",").to_s+"\n"
           end       
           f.write(line)
         end   
