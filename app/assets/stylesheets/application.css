@@ -17,7 +17,7 @@
   padding: 5px;
 }
 
-button.generationerror {
+a.generationerror {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	color: #ffffff;
@@ -51,7 +51,7 @@ button.generationerror {
 }
 
 
-button.generationsuccess {
+a.generationsuccess {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	color: #ffffff;
@@ -84,7 +84,7 @@ button.generationsuccess {
 		0px 1px 0px rgba(255,255,255,0.3);
 }
 
-button.generationcurrent {
+a.generationcurrent {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	color: #ffffff;

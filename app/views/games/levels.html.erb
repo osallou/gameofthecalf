@@ -16,13 +16,13 @@
 <% if @group.market == Market::STATUS_OPEN %>
   <div class="row well">
   <span><%= image_tag("/assets/shopping_basket.png") %> Market is open! You can
-propose your bulls. <button class="btn"><a href="<%= market_path(@group) %>">Go</a></button></span>
+propose your bulls. <a class="btn" href="<%= market_path(@group) %>">Go</a></span>
   </div>
 <% end %>
 <% if @group.market == Market::STATUS_BIDS %>
   <div class="row well">
   <span><%= image_tag("/assets/shopping_basket.png") %> Market bids are open
-now! You should select the best candidates. <button class="btn"><a href="<%= market_path(@group) %>">Go</a></button></span>
+now! You should select the best candidates. <a class="btn" href="<%= market_path(@group) %>">Go</a></span>
   </div>
 <% end %>
 <% end %>
@@ -40,8 +40,9 @@ now! You should select the best candidates. <button class="btn"><a href="<%= mar
   <% else %>
   <% status = 'success'%>
   <% end %>
-  <div class="span2"><button class="generation<%= status %>">
-<a href="<%= level_path(level)  %>"><%= t("game.level") %> <%= level.level %></a></button></div>
+  <div class="span2">
+<a class="btn generation<%= status %>" href="<%= level_path(level)  %>"><%= t("game.level") %> <%= level.level %></a>
+  </div>
 <% end %>
 
 <% if levels_complete && @game.group_id == nil && nblevels <Settings.max_levels %>

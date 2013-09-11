@@ -12,7 +12,7 @@
 
 <% if ! @group[:config_id].nil? %>
 <p>
-<button class="btn" type="btn"><a href="<%= game_config_path(@group[:config_id]) %>">Configuration</a></button>
+<a class="btn" href="<%= game_config_path(@group[:config_id]) %>">Configuration</a>
 </p>
 <% end %>
 
@@ -42,8 +42,7 @@
   	end %>
     <td><%= game[:user_id] %></td><td><%= game[:level] %></td><td><%= game[:status] %></td>
     <% if game[:status] == Level::STATUS_NEW || game[:status] == Level::STATUS_IN_PROGRESS %>
-    <td><button class="btn"><a href="<%= game_path(game)
-%>">Show</a></button><button class="btn"><a href="<%= group_force_next_level_path(@group, game) %>">Force completion</a></button></td>
+    <td><a class="btn" href="<%= game_path(game) %>">Show</a><a class="btn" href="<%= group_force_next_level_path(@group, game) %>">Force completion</a></td>
     <% else %>
     <td></td>
     <% end %>
@@ -55,7 +54,7 @@
 <% if completed && @games.length>0%>
 <div>
 <h3>Generate next generation</h3>
-	<button class="btn"><a href="<%= next_group_level_path(@group)  %>">Generate next generation</a></button>
+	<a class="btn" href="<%= next_group_level_path(@group)  %>">Generate next generation</a>
 </div>
 <% end %>
 
@@ -63,17 +62,17 @@
 <h3>Market Place</h3>
 <div>
 <% if @group.market == Market::STATUS_CLOSED %>
-  <button class="btn"><a href="<%= open_market_path(@group)  %>">Open market</a></button>
+  <a class="btn" href="<%= open_market_path(@group)  %>">Open market</a>
 <% else %>
-  <button class="btn"><a href="<%= market_path(@group)  %>">Access market</a></button>
+  <a class="btn" href="<%= market_path(@group)  %>">Access market</a>
 <% end %>
 <% if @group.market == Market::STATUS_OPEN %>
-  <button class="btn"><a href="<%= bids_market_path(@group)  %>">Open bids</a></button>
+  <a class="btn" href="<%= bids_market_path(@group)  %>">Open bids</a>
 <% end %>
 <% if @group.market == Market::STATUS_BIDS %>
-  <button class="btn"><a href="<%= close_market_path(@group)  %>">Close bids</a></button>
+  <a class="btn" href="<%= close_market_path(@group)  %>">Close bids</a>
 <% end %>
-  <button class="btn"><a href="<%= cancel_market_path(@group)  %>">Cancel market</a></button>
+  <a class="btn" href="<%= cancel_market_path(@group)  %>">Cancel market</a>
 </div>
 
 <%= link_to 'Edit', edit_group_path(@group) %> |
