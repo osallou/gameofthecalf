@@ -1,6 +1,7 @@
 <% levels_complete = true %>
 <% nblevels = 0 %>
-<div id="dashboard">
+<div class="row">
+<div id="dashboard" class="span6">
 	<h1>Dashboard</h1>
 	<div>
 		<canvas id="graphweight" width="400" height="300"></canvas>
@@ -9,6 +10,23 @@
 			<div style="background-color: rgba(151,187,205,0.5);">Mean weight at 7 months</div>
 		</div>
 	</div>	
+</div>
+<div class="span6">
+<% if ! @group.nil? %>
+<% if @group.market == Market::STATUS_OPEN %>
+  <div class="row well">
+  <span><%= image_tag("/assets/shopping_basket.png") %> Market is open! You can
+propose your bulls. <button class="btn"><a href="<%= market_path(@group) %>">Go</a></button></span>
+  </div>
+<% end %>
+<% if @group.market == Market::STATUS_BIDS %>
+  <div class="row well">
+  <span><%= image_tag("/assets/shopping_basket.png") %> Market bids are open
+now! You should select the best candidates. <button class="btn"><a href="<%= market_path(@group) %>">Go</a></button></span>
+  </div>
+<% end %>
+<% end %>
+</div>
 </div>
 	
 <div class="bg1">

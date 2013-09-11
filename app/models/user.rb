@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   end
 
   def self.professor?(user)
-    if self.admin?(user) or user[:usertype] = PROFESSOR
+    if User.admin?(user) or user[:usertype] == PROFESSOR
       return true
     else
       return false

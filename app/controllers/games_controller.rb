@@ -68,6 +68,14 @@ class GamesController < ApplicationController
       @game.data = "{}"
     end
     @levels = Level.where(:game_id => @game.id)
+
+    @user = current_user
+    if @user[:group_id].nil?
+        @group = nil
+    else
+        @group = Group.find(@user[:group_id])
+    end
+
     respond_to do |format|
       format.html { render :levels } # levels.html.erb
       format.json { render json: @levels }

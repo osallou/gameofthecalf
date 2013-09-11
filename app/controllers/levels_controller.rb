@@ -33,7 +33,8 @@ class LevelsController < ApplicationController
     end
 
     user = User.find(@game[:user_id])        
-
+    @bulls, @cows = @game.get_cattle(user, @level.level)
+    """
     cattle_path = @game.get_cattle_path(user)
     cattle_file = 'bullMate_perfVG_Flock-1_generation-'+@level.level.to_s+'.txt'
 
@@ -53,6 +54,7 @@ class LevelsController < ApplicationController
             break
         end
     end
+    """
 
     respond_to do |format|
       format.html

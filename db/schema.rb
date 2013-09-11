@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130903104636) do
+ActiveRecord::Schema.define(:version => 20130910160714) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -27,6 +27,14 @@ ActiveRecord::Schema.define(:version => 20130903104636) do
   add_index "active_admin_comments", ["author_type", "author_id"], :name => "index_active_admin_comments_on_author_type_and_author_id"
   add_index "active_admin_comments", ["namespace"], :name => "index_active_admin_comments_on_namespace"
   add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
+
+  create_table "bids", :force => true do |t|
+    t.integer  "market_id"
+    t.integer  "bid"
+    t.integer  "owner"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "game_configs", :force => true do |t|
     t.boolean  "default"
@@ -63,6 +71,7 @@ ActiveRecord::Schema.define(:version => 20130903104636) do
     t.integer  "bulls",       :default => 5
     t.integer  "cows",        :default => 50
     t.integer  "config_id"
+    t.integer  "market",      :default => 0
   end
 
   create_table "levels", :force => true do |t|
@@ -72,6 +81,16 @@ ActiveRecord::Schema.define(:version => 20130903104636) do
     t.datetime "updated_at", :null => false
     t.integer  "game_id"
     t.text     "matingplan"
+  end
+
+  create_table "markets", :force => true do |t|
+    t.integer  "group_id"
+    t.text     "animal"
+    t.integer  "owner"
+    t.integer  "status"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.text     "values"
   end
 
   create_table "users", :force => true do |t|

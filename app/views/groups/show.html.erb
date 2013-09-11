@@ -59,5 +59,22 @@
 </div>
 <% end %>
 
+
+<h3>Market Place</h3>
+<div>
+<% if @group.market == Market::STATUS_CLOSED %>
+  <button class="btn"><a href="<%= open_market_path(@group)  %>">Open market</a></button>
+<% else %>
+  <button class="btn"><a href="<%= market_path(@group)  %>">Access market</a></button>
+<% end %>
+<% if @group.market == Market::STATUS_OPEN %>
+  <button class="btn"><a href="<%= bids_market_path(@group)  %>">Open bids</a></button>
+<% end %>
+<% if @group.market == Market::STATUS_BIDS %>
+  <button class="btn"><a href="<%= close_market_path(@group)  %>">Close bids</a></button>
+<% end %>
+  <button class="btn"><a href="<%= cancel_market_path(@group)  %>">Cancel market</a></button>
+</div>
+
 <%= link_to 'Edit', edit_group_path(@group) %> |
 <%= link_to 'Back', groups_path %>

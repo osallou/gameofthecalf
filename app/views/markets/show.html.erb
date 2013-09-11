@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Group:</b>
+  <%= @market.group %>
+</p>
+
+<p>
+  <b>Animal:</b>
+  <%= @market.animal %>
+</p>
+
+<p>
+  <b>Owner:</b>
+  <%= @market.owner %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @market.status %>
+</p>
+
+<p>
+  <b>Bids:</b>
+  <%= @market.bids %>
+</p>
+
+
+<%= link_to 'Edit', edit_market_path(@market) %> |
+<%= link_to 'Back', markets_path %>

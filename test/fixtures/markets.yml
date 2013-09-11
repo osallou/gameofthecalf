@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  group: 1
+  animal: MyText
+  owner: 1
+  status: 1
+  bids: MyText
+
+two:
+  group: 1
+  animal: MyText
+  owner: 1
+  status: 1
+  bids: MyText

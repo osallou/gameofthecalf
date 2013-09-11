@@ -1,0 +1,99 @@
+<div class="row">
+<% if ! @is_prof %>
+<div class="span6">
+<h2>Available bulls</h2>
+<table id="bulls" class="table">
+<thead><th>ID</th><th>P_W4M</th><th>P_W7M</th><th>g_W4Md</th><th>g_W7Md</th><th>g_W4Mm</th><th>g_W7Mm</th><th>Mating</th></thead>
+<tbody></tbody>
+</table>
+</div>
+<% end %>
+<div class="span6">
+<h2>Selected bulls</h2>
+<table id="selected" class="table">
+<thead><th>ID</th><th>P_W4M</th><th>P_W7M</th><th>g_W4Md</th><th>g_W7Md</th><th>g_W4Mm</th><th>g_W7Mm</th></thead>
+<tbody></tbody>
+</table>
+<% if ! @is_prof %>
+<br/>
+<%= form_tag(controller: "markets", action: "selection") do %>
+<input type="hidden" id="selection" name="selection" value=""/>
+<button class="btn">Validate transaction</button>
+<% end %>
+<% end %>
+</div>
+</div>
+
+
+<script>
+var bulls = <%= @bulls.to_s.html_safe %>;
+var max = <%= @max.to_s %>;
+var selected = <%= @selected.to_s.html_safe %>;
+
+$(function() {
+loadCattle('bulls',bulls);
+$("table#bulls").tablesorter();
+loadCattle('selected',selected);
+$("table#selected").tablesorter();
+
+$(document).on("click","table#bulls tr", function() {
+  if(selected.length>=max) {
+    alert("you already reached the maximum of proposal ("+max+")");
+    return;
+  }
+  var animal = $(this).attr("data-id");
+  var index = $(this).attr("data-index");
+  var alreadyselected = false;
+  for(var i=0;i<selected.length;i++) {
+    if(selected[i][1] == animal) {
+      alreadyselected = true;
+      break;
+    }
+  }
+  if(! alreadyselected) {
+    selected.push(bulls[index]);
+    $("#selection").val(encodeURIComponent(JSON.stringify(selected)));
+    loadCattle('selected',selected);
+  }
+
+});
+
+});
+
+$(document).on("click","table#selected tr", function() {
+  var index = -1;
+  var animal = $(this).attr("data-id");
+  for(var i=0;i<selected.length;i++) {
+    if(selected[i][1] == animal) {
+      index = i
+      break;
+    }
+  }
+  if(index>=0) {
+    selected.splice(index,1);
+    $("#selection").val(encodeURIComponent(JSON.stringify(selected)));
+  }
+  $(this).remove();
+});
+
+
+function loadCattle(tablename, cattle) {
+   table_data = $("table#"+tablename+" tbody");
+   table_data.html("");
+   for(var i=0;i<cattle.length;i++) {
+        var data = '';
+        if(cattle[i].length==11) {
+            data += '<tr data-id="'+cattle[i][1]+'" data-index="'+i+'" class="'+tablename+'">';
+            data += '<td>' + cattle[i][1] + '</td>';
+            data += '<td>' + cattle[i][3] + '</td>';
+            data += '<td>' + cattle[i][4] + '</td>';
+            data += '<td>' + cattle[i][5] + '</td>';
+            data += '<td>' + cattle[i][6] + '</td>';
+            data += '<td>' + cattle[i][7] + '</td>';
+            data += '<td>' + cattle[i][8] + '</td>';
+            data += '</tr>';
+        }
+        table_data.append(data);
+    }
+}
+</script>

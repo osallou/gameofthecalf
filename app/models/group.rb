@@ -2,7 +2,8 @@
 # User is in one group only.
 # Group can be seen as a classroom owner by a professor.
 class Group < ActiveRecord::Base
-  attr_accessible :description, :name, :email, :levels, :bulls, :cows, :config_id
+  attr_accessible :description, :name, :email, :levels
+  attr_accessible :bulls, :cows, :config_id, :market
 
   scope :recent, order("created_at desc")
 

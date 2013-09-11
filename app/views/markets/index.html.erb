@@ -1,0 +1,31 @@
+<h1>Listing markets</h1>
+
+<table>
+  <tr>
+    <th>Group</th>
+    <th>Animal</th>
+    <th>Owner</th>
+    <th>Status</th>
+    <th>Bids</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @markets.each do |market| %>
+  <tr>
+    <td><%= market.group %></td>
+    <td><%= market.animal %></td>
+    <td><%= market.owner %></td>
+    <td><%= market.status %></td>
+    <td><%= market.bids %></td>
+    <td><%= link_to 'Show', market %></td>
+    <td><%= link_to 'Edit', edit_market_path(market) %></td>
+    <td><%= link_to 'Destroy', market, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Market', new_market_path %>

@@ -53,6 +53,20 @@ class Ability
             end
             game.user_id == user.id || professor
       end
+
+      can [:create, :read], Market  do |market|
+          if user.usertype == User::PROFESSOR
+            professor = false
+            group = Group.find(market.group_id)
+            if group.email == user.email
+              professor = true
+            end
+
+          end
+          user[:group_id] == market[:group_id] || professor
+
+      end
+
     end
     # Define abilities for the passed in user here. For example:
     #

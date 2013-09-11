@@ -240,6 +240,40 @@ class GroupsController < ApplicationController
     end
   end
 
+  # GET /groups/1/market/open
+  # GET /groups/1/market/open.json
+  def open_market
+    @group = Group.find(params[:id])
+    authorize! :create, @group
+    @group.market = Market::STATUS_OPEN
+    @group.save!
+    respond_to do |format|
+        format.html { redirect_to @group, notice: 'Market is open.' }
+        format.json { render json: {}.to_json }
+    end
+
+  end
+
+  # GET /groups/1/market/cancel
+  # GET /groups/1/marlet/cancel.json
+  def cancel_market
+    @group = Group.find(params[:id])
+    authorize! :destroy, @group
+    @group.market = Market::STATUS_CLOSED
+    @group.save!
+
+    # Delete all markets in group
+    markets_in_group = Market.where(:group => @group[:id])
+    markets_in_group.each do |market|
+        market.destroy!
+    end
+    
+    respond_to do |format|
+        format.html { redirect_to @group, notice: 'Market is cancelled.' }
+        format.json { render json: {}.to_json }
+    end
+
+  end
 
 
 end
