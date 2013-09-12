@@ -4,6 +4,8 @@ GameOfTheCalf::Application.routes.draw do
   resources :markets
   as :market do
     post 'markets/:id/selection' => 'markets#selection'
+    post 'markets/:id/vote' => 'markets#vote'
+    get 'markets/:id/bids' => 'markets#bids', :as => 'bids_market'
   end
 
   devise_for :game_configs
@@ -43,10 +45,10 @@ GameOfTheCalf::Application.routes.draw do
     post 'groups/:id/generateusers' => 'groups#generateusers', :as => 'generate_users'
     get 'groups/:id/nextlevel' => 'groups#nextlevel', :as => 'next_group_level'
     get 'groups/:id/games/:gid/forcenextlevel' => 'groups#forcenextlevel', :as => 'group_force_next_level'
-    get 'groups/:id/market/open' => 'groups#open_market', :as => 'open_market'
-    get 'groups/:id/market/close' => 'groups#close_market', :as => 'close_market'
-    get 'groups/:id/market/cancel' => 'groups#cancel_market', :as => 'cancel_market'
-    get 'groups/:id/market/bids' => 'groups#bids_market', :as => 'bids_market'
+    get 'groups/:id/market/open' => 'groups#open_market', :as => 'group_open_market'
+    get 'groups/:id/market/close' => 'groups#close_market', :as => 'group_close_market'
+    get 'groups/:id/market/cancel' => 'groups#cancel_market', :as => 'group_cancel_market'
+    get 'groups/:id/market/bids' => 'groups#bids_market', :as => 'group_bids_market'
   end
 
   match 'users/create' => 'users#create', :via => :post, :as => :create_user

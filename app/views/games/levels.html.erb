@@ -15,14 +15,13 @@
 <% if ! @group.nil? %>
 <% if @group.market == Market::STATUS_OPEN %>
   <div class="row well">
-  <span><%= image_tag("/assets/shopping_basket.png") %> Market is open! You can
-propose your bulls. <a class="btn" href="<%= market_path(@group) %>">Go</a></span>
+  <span><%= image_tag("/assets/shopping_basket.png") %> Market is open! You can propose your bulls. <a class="btn" href="<%= market_path(@group) %>">Go</a></span>
   </div>
 <% end %>
 <% if @group.market == Market::STATUS_BIDS %>
   <div class="row well">
   <span><%= image_tag("/assets/shopping_basket.png") %> Market bids are open
-now! You should select the best candidates. <a class="btn" href="<%= market_path(@group) %>">Go</a></span>
+now! You should select the best candidates. <a class="btn" href="<%= bids_market_path(@group) %>">Go</a></span>
   </div>
 <% end %>
 <% end %>

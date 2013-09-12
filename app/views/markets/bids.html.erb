@@ -1,0 +1,83 @@
+<div class="row">
+<% if ! @is_prof %>
+<div class="span8">
+<h2>Available bulls</h2>
+<table id="bulls" class="table">
+<thead><th>ID</th><th>P_W4M</th><th>P_W7M</th><th>g_W4Md</th><th>g_W7Md</th><th>g_W4Mm</th><th>g_W7Mm</th><th>bids</th><th></th></thead>
+<tbody></tbody>
+</table>
+</div>
+<% end %>
+<div class="span4">
+<% if ! @is_prof %>
+<br/>
+<%= form_tag(controller: "markets", action: "vote") do %>
+<input type="hidden" id="bids" name="bids" value=""/>
+<button class="btn">Validate bids</button>
+<% end %>
+<% end %>
+</div>
+</div>
+<% if ! @is_prof %>
+<div>
+<button class="btn btn-info">Credit: <span id="credit"> <%= @credit %></span> <i
+class="icon-shopping-cart"></i></button>
+</div>
+<% end %>
+
+<script>
+var bulls = <%= @animals.to_s.html_safe %>;
+var credit = <%= @credit.to_s %>;
+
+$(function() {
+loadCattle('bulls',bulls);
+$("table#bulls").tablesorter();
+
+$(document).on("click",".vote", function() {
+  var delta = parseInt($(this).attr("data-value"));
+  if($(this).attr("data-type") == "minus") {
+    delta = delta * -1;
+  }
+  setCredit($(this).attr("data-id"),delta);
+  $("#bids").val(encodeURIComponent(JSON.stringify(bulls)));
+});
+});
+
+function setCredit(animal, delta) {
+    var testcredit = credit + (delta * -1);
+    if(testcredit < 0 || testcredit > <%= @credit %>) {
+        return;
+    }
+    if(parseInt(bulls[animal][11]) + delta < 0) {
+        return;
+    }
+    credit += delta * -1;
+    $("#credit").html(credit);
+    bulls[animal][11] = parseInt(bulls[animal][11]) + delta;
+    var id = bulls[animal][0]+"-"+bulls[animal][1];
+    $("#bid"+id).html(bulls[animal][11]);
+}
+
+function loadCattle(tablename, cattle) {
+   table_data = $("table#"+tablename+" tbody");
+   table_data.html("");
+   for(var i=0;i<cattle.length;i++) {
+        var data = '';
+        if(cattle[i].length==12) {
+            data += '<tr id="'+cattle[i][0]+'-'+cattle[i][1]+'" data-index="'+i+'" class="'+tablename+'">';
+            data += '<td>' + cattle[i][1] + '</td>';
+            data += '<td>' + cattle[i][3] + '</td>';
+            data += '<td>' + cattle[i][4] + '</td>';
+            data += '<td>' + cattle[i][5] + '</td>';
+            data += '<td>' + cattle[i][6] + '</td>';
+            data += '<td>' + cattle[i][7] + '</td>';
+            data += '<td>' + cattle[i][8] + '</td>';
+            data += '<td id="bid'+cattle[i][0]+'-'+cattle[i][1]+'" class="bid">' + cattle[i][11] + '</td>';
+            data += '<td><button class="btn vote" data-value="100" data-type="plus" data-id="'+i+'">+100</button><button class="btn vote" data-value="100" data-type="minus" data-id="'+i+'">-100</button></td>';
+
+            data += '</tr>';
+        }
+        table_data.append(data);
+    }
+}
+</script>

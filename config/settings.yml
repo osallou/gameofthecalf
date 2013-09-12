@@ -12,3 +12,5 @@ max_cows: 10
 
 market_max_user: 4
 market_max_final: 10
+
+credit_default: 1000

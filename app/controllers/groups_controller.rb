@@ -254,6 +254,21 @@ class GroupsController < ApplicationController
 
   end
 
+  # GET /groups/1/market/bids
+  # GET /groups/1/market/bids.json
+  def bids_market
+    @group = Group.find(params[:id])
+    authorize! :create, @group
+    @group.market = Market::STATUS_BIDS
+    @group.save!
+    respond_to do |format|
+        format.html { redirect_to @group, notice: 'Bids are open.' }
+        format.json { render json: {}.to_json }
+    end
+
+  end
+
+
   # GET /groups/1/market/cancel
   # GET /groups/1/marlet/cancel.json
   def cancel_market
@@ -263,10 +278,9 @@ class GroupsController < ApplicationController
     @group.save!
 
     # Delete all markets in group
-    markets_in_group = Market.where(:group => @group[:id])
-    markets_in_group.each do |market|
-        market.destroy!
-    end
+    markets_in_group = Market.delete_all("group_id = "+@group[:id].to_s)
+
+    bids_in_group = Bid.delete_all("group_id = "+@group[:id].to_s)
     
     respond_to do |format|
         format.html { redirect_to @group, notice: 'Market is cancelled.' }

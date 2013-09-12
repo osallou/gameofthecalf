@@ -34,6 +34,43 @@ class MarketsController < InheritedResources::Base
 
   end
 
+  # GET /markets/1/bids
+  # GET /markets/1/bids.json
+  def bids
+    @group = Group.find(params[:id])
+    user = current_user
+    @is_prof = false
+    if User.admin?(user) or User.professor?(user)
+      @is_prof = true
+    end
+    @credit = -1;
+    markets = Market.where(:group_id => params[:id])
+    user_bids = nil
+    if @is_prof
+      user_bids = Bid.select("market_id, sum(bid) as bids").where(:group_id => params[:id]).group("market_id")
+    else
+      user_bids = Bid.select("market_id, sum(bid) as bids").where(:group_id => params[:id],
+                            :owner => user[:id]).group("market_id")
+      game = Game.where(:group_id => params[:id], :user_id => user[:id]).first
+      @credit = game.credit
+    end
+    @animals = []
+    markets.each do |market|
+      if ! market[:values].nil? and ! market[:values].empty?
+          animal = JSON.parse(market[:values])
+          animal << "0"
+          user_bids.each do |user_bid|
+              if user_bid[:market_id] == market[:id]
+                  animal[animal.length-1] = user_bid[:bids].to_s
+                  break
+              end
+          end
+          @animals << animal
+      end
+    end
+  end
+
+
   # GET /markets/1
   # GET /markets/1.json
   def show
@@ -46,6 +83,8 @@ class MarketsController < InheritedResources::Base
       markets = Market.where(:group_id => params[:id]) 
     else
       game = Game.where(:group_id => params[:id], :user_id => user[:id]).first
+      game.credit = Settings.credit_default
+      game.save!
       markets = Market.where(:group_id => params[:id], :owner => game[:cattle])
     end
     markets.each do |market|

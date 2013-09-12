@@ -4,7 +4,7 @@
 # as well as global rules.
 class Game < ActiveRecord::Base
 
-  attr_accessible :user_id, :level, :status, :cattle, :group_id, :data
+  attr_accessible :user_id, :level, :status, :cattle, :group_id, :data, :credit
   
   scope :recent, order("created_at desc")
   
