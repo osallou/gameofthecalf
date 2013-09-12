@@ -18,7 +18,7 @@
   <span><%= image_tag("/assets/shopping_basket.png") %> Market is open! You can propose your bulls. <a class="btn" href="<%= market_path(@group) %>">Go</a></span>
   </div>
 <% end %>
-<% if @group.market == Market::STATUS_BIDS %>
+<% if @group.market == Market::STATUS_BIDS and @bids_opened %>
   <div class="row well">
   <span><%= image_tag("/assets/shopping_basket.png") %> Market bids are open
 now! You should select the best candidates. <a class="btn" href="<%= bids_market_path(@group) %>">Go</a></span>

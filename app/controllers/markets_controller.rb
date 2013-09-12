@@ -2,6 +2,42 @@ require 'uri'
 
 class MarketsController < InheritedResources::Base
 
+  # POST /markets/1/vote
+  # POST /markets/1/vote.json
+  def vote
+    @group = Group.find(params[:id])
+    user = current_user
+    game = Game.where(:group_id => params[:id], :user_id => user[:id]).first
+    proposals = Market.where(:group_id => game[:group_id],
+                             :owner => game[:cattle]).count()
+    bids_opened = true
+    if proposals==0
+      flash[:alert] = "you did not propose bulls to the market, bids are not
+accessible."
+      redirect_to :action => "closed", :id => params[:id]
+      bids_opened = false
+    else
+      # Reset bids
+      Bid.delete_all("group_id = "+params[:id].to_s+" AND owner ="+user[:id].to_s)
+      bids = JSON.parse(URI.unescape(params[:bids]))
+      credit = 0
+      bids.each do |bid|
+          user_bid = Bid.new(market_id: bid["market"],
+                            group_id: params[:id].to_i,
+                            owner: user[:id], bid: bid["bid"].to_s)
+          delta = bid["oldbid"] - bid["bid"]
+          credit += delta
+          if bid["bid"] > 0
+              user_bid.save!
+          end
+      end
+      game[:credit] += credit
+      game.save!
+      flash[:notice] = "Bids taken into account"
+      redirect_to :action => "bids", :id => params[:id]
+    end
+  end
+
   # POST /markets/1/selection
   # POST /markets/1/selection.json
   def selection
@@ -43,31 +79,38 @@ class MarketsController < InheritedResources::Base
     if User.admin?(user) or User.professor?(user)
       @is_prof = true
     end
-    @credit = -1;
+    @credit = -1
+    @game = nil
+    @cattle = -1
     markets = Market.where(:group_id => params[:id])
     user_bids = nil
     if @is_prof
       user_bids = Bid.select("market_id, sum(bid) as bids").where(:group_id => params[:id]).group("market_id")
     else
-      user_bids = Bid.select("market_id, sum(bid) as bids").where(:group_id => params[:id],
-                            :owner => user[:id]).group("market_id")
-      game = Game.where(:group_id => params[:id], :user_id => user[:id]).first
-      @credit = game.credit
+      @game = Game.where(:group_id => params[:id], :user_id => user[:id]).first
+      user_bids = Bid.select("market_id, sum(bid) as bids").where(:group_id => params[:id], :owner => user[:id]).group("market_id")
+      @credit = @game.credit
+      @cattle = @game[:cattle]
     end
     @animals = []
     markets.each do |market|
       if ! market[:values].nil? and ! market[:values].empty?
-          animal = JSON.parse(market[:values])
-          animal << "0"
+          animal = {}
+          animal[:values] = JSON.parse(market[:values])
+          animal[:bid] = 0
+          animal[:oldbid] = 0
+          animal[:market] = market[:id]
           user_bids.each do |user_bid|
               if user_bid[:market_id] == market[:id]
-                  animal[animal.length-1] = user_bid[:bids].to_s
+                  animal[:bid] = user_bid[:bids].to_i
+                  animal[:oldbid] = animal[:bid]
                   break
               end
           end
           @animals << animal
       end
     end
+    @animals = @animals.to_json
   end
 
 
@@ -107,6 +150,7 @@ class MarketsController < InheritedResources::Base
         @max = Settings.market_max_final
         format.html { render :bids }
       else
+        flash[:alert] = "Market is closed"
         format.html { render :closed }
       end
       format.json { render json: @markets }

@@ -76,6 +76,13 @@ class GamesController < ApplicationController
         @group = Group.find(@user[:group_id])
     end
 
+    proposals = Market.where(:group_id => @game[:group_id],
+                             :owner => @game[:cattle]).count()
+    @bids_opened = true
+    if proposals==0
+      @bids_opened = false
+    end
+
     respond_to do |format|
       format.html { render :levels } # levels.html.erb
       format.json { render json: @levels }

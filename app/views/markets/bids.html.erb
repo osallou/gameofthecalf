@@ -1,5 +1,4 @@
 <div class="row">
-<% if ! @is_prof %>
 <div class="span8">
 <h2>Available bulls</h2>
 <table id="bulls" class="table">
@@ -7,14 +6,15 @@
 <tbody></tbody>
 </table>
 </div>
-<% end %>
 <div class="span4">
 <% if ! @is_prof %>
 <br/>
 <%= form_tag(controller: "markets", action: "vote") do %>
-<input type="hidden" id="bids" name="bids" value=""/>
+<input type="hidden" id="game" name="game" value"<%= @game[:id] %>"/>
+<input type="hidden" id="bids" name="bids" value="%5B%5D"/>
 <button class="btn">Validate bids</button>
 <% end %>
+<a href="<%= game_path(@game) %>" class="btn">Back to game</a>
 <% end %>
 </div>
 </div>
@@ -30,6 +30,7 @@ var bulls = <%= @animals.to_s.html_safe %>;
 var credit = <%= @credit.to_s %>;
 
 $(function() {
+$("#bids").val(encodeURIComponent(JSON.stringify(bulls)));
 loadCattle('bulls',bulls);
 $("table#bulls").tablesorter();
 
@@ -45,17 +46,17 @@ $(document).on("click",".vote", function() {
 
 function setCredit(animal, delta) {
     var testcredit = credit + (delta * -1);
-    if(testcredit < 0 || testcredit > <%= @credit %>) {
+    if(testcredit < 0 ) {
         return;
     }
-    if(parseInt(bulls[animal][11]) + delta < 0) {
+    if(parseInt(bulls[animal]["bid"]) + delta < 0) {
         return;
     }
     credit += delta * -1;
     $("#credit").html(credit);
-    bulls[animal][11] = parseInt(bulls[animal][11]) + delta;
-    var id = bulls[animal][0]+"-"+bulls[animal][1];
-    $("#bid"+id).html(bulls[animal][11]);
+    bulls[animal]["bid"] = parseInt(bulls[animal]["bid"]) + delta;
+    var id = bulls[animal]["values"][0]+"-"+bulls[animal]["values"][1];
+    $("#bid"+id).html(bulls[animal]["bid"]);
 }
 
 function loadCattle(tablename, cattle) {
@@ -63,18 +64,25 @@ function loadCattle(tablename, cattle) {
    table_data.html("");
    for(var i=0;i<cattle.length;i++) {
         var data = '';
-        if(cattle[i].length==12) {
-            data += '<tr id="'+cattle[i][0]+'-'+cattle[i][1]+'" data-index="'+i+'" class="'+tablename+'">';
-            data += '<td>' + cattle[i][1] + '</td>';
-            data += '<td>' + cattle[i][3] + '</td>';
-            data += '<td>' + cattle[i][4] + '</td>';
-            data += '<td>' + cattle[i][5] + '</td>';
-            data += '<td>' + cattle[i][6] + '</td>';
-            data += '<td>' + cattle[i][7] + '</td>';
-            data += '<td>' + cattle[i][8] + '</td>';
-            data += '<td id="bid'+cattle[i][0]+'-'+cattle[i][1]+'" class="bid">' + cattle[i][11] + '</td>';
+        if(cattle[i]["values"].length==11) {
+            mine = ""
+            if(cattle[i]["values"][0]==<%= @cattle %>) {
+              mine = " mine"
+            }
+            data += '<tr id="'+cattle[i]["values"][0]+'-'+cattle[i]["values"][1]+'" data-index="'+i+'" class="'+tablename+mine+'">';
+            data += '<td>' + cattle[i]["values"][1] + '</td>';
+            data += '<td>' + cattle[i]["values"][3] + '</td>';
+            data += '<td>' + cattle[i]["values"][4] + '</td>';
+            data += '<td>' + cattle[i]["values"][5] + '</td>';
+            data += '<td>' + cattle[i]["values"][6] + '</td>';
+            data += '<td>' + cattle[i]["values"][7] + '</td>';
+            data += '<td>' + cattle[i]["values"][8] + '</td>';
+            data += '<td id="bid'+cattle[i]["values"][0]+'-'+cattle[i]["values"][1]+'" class="bid">' + cattle[i]["bid"] + '</td>';
+            <% if ! @is_prof %>
             data += '<td><button class="btn vote" data-value="100" data-type="plus" data-id="'+i+'">+100</button><button class="btn vote" data-value="100" data-type="minus" data-id="'+i+'">-100</button></td>';
-
+            <% else %>
+            data += '<td></td>';
+            <% end %>
             data += '</tr>';
         }
         table_data.append(data);
