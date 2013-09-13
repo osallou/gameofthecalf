@@ -10,6 +10,7 @@
 </div>
 
 <script>
+var nil = "";
 var game = <%= @game.id %>;
 var level = <%= @level.id %>;
 var bulls = <%= @bulls.to_s.html_safe %>;
@@ -19,6 +20,7 @@ var maxcows = <%= @maxcows.to_s %>;
 var nbBulls = 0;
 var nbCows = 0;
 var bulls_icon = '<%= image_tag('/assets/bulls_icon.png', {:width => 36})  %>';
+var bulls_ia_icon = '<%= image_tag('/assets/ia_icon.png', {:width => 30}) %>';
 var cows_icon = '<%= image_tag('/assets/cows_icon.png', {:width => 36})  %>';
 var cows_mini_icon = '<%= image_tag('/assets/cows_icon.png', {:width => 12})  %>';
 var dead_icon = '<%= image_tag('/assets/dead_icon.png', {:width => 36, :class => 'dead' })  %>';
@@ -318,7 +320,7 @@ function loadCattle(tablename, cattle) {
    cattle.reverse();
    for(var i=0;i<cattle.length;i++) {
         var data = '';
-        if(cattle[i].length==11) {
+        if(cattle[i].length>=11) {
             var baby="";
             if(parseInt(cattle[i][1])/(1000*<%= @game.level %>)>=1) {
               if(tablename  == 'bulls') {
@@ -336,6 +338,9 @@ function loadCattle(tablename, cattle) {
             else {
                 icon = cows_icon;
                 //dodrag = ' class="cowdrag"';
+            }
+            if(cattle[i].length>=12 && parseInt(cattle[i][11])==1) {
+                icon += bulls_ia_icon;
             }
             data += '<td>'+icon+'</td>';
             data += '<td>' + cattle[i][1] + '</td>';

@@ -13,4 +13,5 @@ class Market < ActiveRecord::Base
   ANIMAL_PROPOSED = 0
   ANIMAL_SELECTED = 1
 
+
 end

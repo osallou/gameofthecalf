@@ -108,12 +108,12 @@ class Game < ActiveRecord::Base
     i = 0
     
     
-    maxbulls = [ Settings.max_bulls, bulls.length ].max
-    maxcows = [ Settings.max_cows, cows.length ].max
+    maxbulls = [ Settings.max_bulls, bulls.length ].min
+    maxcows = [ Settings.max_cows, cows.length ].min
     if self.group_id != nil
         group  = Group.find(self.group_id)
-        maxbulls = group[:bulls]
-        maxcows = group[:cows]
+        maxbulls = [ group[:bulls], bulls.length ].min
+        maxcows = [ group[:cows], cows.length ].min
     end
     cowsperbull = maxcows / maxbulls
     remaining = maxcows - (maxbulls * cowsperbull)

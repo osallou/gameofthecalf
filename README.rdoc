@@ -69,3 +69,4 @@ cow icon: http://openclipart.org/detail/23489/tango-style-cow-head-by-rugby471
 grave icon: http://openclipart.org/detail/87379/grave-r.i.p-by-inky2010
 rings icon: http://openclipart.org/detail/15321/wedding-ring-in-a-box-by-rockraikar
 basket icon: http://openclipart.org/detail/129439/shopping-basket-by-gnokii
+chemical_flasks: http://openclipart.org/detail/3607/-by--3607

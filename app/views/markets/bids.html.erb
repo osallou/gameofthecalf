@@ -64,7 +64,7 @@ function loadCattle(tablename, cattle) {
    table_data.html("");
    for(var i=0;i<cattle.length;i++) {
         var data = '';
-        if(cattle[i]["values"].length==11) {
+        if(cattle[i]["values"].length>=11) {
             mine = ""
             if(cattle[i]["values"][0]==<%= @cattle %>) {
               mine = " mine"
