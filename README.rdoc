@@ -17,6 +17,8 @@ create preferably an RVM gemset
 In production, precompile assets:
     RAILS_ENV=production bundle exec rake assets:precompile
 
+In production, update db:
+    rake db:migrate RAILS_ENV=production
 == STATUS
 
 in development
