@@ -10,7 +10,7 @@ default_cows: 50
 max_bulls: 5
 max_cows: 10
 
-market_max_user: 4
-market_max_final: 10
+market_max_user: 2
+market_max_final: 5
 
 credit_default: 1000
