@@ -70,6 +70,11 @@ class GamesController < ApplicationController
     @levels = Level.where(:game_id => @game.id)
 
     @user = current_user
+    if User.professor?(@user)     
+      @user = User.find(@game[:user_id])
+    end
+    
+    
     if @user[:group_id].nil?
         @group = nil
     else
