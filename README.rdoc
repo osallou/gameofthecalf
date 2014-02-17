@@ -10,6 +10,8 @@ create preferably an RVM gemset
 
     rvm create gemset gameofthecalf
     rvm use @gameofthecalf
+    gem install rake
+    gem install bundler
     bundle install
     rake db:migrate
     rake db:seed
