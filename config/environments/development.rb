@@ -20,8 +20,8 @@ GameOfTheCalf::Application.configure do
   config.action_mailer.smtp_settings = {
     :address              => "mailtrap.io",
     :port                 => 2525,
-    :user_name            => 'gameofthecalf-81d2e8866fc741f3',
-    :password             => 'f09c060964f63847',
+    :user_name            => '',
+    :password             => '',
     :authentication       => 'plain'}
 
   # Print deprecation notices to the Rails logger
