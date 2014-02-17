@@ -320,7 +320,8 @@ function loadCattle(tablename, cattle) {
    cattle.reverse();
    for(var i=0;i<cattle.length;i++) {
         var data = '';
-        if(cattle[i].length>=11) {
+        // Check if dead 
+        if(parseInt(cattle[i][13])==0) {
             var baby="";
             if(parseInt(cattle[i][1])/(1000*<%= @game.level %>)>=1) {
               if(tablename  == 'bulls') {
@@ -364,7 +365,6 @@ function loadCattle(tablename, cattle) {
             data += '<td>'+dead_icon+'</td>';
             data += '<td>' + cattle[i][1] + '</td>';
             data += '<td></td><td></td><td></td><td></td><td></td><td></td>';
-            
         }
         table_data.append(data);
     }

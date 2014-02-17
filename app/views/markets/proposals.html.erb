@@ -82,7 +82,8 @@ function loadCattle(tablename, cattle) {
    table_data.html("");
    for(var i=0;i<cattle.length;i++) {
         var data = '';
-        if(cattle[i].length>=11) {
+        // If not dead
+        if(parseInt(cattle[i][13])==0) {
             data += '<tr data-id="'+cattle[i][1]+'" data-index="'+i+'" class="'+tablename+'">';
             data += '<td>' + cattle[i][1] + '</td>';
             data += '<td>' + cattle[i][3] + '</td>';
