@@ -9,7 +9,35 @@ Update config in config/settings/production.yml
                  config/databases.yml
                  config/environments/production.yml (mailer)
 
-create preferably an RVM gemset
+    # mkdir bullmate-bin
+    # mkdir bullmate-data
+    # git clone https://github.com/osallou/gameofthecalf.git bullmate-web
+
+In prod, chown www-data bullmate-web and bullmate-data
+
+Copy bullmate binaries in bullmate-bin
+chmod 755  /.../bullmate-bin/*.pl
+
+Install perl modules:
+
+* Math::Random;
+* PDL;
+* PDL::Stats;
+* YAML::Perl
+* YAML::XS
+
+gem install rake
+gem install bundler
+
+bundle install
+
+Update config/settings , config/environments to match bullmate-data and
+bullmate-bin
+
+Install Phusion Passenger and set DocumentRoot on bullmate-web/public
+
+
+Create preferably an RVM gemset
 
     rvm create gemset gameofthecalf
     rvm use @gameofthecalf
