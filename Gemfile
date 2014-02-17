@@ -69,6 +69,7 @@ gem 'jquery-rails'
 
 gem 'prawn_rails'
 gem 'uuid'
+gem 'systemu'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
